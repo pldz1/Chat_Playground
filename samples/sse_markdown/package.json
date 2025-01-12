@@ -1,0 +1,36 @@
+{
+  "name": "sse_markdown",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.5.13",
+    "clipboard": "^2.0.10",
+    "highlight.js": "^11.4.0",
+    "jquery": "^3.6.0",
+    "markdown-it": "^12.3.2",
+    "markdown-it-abbr": "^1.0.4",
+    "markdown-it-container": "^3.0.0",
+    "markdown-it-deflist": "^2.1.0",
+    "markdown-it-emoji": "^2.0.0",
+    "markdown-it-footnote": "^3.0.3",
+    "markdown-it-ins": "^3.0.1",
+    "markdown-it-mark": "^3.0.1",
+    "markdown-it-sub": "^1.0.0",
+    "markdown-it-sup": "^1.0.0",
+    "markdown-it-task-lists": "^2.1.1",
+    "markdown-it-toc": "^1.1.0",
+    "markdown-it-toc-done-right": "^4.2.0",
+    "@DatatracCorporation/markdown-it-mermaid": "npm:@datatraccorporation/markdown-it-mermaid@^0.5.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "less-loader": "^5.0.0",
+    "vite": "^6.0.5"
+  }
+}

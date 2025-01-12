@@ -1,0 +1,8 @@
+*/__pycache__
+**/.vscode
+**/node_modules
+
+.test/
+*.db
+*.pyc
+
