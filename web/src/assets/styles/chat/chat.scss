@@ -1,0 +1,467 @@
+.chat-container {
+  position: relative;
+  left: 0px;
+  right: 0px;
+  width: 100%;
+  height: 100%;
+  --width-size: 80%;
+  --header-height: 40px;
+  --input-bottom: 0px;
+  --input-min-height: 32px;
+  --bottom-text: 24px;
+
+  .header {
+    position: absolute;
+    left: 10%;
+    top: 0px;
+    height: var(--header-height);
+    width: var(--width-size);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    .settings {
+      background-color: transparent;
+      border: none;
+      height: 32px;
+      width: 200px;
+      color: #4d4d4d;
+      &:hover {
+        background-color: #ececec;
+      }
+      &:active {
+        background-color: #ececec;
+      }
+      .settings-text {
+        font-size: 16px;
+        padding: 4px 8px;
+      }
+      .settings-icon {
+        background-color: transparent;
+        width: 24px;
+        height: 24px;
+        border-radius: 16px;
+      }
+    }
+
+    .user-config {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-end;
+      height: 100%;
+      width: 50%;
+      padding: 4px;
+
+      .switch {
+        height: 100%;
+        width: auto;
+        display: flex;
+        align-items: center;
+        padding: 4px;
+      }
+
+      .user-man {
+        height: 32px;
+        width: 32px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 4px;
+        margin-left: 4px;
+      }
+    }
+  }
+
+  .roles-card {
+    position: absolute;
+    left: 10%;
+    top: 40%;
+    height: fit-content;
+    max-height: calc(
+      100% - var(--header-height) - var(--input-bottom) -
+        var(--input-min-height) - 16px - var(--bottom-text)
+    );
+    width: var(--width-size);
+    max-width: var(--width-size);
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    z-index: 2001;
+  }
+
+  .scroll-window {
+    position: absolute;
+    left: 10%;
+    top: var(--header-height);
+    height: calc(
+      100% - var(--header-height) - var(--input-bottom) -
+        var(--input-min-height) - 16px - var(--bottom-text)
+    );
+    max-height: calc(
+      100% - var(--header-height) - var(--input-bottom) -
+        var(--input-min-height) - 16px - var(--bottom-text)
+    );
+    width: var(--width-size);
+    max-width: var(--width-size);
+
+    .user {
+      display: flex;
+      flex-direction: row-reverse;
+      width: 100%;
+      height: auto;
+      min-height: 40px;
+      border-radius: 32px;
+      margin: 4px 0px;
+
+      .user-content {
+        max-width: 60%;
+        min-width: 30%;
+        width: fit-content;
+        color: #0d0d0d;
+        display: flex;
+        flex-direction: column;
+
+        .content-area,
+        .options {
+          padding: 8px 16px;
+          width: calc(100% - 45px);
+        }
+
+        .content-area {
+          display: flex;
+          flex-direction: column;
+          border-radius: 16px;
+          padding: 8px 16px;
+          background-color: #f4f4f4;
+
+          .img-area {
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: row;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+
+            .item {
+              height: 80px;
+              width: 80px;
+              object-fit: contain;
+            }
+          }
+
+          .text {
+            width: 100%;
+            font-size: 14px;
+            color: black;
+            word-wrap: break-word;
+          }
+        }
+
+        .options {
+          border-radius: 16px;
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-end;
+          height: 24px;
+        }
+      }
+    }
+
+    .options-button {
+      display: none;
+      &.active {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        background-color: transparent;
+        border: none;
+        border-radius: 12px;
+        &:hover {
+          background-color: #939393;
+        }
+        &:active {
+          background-color: #939393;
+        }
+      }
+    }
+    .options-icon {
+      color: #4d4d4d;
+      background-color: transparent;
+      width: 16px;
+      height: 16px;
+    }
+
+    .assistant {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      height: auto;
+      min-height: 40px;
+      border-radius: 32px;
+
+      .assistant-icon {
+        color: black;
+        background-color: transparent;
+        border-radius: 16px;
+      }
+
+      .assistant-content {
+        width: calc(100% - 60px);
+        max-width: calc(100% - 60px);
+        border-radius: 16px;
+        padding: 8px 16px;
+        background-color: transparent;
+        color: #0d0d0d;
+
+        .text {
+          font-size: 14px;
+
+          .code-rendered {
+            position: relative;
+          }
+
+          .code-block {
+            position: relative;
+            width: 100%;
+            background: #282c34;
+            border-radius: 10px;
+
+            .copy-header {
+              margin-bottom: 0px;
+              /* margin-top: -30px; */
+              background: #000000;
+              position: absolute;
+              display: flex;
+              flex-direction: row;
+              align-content: center;
+              justify-content: space-between;
+              align-items: center;
+              padding: 4px 8px;
+              top: 0px;
+              width: calc(100% - 16px);
+              color: #ffffff;
+              font-family: "Microsoft YaHei";
+              border-radius: 10px 10px 0px 0px;
+              height: 25px;
+
+              .lang {
+                font-size: 12px;
+                color: #ffffff;
+              }
+
+              .copy-button {
+                margin-left: auto;
+                background: none;
+                border: none;
+                padding: 0;
+                cursor: pointer;
+                outline: none;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                gap: 3px;
+              }
+
+              .copy-text {
+                font-size: 12px;
+                color: #ffffff;
+              }
+            }
+
+            .hljs {
+              margin: -15px 0px -20px 0px;
+              /* margin: -30px 0px -30px 0px; */
+              padding: 8px;
+              width: calc(100% - 16px);
+              max-width: calc(100% - 16px);
+              overflow-x: auto;
+            }
+          }
+        }
+
+        .options {
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+          width: 100%;
+          height: 24px;
+        }
+      }
+    }
+  }
+
+  .input-card {
+    position: absolute;
+    bottom: var(--bottom-text);
+    left: 10%;
+    height: auto;
+    min-height: var(--input-min-height);
+    width: calc(var(--width-size) - 40px);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #f4f4f4;
+    border-radius: 50px;
+    padding: 8px 20px;
+
+    .send-button {
+      height: 32;
+      width: 32;
+      border-radius: 16px;
+      background-color: transparent;
+      border: none;
+    }
+
+    .input-area {
+      width: 100%;
+      min-height: 31px;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+
+      .imgs {
+        display: flex;
+        flex-direction: row;
+        max-height: 60px;
+        gap: 6px;
+
+        .item {
+          height: 50px;
+          width: 50px;
+
+          .image {
+            height: 50px;
+            width: 50px;
+            object-fit: contain;
+          }
+
+          .hover-item {
+            display: none;
+            position: absolute;
+
+            .hover-button {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              height: 50px;
+              width: 50px;
+            }
+          }
+
+          &:hover {
+            .image {
+              opacity: 0.7;
+            }
+            .hover-item {
+              display: block;
+            }
+          }
+        }
+      }
+    }
+
+    .attach-button {
+      height: 32px;
+      width: 32px;
+      background-color: transparent;
+      border: none;
+
+      .icon {
+        min-width: 32px;
+        min-height: 32px;
+        max-width: 32px;
+        max-height: 32px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    .svg-icon {
+      color: white;
+      background-color: black;
+      min-width: 32px;
+      min-height: 32px;
+      max-width: 32px;
+      max-height: 32px;
+      border-radius: 16px;
+    }
+
+    .svg-icon-disable {
+      color: #f4f4f4;
+      background-color: #d7d7d7;
+      min-width: 32px;
+      min-height: 32px;
+      border-radius: 16px;
+    }
+  }
+
+  .footer {
+    position: absolute;
+    left: 10%;
+    bottom: 0px;
+    width: var(--width-size);
+    height: var(--bottom-text);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    .tips {
+      font-size: 12px;
+      color: #939393;
+      display: inline-block; /* 确保元素是行内块元素 */
+      white-space: nowrap; /* 禁止文本换行 */
+      overflow: hidden; /* 隐藏超出的文本 */
+      text-overflow: ellipsis; /* 显示省略号 */
+    }
+  }
+
+  .chat-sticker {
+    position: sticky;
+    left: calc(95% - 10px);
+    top: calc(50% - 60px);
+    display: flex;
+    width: 32px;
+    height: 80px;
+    flex-direction: column;
+    gap: 16px;
+    padding: 4px;
+    border-radius: 16px;
+    border: 1px solid #e3e3e3;
+
+    .sticker-button {
+      height: 32px;
+      width: 32px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sticker-button:hover{
+      background-color: #e3e3e3;
+    }
+  }
+
+  .c-label {
+    font-size: 12px;
+    color: #4d4d4d;
+    padding: 8px 4px;
+    display: inline-block; /* 确保元素是行内块元素 */
+    white-space: nowrap; /* 禁止文本换行 */
+    overflow: hidden; /* 隐藏超出的文本 */
+    text-overflow: ellipsis; /* 显示省略号 */
+  }
+
+  .c-switch {
+    --el-switch-on-color: #10a37f;
+    --el-switch-off-color: #e3e3e3;
+    --el-switch-border-color: "transparent";
+  }
+}

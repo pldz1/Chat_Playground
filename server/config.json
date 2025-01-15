@@ -1,0 +1,31 @@
+{
+  "host": "127.0.0.1",
+  "port": 10088,
+  "isExeEnv": true,
+  "isEncryptedApiParamsList": false,
+  "encryptData": "",
+  "isUseProxy": false,
+  "proxyURL": "",
+  "apiDefaultService": "openai",
+  "apiServiceList": {
+    "modelList": {
+      "model-name-xxx-01": {
+        "serviceType": "azure",
+        "modelType": "xxx",
+        "apiKey": "xxx",
+        "endPoint": "xxx",
+        "deployment": "xxx",
+        "maxTokens": "xxx",
+        "apiVersion": "xxx"
+      },
+      "model-name-xxx-02": {
+        "serviceType": "openai",
+        "modelType": "xxx",
+        "baseUrl": "xxx",
+        "apiKey": "xxx",
+        "maxTokens": "xxx"
+      }
+    },
+    "expiredTime": 1721020364
+  }
+}
