@@ -26,10 +26,7 @@ import router from "./router/index.js";
 import store from "./store/index.js";
 
 // 引入自定义全局样式文件
-import "./assets/styles/global.css";
-import "highlight.js/styles/atom-one-dark.css";
-
-import "./helper/global.js";
+import "./assets/global.css";
 
 const app = createApp(App);
 

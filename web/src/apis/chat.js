@@ -1,8 +1,8 @@
-import StoreHelper from "../helper/storeHelper";
+import StoreHelper from "@/store/store-helper";
 import { apiRequest } from "./common.js";
-import { marked } from "../helper/formatHelper.js";
+import { renderBlock } from "@/services/md/render.js";
 import { fetchEventSource } from "@microsoft/fetch-event-source";
-import { showMessage } from "@/helper/customMessage";
+import { showMessage } from "@/utils/custom-message.js";
 
 /** 📜 获取能使用的全部对话模型列表 */
 export const getChatModelListAPI = () =>
@@ -73,8 +73,7 @@ export const chatAudioAPI = (data) =>
 /** 📡 通过SSE获取来自SERVER端的响应 */
 export const createEventSourceAPI = async (chatCid, assHTMLElem, ctrl) => {
   let chatRes = "";
-  const webRenderLen = 4;
-  const textElem = assHTMLElem.querySelector(".text");
+  const textElem = assHTMLElem.querySelector(".assistant-text");
 
   await fetchEventSource(`/chat/sse/${chatCid}`, {
     method: "POST",
@@ -90,26 +89,23 @@ export const createEventSourceAPI = async (chatCid, assHTMLElem, ctrl) => {
       // 开始对话的标志
       if (data.flag == 1) {
         chatRes = "";
-        textElem.innerHTML = marked.render("Waiting for API response... ...");
+        renderBlock(textElem, "Waiting for API response... ...");
       }
 
       if (data.flag == 2) {
-        // 网页自身控制render的频率
-        if (chatRes.length > webRenderLen) {
-          if (!assHTMLElem.id) assHTMLElem.id = data.chatIid;
-          textElem.innerHTML = marked.render(chatRes);
-        }
+        if (!assHTMLElem.id) assHTMLElem.id = data.chatIid;
+        renderBlock(textElem, chatRes);
       }
 
       // 服务端标志对话结束
       if (data.flag == 0) {
-        textElem.innerHTML = marked.render(chatRes);
+        renderBlock(textElem, chatRes);
         chatRes = "";
       }
 
       // 服务端异常强制结束
       if (data.flag == -1) {
-        textElem.innerHTML = marked.render(`${data.data}`);
+        renderBlock(textElem, `${data.data}`);
         showMessage("error", `服务器流对话出错 ${data.data}`);
         ctrl.abort();
       }

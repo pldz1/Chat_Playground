@@ -4,7 +4,7 @@ import { ChatState } from "./chat";
 import { UserState } from "./user";
 
 import { getChatParamsAPI } from "../apis/chat.js";
-import chatCardHandler from "../helper/chat/card.js";
+import chatCardHandler from "@/services/chat/card.js";
 
 const state = {
   app: { ...AppState },

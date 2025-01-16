@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-import LoginPage from "../components/home/LoginPage.vue";
-import ChatPage from "../components/chat/HomePage.vue";
+import LoginPage from "@/views/home/LoginPage.vue";
+import ChatPage from "@/views/chat/HomePage.vue";
 
 const router = createRouter({
   history: createWebHistory(),

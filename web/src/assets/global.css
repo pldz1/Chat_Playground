@@ -1,0 +1,33 @@
+@import "./components/messagebox.scss";
+@import "./components/message.scss";
+@import "./components/markdown.scss";
+
+@import "./chat/sidebar.scss";
+@import "./chat/chat.scss";
+@import "./chat/settings.scss";
+@import "./chat/editor.scss";
+@import "./chat/roles.scss";
+@import "./chat/markdown.scss";
+
+@import "./home/login.scss";
+@import "./home/user.scss";
+
+
+
+/* 设置整个应用的默认样式 */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  position: relative;
+  --header-height: 40px;
+  --silder-bar-width: 232px;
+}
+
+/* 覆盖 Element Plus 的默认字体 */
+.el-button,
+.el-input,
+.el-table,
+.el-dialog {
+  font-family: "Microsoft YaHei";
+}

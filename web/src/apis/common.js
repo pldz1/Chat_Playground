@@ -1,5 +1,5 @@
 import axios from "axios";
-import StoreHelper from "../helper/storeHelper";
+import StoreHelper from "@/store/store-helper";
 
 export const SHORTTIME = 2000;
 export const LONGTIME = 10000;
