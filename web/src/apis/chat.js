@@ -73,7 +73,7 @@ export const chatAudioAPI = (data) =>
 /** 📡 通过SSE获取来自SERVER端的响应 */
 export const createEventSourceAPI = async (chatCid, assHTMLElem, ctrl) => {
   let chatRes = "";
-  const textElem = assHTMLElem.querySelector(".assistant-text");
+  const textElem = assHTMLElem.querySelector(".markdown-content");
 
   await fetchEventSource(`/chat/sse/${chatCid}`, {
     method: "POST",

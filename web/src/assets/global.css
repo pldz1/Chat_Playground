@@ -7,7 +7,6 @@
 @import "./chat/settings.scss";
 @import "./chat/editor.scss";
 @import "./chat/roles.scss";
-@import "./chat/markdown.scss";
 
 @import "./home/login.scss";
 @import "./home/user.scss";

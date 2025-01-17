@@ -33,7 +33,7 @@ hljs.registerLanguage("c", c);
 
 hljs.configure({ ignoreUnescapedHTML: true });
 
-const rootMdDivClassName = "assistant-text";
+const rootMdDivClassName = "markdown-content";
 
 /**
  * 高亮代码块

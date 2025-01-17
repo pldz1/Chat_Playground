@@ -48,7 +48,7 @@ class ChatItemHelper {
     const imgAreaElem = document.createElement("div");
     imgAreaElem.classList.add("img-area");
     const textDiv = document.createElement("div");
-    textDiv.classList.add("assistant-text");
+    textDiv.classList.add("markdown-content");
 
     contentList.forEach((content) => {
       if (content.type == "text") {
@@ -127,7 +127,7 @@ class ChatItemHelper {
     assistantContentDiv.classList.add("assistant-content");
 
     const textDiv = document.createElement("div");
-    textDiv.classList.add("assistant-text");
+    textDiv.classList.add("markdown-content");
     renderBlock(textDiv, text);
 
     const optionsDiv = document.createElement("div");
