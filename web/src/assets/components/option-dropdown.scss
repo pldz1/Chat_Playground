@@ -1,0 +1,35 @@
+.component-option-dropdown {
+  border-radius: 8px;
+
+  .el-scrollbar {
+    padding: 8px;
+  }
+
+  .el-dropdown-menu__item {
+    border-radius: 8px;
+    /* 初始设置透明边框 */
+    border: 2px solid transparent;
+    padding: 5px 8px;
+  }
+
+  .svg-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #7d7d7d;
+    background-color: transparent;
+    min-width: 24px;
+    min-height: 24px;
+  }
+
+  .el-text {
+    margin-left: 8px;
+    font-size: 16px;
+  }
+
+  .el-dropdown-menu__item:not(.is-disabled):focus {
+    background-color: var(--el-dropdown-menuItem-hover-fill);
+    color: var(--el-dropdown-menuItem-hover-color);
+    border: 2px solid #0000ff96;
+  }
+}

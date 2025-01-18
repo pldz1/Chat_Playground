@@ -75,8 +75,8 @@ export const deletChatByCid = async (chatCid, chatName) => {
   showMessage("success", "对话已经删除. 😀");
 };
 
-/** downloadSpecChatMsgs 把这个对话里的全部消息 保存成一个json文件 */
-export const downloadSpecChatMsgs = async (chatCid) => {
+/** 根据对话的唯一标识cid属性来下载对话里的全部消息, 保存成一个json文件 */
+export const downloadChat = async (chatCid) => {
   var rea = await downloadChatHistory(chatCid);
   if (!rea.flag) {
     showMessage("error", `服务器获取对话记录失败!【${rea.log}`);

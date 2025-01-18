@@ -1,7 +1,5 @@
 <template>
-  <div class="app">
-    <router-view />
-  </div>
+  <router-view />
 </template>
 
 <script>
@@ -11,7 +9,7 @@ export default {
 </script>
 
 <style>
-.app {
+#app {
   position: absolute;
   top: 50%;
   left: 50%;

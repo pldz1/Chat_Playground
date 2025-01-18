@@ -6,11 +6,6 @@ import App from "./App.vue";
  * https://blog.csdn.net/weixin_47450807/article/details/123262703
  */
 import ElementPlus from "element-plus";
-/**
- * 引入element plus的icon
- * https://element-plus.org/zh-CN/component/icon.html
- */
-import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import "element-plus/dist/index.css";
 
 /**
@@ -29,10 +24,6 @@ import store from "./store/index.js";
 import "./assets/global.css";
 
 const app = createApp(App);
-
-for (const [name, component] of Object.entries(ElementPlusIconsVue)) {
-  app.component(name, component);
-}
 app.use(store);
 app.use(ElementPlus);
 app.use(router);

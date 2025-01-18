@@ -1,104 +1,59 @@
 .chat-sidebar-container {
-  height: 100%;
+  --height: calc(100% - var(--header-bar-height));
+  height: var(--height);
+  max-height: var(--height);
+  width: var(--header-bar-chat-list-width);
+  max-width: var(--header-bar-chat-list-width);
   background-color: #f9f9f9;
-  max-width: var(--silder-bar-width);
 
-  .svg-icon {
-    color: #7d7d7d;
-    background-color: transparent;
-    min-width: 24px;
-    min-height: 24px;
-  }
-
-  .header {
-    height: var(--header-height);
-    max-height: var(--header-height);
+  .chats {
+    max-height: calc(100% - 16px);
+    max-width: 220px;
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0px 8px 0px 8px;
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px;
+    overflow-x: hidden;
 
-    .button {
+    .chat-item-input {
+      height: 36px;
+      width: 212px;
       border: none;
+      border-radius: 10px;
       background-color: transparent;
-      height: 32px;
-      width: 32px;
+    }
+
+    .chat-item {
+      height: 36px;
+      width: 212px;
+      border: none;
+      border-radius: 10px;
+      background-color: transparent;
       &:hover {
         background-color: #ececec;
       }
-    }
-  }
-
-  .content {
-    height: calc(100% - var(--header-height));
-    width: var(--silder-bar-width);
-
-    .chats {
-      height: 100%;
-      max-height: calc(100% - 8px);
-      width: 100%;
-      max-width: 220px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      padding: 0px 4px 0px 8px;
-      overflow-y: scroll;
-      overflow-x: hidden;
-
-      .chat-item-input{
-        height: 36px;
-        width: 200px;
-        border: none;
-        border-radius: 10px;
-        background-color: #7d7d7d;
-      }
-
-      .chat-item {
-        height: 36px;
-        width: 200px;
-        border: none;
-        border-radius: 10px;
-        background-color: transparent;
-        &:hover {
-          background-color: #ececec;
-        }
-        &:active {
-          background-color: #ececec;
-        }
-      }
-      .selected-chat-item {
-        height: 36px;
-        width: 200px;
-        border-radius: 10px;
-        border: none;
+      &:active {
         background-color: #ececec;
       }
+    }
+    .selected-chat-item {
+      height: 36px;
+      width: 200px;
+      border-radius: 10px;
+      border: none;
+      background-color: #ececec;
+    }
 
-      .truncated-text {
-        display: flex; /* 确保元素是行内块元素 */
-        align-items: center;
-        height: 20px;
-        width: 160px;
-        max-width: 160px; /* 设置最大宽度 */
-        white-space: nowrap; /* 禁止文本换行 */
-        overflow: hidden; /* 隐藏超出的文本 */
-        text-overflow: ellipsis; /* 显示省略号 */
-        text-align: left; /* 文本靠左对齐 */
-      }
-
-      .options {
-        display: flex;
-        align-items: center;
-        background-color: transparent;
-        border: none;
-        height: 32px;
-        width: 32px;
-
-        .opts-text{
-          margin-left: 8px !important;
-        }
-      }
+    .truncated-text {
+      display: flex; 
+      align-items: center;
+      height: 20px;
+      width: 160px;
+      max-width: 160px; 
+      white-space: nowrap; 
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: left;
     }
   }
 }

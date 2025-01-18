@@ -1,0 +1,88 @@
+.component-header-bar {
+  position: relative;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: var(--header-bar-height);
+  max-height: var(--header-bar-height);
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .chat-list {
+    position: relative;
+    height: calc(100% - 16px);
+    width: calc(var(--header-bar-chat-list-width) - 16px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    background-color: #f9f9f9;
+  }
+
+  .chat-model-info {
+    position: relative;
+    height: 100%;
+    width: 240px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    .settings {
+      background-color: transparent;
+      border: none;
+      height: 44px;
+      width: 220px;
+      color: #4d4d4d;
+      padding: 8px;
+      border-radius: 16px;
+      
+      &:hover {
+        background-color: #ececec;
+      }
+      &:active {
+        background-color: #ececec;
+      }
+      .settings-text {
+        font-size: 16px;
+        padding: 4px 8px;
+      }
+      .settings-icon {
+        background-color: transparent;
+        width: 24px;
+        height: 24px;
+        border-radius: 16px;
+      }
+    }
+  }
+
+  .user-config {
+    position: absolute;
+    right: 32px;
+
+    .user-man {
+      height: 48px;
+      width: 48px;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+
+    img {
+      height: 48px;
+      width: 48px;
+    }
+  }
+
+  .button {
+    border: none;
+    background-color: transparent;
+    height: 32px;
+    width: 32px;
+
+    &:hover {
+      background-color: #ececec;
+    }
+  }
+}

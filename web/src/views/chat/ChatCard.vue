@@ -1,38 +1,5 @@
 <template>
   <div class="chat-container">
-    <!-- header -->
-    <div class="header">
-      <!-- settings -->
-      <el-tooltip
-        content="Edit Current Chat"
-        placement="bottom"
-        :show-after="500"
-      >
-        <el-button class="settings" @click="onShowSettings">
-          <el-text class="settings-text" :tag="'b'">
-            {{ chatParams.modelName }}
-          </el-text>
-          <div class="settings-icon" v-html="SVGS.settingsIcon"></div>
-        </el-button>
-      </el-tooltip>
-      <div class="user-config">
-        <!-- user info -->
-        <el-tooltip
-          content="User management"
-          placement="bottom"
-          :show-after="500"
-        >
-          <el-button class="user-man" @click="onShowUserSettingOverlay">
-            <img
-              src="../../../public/avatar.png"
-              size="32"
-              height="32"
-              width="32"
-            />
-          </el-button>
-        </el-tooltip>
-      </div>
-    </div>
     <div class="roles-card" v-if="isShowRoleCard">
       <RolesCard />
     </div>
@@ -72,22 +39,12 @@
     <!-- footer -->
     <div class="footer">
       <el-text class="tips"> time: {{ requestTimeObj.time }}ms </el-text>
-      <el-text class="tips">
-        {{ tokens }}/{{ chatParams.maxTokens }} tokens to be sent
-      </el-text>
+      <el-text class="tips"> {{ tokens }}/{{ chatParams.maxTokens }} tokens to be sent </el-text>
     </div>
 
     <div class="chat-sticker" v-if="!isShowRoleCard">
-      <div
-        class="sticker-button"
-        v-html="SVGS.chatToTopIcon"
-        @click="setScrollToTop"
-      ></div>
-      <div
-        class="sticker-button"
-        v-html="SVGS.chatToBottomIcon"
-        @click="setScrollToBottom"
-      ></div>
+      <div class="sticker-button" v-html="SVGS.chatToTopIcon" @click="setScrollToTop"></div>
+      <div class="sticker-button" v-html="SVGS.chatToBottomIcon" @click="setScrollToBottom"></div>
     </div>
   </div>
   <!-- item editor ovelay -->
@@ -184,8 +141,7 @@ const startRequestTime = () => {
 };
 
 const stopRequestTime = () => {
-  requestTimeObj.value.time =
-    new Date().getTime() - requestTimeObj.value.startTime;
+  requestTimeObj.value.time = new Date().getTime() - requestTimeObj.value.startTime;
 };
 
 /**
@@ -203,24 +159,16 @@ const setScrollToTop = async () => {
   await nextTick();
   scrollbarRef.value.setScrollTop(0);
 };
-
-/** 显示对话的编辑弹窗 chat-settings-overlay */
-const onShowSettings = () => {
-  store.commit("SET_CHAT_SHOWSETTINGUI", true);
-};
-
-const onShowUserSettingOverlay = () => {
-  store.commit("SET_USER_SHOWSETTINGUI", true);
-};
 </script>
 
 <style lang="scss" scoped>
 .custom-textarea :deep(.el-textarea__inner) {
   border: none !important; /* Remove border */
   outline: none; /* Remove focus outline */
-  box-shadow: none; /* Remove any box shadow */
   background-color: #f4f4f4;
   resize: none !important;
+  box-shadow: initial;
+  border-radius: initial;
 }
 
 .scroll-window :deep(.el-button) {

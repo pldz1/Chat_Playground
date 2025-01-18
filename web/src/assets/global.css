@@ -1,6 +1,9 @@
-@import "./components/messagebox.scss";
+@import "./components/message-box.scss";
 @import "./components/message.scss";
 @import "./components/markdown.scss";
+@import "./components/header-bar.scss";
+@import "./components/option-dropdown.scss";
+@import "./components/chat-input-area.scss";
 
 @import "./chat/sidebar.scss";
 @import "./chat/chat.scss";
@@ -19,8 +22,10 @@ body {
   height: 100%;
   margin: 0;
   position: relative;
-  --header-height: 40px;
-  --silder-bar-width: 232px;
+
+  /** 全局的样式变量 */
+  --header-bar-height: 60px;
+  --header-bar-chat-list-width: 232px;
 }
 
 /* 覆盖 Element Plus 的默认字体 */
