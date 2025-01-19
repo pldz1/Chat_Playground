@@ -1,3 +1,13 @@
-.component-chat-input-area{
-    
+.component-chat-input-area {
+  position: relative;
+  top: 150px;
+
+  .custom-textarea :deep(.el-textarea__inner) {
+    border: none !important; /* Remove border */
+    outline: none; /* Remove focus outline */
+    background-color: #f4f4f4;
+    resize: none !important;
+    box-shadow: initial;
+    border-radius: initial;
+  }
 }
