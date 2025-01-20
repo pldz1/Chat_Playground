@@ -3,11 +3,12 @@
     <div class="input-card" id="chat-input-card">
       <el-button class="attach-button">
         <!-- pause chat button -->
-        <div class="icon" v-html="``"></div>
+        <div class="icon" v-html="chatAttachIcon"></div>
       </el-button>
       <div class="input-area">
         <div class="imgs" id="chat-input-imgs"></div>
         <el-input
+          v-model="userQuestionText"
           class="custom-textarea"
           type="textarea"
           placeholder="Please input your question ..."
@@ -17,12 +18,21 @@
       <!-- send and pause button -->
       <el-button class="send-button">
         <!-- send chat button -->
-        <div v-if="!isChatting" :class="['svg-icon', { 'svg-icon-disable': userQuestionText == '' }]" v-html="``"></div>
+        <div
+          v-if="!isChatting"
+          :class="['svg-icon', { 'svg-icon-disable': userQuestionText == '' }]"
+          v-html="sendIcon"
+        ></div>
         <!-- pause chat button -->
-        <div v-else class="svg-icon" v-html="``"></div>
+        <div v-else class="svg-icon" v-html="pauseIcon"></div>
       </el-button>
     </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+import { chatAttachIcon, sendIcon, pauseIcon } from "@/assets/image/chat-svgs.js";
+
+const userQuestionText = ref("");
+</script>
