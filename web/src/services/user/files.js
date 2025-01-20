@@ -80,17 +80,15 @@ export const uploadJsonFile = () => {
 
 /** pasteImage 监听在input输入框上 粘贴图像的事件  */
 export const pasteImage = () => {
-  document
-    .getElementById("chat-input-card")
-    .addEventListener("paste", function (event) {
-      const items = event.clipboardData.items;
-      for (let i = 0; i < items.length; i++) {
-        if (items[i].kind === "file" && items[i].type.startsWith("image/")) {
-          const file = items[i].getAsFile();
-          handleImageFile(file);
-          event.preventDefault(); // 阻止默认的粘贴行为，防止文本粘贴
-          return;
-        }
+  document.getElementById("component-chat-input-area").addEventListener("paste", function (event) {
+    const items = event.clipboardData.items;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].kind === "file" && items[i].type.startsWith("image/")) {
+        const file = items[i].getAsFile();
+        handleImageFile(file);
+        event.preventDefault(); // 阻止默认的粘贴行为，防止文本粘贴
+        return;
       }
-    });
+    }
+  });
 };

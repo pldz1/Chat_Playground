@@ -1,21 +1,13 @@
 .component-chat-input-area {
-  position: relative;
-  top: 150px;
+  width: 100%;
+  height: auto;
   display: flex;
-  flex-direction: row;
+  flex-direction: column-reverse;
   align-items: center;
   justify-content: center;
 
   .input-card {
-    position: absolute;
-    bottom: var(--bottom-text);
-    left: 10%;
-    height: auto;
-    min-height: var(--input-min-height);
-    width: calc(var(--width-size) - 40px);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    width: 80%;
     background-color: #f4f4f4;
     border-radius: 50px;
     padding: 8px 20px;
@@ -76,20 +68,28 @@
       }
     }
 
-    .attach-button {
-      height: 32px;
-      width: 32px;
-      background-color: transparent;
-      border: none;
+    .input-opts {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: row;
+      align-items: center;
 
-      .icon {
-        min-width: 32px;
-        min-height: 32px;
-        max-width: 32px;
-        max-height: 32px;
-        border-radius: 16px;
-        display: flex;
-        align-items: center;
+      .opts-button {
+        height: 32px;
+        width: 32px;
+        background-color: transparent;
+        border: none;
+        margin-left: 8px;
+
+        .icon {
+          min-width: 32px;
+          min-height: 32px;
+          max-width: 32px;
+          max-height: 32px;
+          border-radius: 16px;
+          display: flex;
+          align-items: center;
+        }
       }
     }
 

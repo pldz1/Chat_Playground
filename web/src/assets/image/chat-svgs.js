@@ -38,33 +38,6 @@ export const assistantIcon = /*HTML*/ `<svg
 ></path>
 </svg>`;
 
-export const sendIcon = /*HTML*/ `<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="32"
-  height="32"
-  fill="none"
-  viewBox="0 0 32 32"
-  class="icon-2xl"
->
-  <path
-    fill="currentColor"
-    fill-rule="evenodd"
-    d="M15.192 8.906a1.143 1.143 0 0 1 1.616 0l5.143 5.143a1.143 1.143 0 0 1-1.616 1.616l-3.192-3.192v9.813a1.143 1.143 0 0 1-2.286 0v-9.813l-3.192 3.192a1.143 1.143 0 1 1-1.616-1.616z"
-    clip-rule="evenodd"
-  ></path>
-</svg>`;
-
-export const pauseIcon = /*HTML*/ `<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="32"
-  height="32"
-  fill="none"
-  viewBox="0 0 32 32"
-  class="icon-lg"
->
-<rect width="14" height="14" x="9" y="9" fill="currentColor" rx="1.5"></rect>
-</svg>`;
-
 export const settingsIcon = /*HTML*/ `<svg
   xmlns="http://www.w3.org/2000/svg"
   width="24"
@@ -312,18 +285,6 @@ export const copyMarkdownIcon = /*HTML*/ `<svg
     stroke-linecap="round"
     stroke-linejoin="round"
   />
-</svg>`;
-
-export const chatAttachIcon = /*HTML*/ `<svg
-  fill="#000000"
-  width="24px"
-  height="24px"
-  viewBox="0 0 1.05 1.05"
-  data-name="Layer 2"
-  id="Layer_2"
-  xmlns="http://www.w3.org/2000/svg"
->
-  <path d="M0.54 1.042A0.34 0.34 0 0 1 0.201 0.703V0.24a0.233 0.233 0 0 1 0.467 0V0.675a0.137 0.137 0 1 1 -0.275 0V0.279a0.037 0.037 0 0 1 0.075 0V0.675a0.062 0.062 0 1 0 0.124 0V0.24a0.158 0.158 0 0 0 -0.316 0v0.463a0.265 0.265 0 0 0 0.264 0.264c0.138 0 0.234 -0.109 0.234 -0.264v-0.413a0.037 0.037 0 0 1 0.075 0v0.414c0 0.196 -0.129 0.338 -0.309 0.338" />
 </svg>`;
 
 export const chatDeleteImgIcon = /*HTML*/ `<svg
