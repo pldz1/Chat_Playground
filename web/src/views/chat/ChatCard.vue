@@ -8,9 +8,11 @@
       <div id="chat-messages-container" ref="innerRef"></div>
     </el-scrollbar>
     <!-- Message Input -->
-    <ChatInputArea></ChatInputArea>
+    <div class="chat-input-area">
+      <ChatInputArea></ChatInputArea>
+    </div>
     <!-- footer -->
-    <div class="footer">
+    <div class="footer" v-if="false">
       <el-text class="tips"> time: {{ requestTimeObj.time }}ms </el-text>
       <el-text class="tips"> {{ tokens }}/{{ chatParams.maxTokens }} tokens to be sent </el-text>
     </div>

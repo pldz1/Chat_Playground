@@ -8,7 +8,7 @@
       <!-- Sidebar -->
       <SidebarCard v-if="isShowSidebar" />
       <!-- Chat main worksapce -->
-      <div class="right-card"><ChatCard /></div>
+      <div class="chat-card" id="global-chat-card"><ChatCard /></div>
       <!-- 隐藏的文件输入元素 -->
       <input v-if="false" id="chat-file-input" type="file" style="display: none" />
     </div>
@@ -64,7 +64,7 @@ const onShowSidebar = (val) => {
     display: flex;
     flex-direction: row;
 
-    .right-card {
+    .chat-card {
       width: calc(100% - var(--header-bar-chat-list-width));
       height: 100%;
     }

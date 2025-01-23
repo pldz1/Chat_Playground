@@ -66,15 +66,18 @@ const chatParams = computed(() => store.state.chat.chatParams);
 /** onShowSidebar 向父组件发送显示或者隐藏侧边栏的信号, 返回是否开关侧边栏的布尔量 */
 const onShowSidebar = () => {
   const chatListEl = document.getElementById("component-header-bar-chat-list");
+  const chatCardEl = document.getElementById("global-chat-card");
   if (chatListEl.style.justifyContent === "flex-start") {
     chatListEl.style.backgroundColor = "#f9f9f9";
     chatListEl.style.justifyContent = "space-between";
     chatListEl.style.width = "calc(var(--header-bar-chat-list-width) - 16px)";
+    if (chatCardEl) chatCardEl.style.width = "calc(100% - var(--header-bar-chat-list-width))";
     emits("on-show-chat-list", true);
   } else {
     chatListEl.style.justifyContent = "flex-start";
     chatListEl.style.backgroundColor = "transparent";
     chatListEl.style.width = "fit-content";
+    if (chatCardEl) chatCardEl.style.width = "100%";
     emits("on-show-chat-list", false);
   }
 };
