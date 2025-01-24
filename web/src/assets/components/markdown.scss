@@ -248,3 +248,24 @@
     background-color: #f8f8f8;
   }
 }
+
+.markdown-p-text {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #333 0%, #333 50%, transparent 100%);
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: markdown-p-progress 5s infinite;
+}
+
+@keyframes markdown-p-progress {
+  0% {
+      background-position: 200% 0;
+  }
+  100% {
+      background-position: 0 0;
+  }
+}

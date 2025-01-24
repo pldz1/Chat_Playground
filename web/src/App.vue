@@ -1,5 +1,6 @@
 <template>
   <router-view />
+  <input id="gloal-file-upload-input" type="file" style="display: none" />
 </template>
 
 <script>

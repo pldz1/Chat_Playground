@@ -4,6 +4,7 @@ import { checkImageModel } from "../chat/settings.js";
 import { showMessage } from "@/utils/custom-message.js";
 import { uploadChatHistory } from "../../apis/chat.js";
 
+const GlobalInputUploadEl = "gloal-file-upload-input";
 const ImageMaxMBSize = 20;
 
 /** handleImageFile 处理图像文件的函数 */
@@ -62,10 +63,28 @@ const loadChatByJsonFile = (event) => {
 
 /** handleFileUpload 是通用的处理文件上传操作的函数 */
 const handleFileUpload = (acceptType, handler) => {
-  const fileInput = document.getElementById("chat-file-input");
+  const fileInput = document.getElementById(GlobalInputUploadEl);
+  fileInput.removeEventListener("change", handler);
   fileInput.accept = acceptType;
-  fileInput.addEventListener("change", handler);
+  fileInput.addEventListener("change", (event) => {
+    handler(event);
+    fileInput.value = "";
+  });
   fileInput.click();
+};
+
+/** 实际上处理粘贴行为的函数 */
+const handlePasted = (event) => {
+  const items = event.clipboardData.items;
+  for (let i = 0; i < items.length; i++) {
+    if (items[i].kind === "file" && items[i].type.startsWith("image/")) {
+      const file = items[i].getAsFile();
+      handleImageFile(file);
+      event.preventDefault();
+      // 阻止默认的粘贴行为，防止文本粘贴
+      return;
+    }
+  }
 };
 
 /** uploadImageFile 执行图像上传到对话输入框的函数  */
@@ -78,17 +97,16 @@ export const uploadJsonFile = () => {
   handleFileUpload("application/json", loadChatByJsonFile);
 };
 
-/** pasteImage 监听在input输入框上 粘贴图像的事件  */
-export const pasteImage = () => {
-  document.getElementById("component-chat-input-area").addEventListener("paste", function (event) {
-    const items = event.clipboardData.items;
-    for (let i = 0; i < items.length; i++) {
-      if (items[i].kind === "file" && items[i].type.startsWith("image/")) {
-        const file = items[i].getAsFile();
-        handleImageFile(file);
-        event.preventDefault(); // 阻止默认的粘贴行为，防止文本粘贴
-        return;
-      }
-    }
+/** pasteImage 监听在某个 DOM 上的粘贴事件  */
+export const addPasteEvent = (domId) => {
+  document.getElementById(domId).addEventListener("paste", function (event) {
+    handlePasted(event);
+  });
+};
+
+/** 移除在某个 DOM 上的粘贴事件  */
+export const removePasetEvent = (domId) => {
+  document.getElementById(domId).removeEventListener("paste", function (event) {
+    handlePasted(event);
   });
 };

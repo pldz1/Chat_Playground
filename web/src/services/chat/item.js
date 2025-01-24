@@ -110,7 +110,7 @@ class ChatItemHelper {
     this._chatContainer.appendChild(userDiv);
   };
 
-  _addAssAHTMLElem = (chatIid, text) => {
+  _addAssHTMLElem = (chatIid, text) => {
     if (!this._init()) return;
     const assistantDiv = document.createElement("div");
     assistantDiv.classList.add("assistant");
@@ -128,7 +128,12 @@ class ChatItemHelper {
 
     const textDiv = document.createElement("div");
     textDiv.classList.add("markdown-content");
-    renderBlock(textDiv, text);
+    if (chatIid !== "") {
+      renderBlock(textDiv, text);
+    } else {
+      textDiv.innerHTML = text;
+      textDiv.classList.add("markdown-p-text");
+    }
 
     const optionsDiv = document.createElement("div");
     optionsDiv.classList.add("options");
@@ -194,10 +199,7 @@ class ChatItemHelper {
   /** ⭐⭐⭐ _getAssistantResponse 是根据用户返回*/
   async _getAssistantResponse(chatCid, callback) {
     // 从服务端获得输出,并创建一个HTMLElement来缓存值
-    const assHTMLElem = this._addAssAHTMLElem(
-      "",
-      "Connect to WEB server... ..."
-    );
+    const assHTMLElem = this._addAssHTMLElem("", "Connect to WEB server... ...");
 
     if (callback) await callback();
     this.ctrl = new AbortController();

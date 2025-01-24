@@ -24,7 +24,7 @@ body {
   position: relative;
 
   /** 全局的样式变量 */
-  --header-bar-height: 60px;
+  --header-bar-height: 48px;
   --header-bar-chat-list-width: 232px;
 }
 

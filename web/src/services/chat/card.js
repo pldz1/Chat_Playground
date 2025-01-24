@@ -2,12 +2,7 @@ import ChatItemHelper from "./item.js";
 import StoreHelper from "@/store/store-helper";
 import { showMessage } from "@/utils/custom-message.js";
 import { getUserMsg } from "./message.js";
-import {
-  addNewChatAPI,
-  setUserMsgAPI,
-  setChatParamsAPI,
-  getSpecChatHistoryAPI,
-} from "../../apis/chat.js";
+import { addNewChatAPI, setUserMsgAPI, setChatParamsAPI, getSpecChatHistoryAPI } from "../../apis/chat.js";
 
 class ChatCardHelper extends ChatItemHelper {
   static instance = null;
@@ -29,9 +24,7 @@ class ChatCardHelper extends ChatItemHelper {
 
   /** _mouseMoveLister 是鼠标移动到对话的HTMLElement上要处理显示Options的函数 */
   _mouseMoveLister = (event) => {
-    const targetClass = event.target.closest(
-      ".user-content, .assistant-content"
-    );
+    const targetClass = event.target.closest(".user-content, .assistant-content");
     if (targetClass) {
       const optionButtons = targetClass.querySelectorAll(".options-button");
       optionButtons.forEach((div) => {
@@ -42,9 +35,7 @@ class ChatCardHelper extends ChatItemHelper {
 
   /** _mouseMoveLister 是鼠标移出了对话的HTMLElement上要处理隐藏Options的DIV的函数 */
   _mouseOutLister = () => {
-    const activeOptionButtons = document.querySelectorAll(
-      ".options-button.active"
-    );
+    const activeOptionButtons = document.querySelectorAll(".options-button.active");
     activeOptionButtons.forEach((div) => {
       div.classList.remove("active");
     });
@@ -103,9 +94,8 @@ class ChatCardHelper extends ChatItemHelper {
   /** drawChatHistory 绘制对话的历史到网页上 */
   drawChatHistory(data) {
     data.forEach((item) => {
-      if (item.message.role == "user")
-        this._addUserQHTMLElem(item.chatIid, item.message.content);
-      else this._addAssAHTMLElem(item.chatIid, item.message.content[0].text);
+      if (item.message.role == "user") this._addUserQHTMLElem(item.chatIid, item.message.content);
+      else this._addAssHTMLElem(item.chatIid, item.message.content[0].text);
     });
   }
 

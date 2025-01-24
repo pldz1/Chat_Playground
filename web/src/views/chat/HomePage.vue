@@ -9,8 +9,6 @@
       <SidebarCard v-if="isShowSidebar" />
       <!-- Chat main worksapce -->
       <div class="chat-card" id="global-chat-card"><ChatCard /></div>
-      <!-- 隐藏的文件输入元素 -->
-      <input v-if="false" id="chat-file-input" type="file" style="display: none" />
     </div>
   </div>
 </template>

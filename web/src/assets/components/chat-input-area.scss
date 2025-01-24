@@ -7,7 +7,7 @@
   justify-content: center;
 
   .input-card {
-    width: 80%;
+    width: calc(100% - 40px);
     background-color: #f4f4f4;
     border-radius: 50px;
     padding: 8px 20px;
@@ -32,6 +32,28 @@
         flex-direction: row;
         max-height: 60px;
         gap: 6px;
+        overflow-y: hidden;
+        overflow-x: auto;
+
+        &::-webkit-scrollbar {
+          height: 8px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background-color: #aaa;
+          border-radius: 4px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background-color: #f0f0f0;
+        }
+
+        &::-webkit-scrollbar-button {
+          display: none;
+          width: 0;
+          height: 0;
+          background: transparent;
+        }
 
         .item {
           height: 50px;
@@ -112,13 +134,34 @@
     }
 
     .custom-textarea {
+      padding: 8px 0px 0px 0px;
       .el-textarea__inner {
-        border: none !important; /* Remove border */
-        outline: none; /* Remove focus outline */
+        border: none !important;
+        outline: none;
         background-color: #f4f4f4;
         resize: none !important;
         box-shadow: initial;
         border-radius: initial;
+
+        &::-webkit-scrollbar {
+          width: 8px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background-color: #aaa;
+          border-radius: 4px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background-color: #f0f0f0;
+        }
+
+        &::-webkit-scrollbar-button {
+          display: none;
+          width: 0;
+          height: 0;
+          background: transparent;
+        }
       }
     }
   }
