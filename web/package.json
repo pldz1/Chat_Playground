@@ -8,18 +8,17 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@DatatracCorporation/markdown-it-mermaid": "npm:@datatraccorporation/markdown-it-mermaid@^0.5.0",
     "@element-plus/icons-vue": "^2.3.1",
     "@microsoft/fetch-event-source": "^2.0.1",
     "axios": "^1.6.2",
+    "clipboard": "^2.0.10",
     "core-js": "^3.8.3",
     "element-plus": "^2.4.2",
     "highlight.js": "^11.9.0",
-    "vue": "^3.2.13",
-    "vue-router": "^4.2.5",
-    "vuex": "^4.0.2",
-    "clipboard": "^2.0.10",
     "jquery": "^3.6.0",
     "markdown-it": "^12.3.2",
+    "markdown-it-container": "^3.0.0",
     "markdown-it-deflist": "^2.1.0",
     "markdown-it-emoji": "^2.0.0",
     "markdown-it-footnote": "^3.0.3",
@@ -30,8 +29,10 @@
     "markdown-it-task-lists": "^2.1.1",
     "markdown-it-toc": "^1.1.0",
     "markdown-it-toc-done-right": "^4.2.0",
-    "markdown-it-container": "^3.0.0",
-    "@DatatracCorporation/markdown-it-mermaid": "npm:@datatraccorporation/markdown-it-mermaid@^0.5.0"
+    "openai": "^4.82.0",
+    "vue": "^3.2.13",
+    "vue-router": "^4.2.5",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
