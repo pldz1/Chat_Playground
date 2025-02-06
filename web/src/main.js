@@ -22,6 +22,7 @@ import store from "./store/index.js";
 
 // 引入自定义全局样式文件
 import "./assets/global.css";
+import "./assets/app.css";
 
 const app = createApp(App);
 app.use(store);

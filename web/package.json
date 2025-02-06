@@ -3,9 +3,9 @@
   "version": "1.0.1",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@DatatracCorporation/markdown-it-mermaid": "npm:@datatraccorporation/markdown-it-mermaid@^0.5.0",
@@ -14,6 +14,7 @@
     "axios": "^1.6.2",
     "clipboard": "^2.0.10",
     "core-js": "^3.8.3",
+    "daisyui": "^3.9.4",
     "element-plus": "^2.4.2",
     "highlight.js": "^11.9.0",
     "jquery": "^3.6.0",
@@ -35,29 +36,13 @@
     "vuex": "^4.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.16",
-    "@babel/eslint-parser": "^7.12.16",
-    "@vue/cli-plugin-babel": "~5.0.0",
-    "@vue/cli-plugin-eslint": "~5.0.0",
-    "@vue/cli-service": "~5.0.0",
-    "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^8.0.3",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.1",
     "sass": "^1.77.2",
-    "sass-loader": "^14.2.1"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/vue3-essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "@babel/eslint-parser"
-    },
-    "rules": {}
+    "sass-loader": "^14.2.1",
+    "tailwindcss": "^3.4.17",
+    "vite": "^6.0.5",
+    "@vitejs/plugin-vue": "^5.2.1"
   },
   "browserslist": [
     "> 1%",
