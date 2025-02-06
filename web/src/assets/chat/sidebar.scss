@@ -45,12 +45,12 @@
     }
 
     .truncated-text {
-      display: flex; 
+      display: flex;
       align-items: center;
       height: 20px;
       width: 160px;
-      max-width: 160px; 
-      white-space: nowrap; 
+      max-width: 160px;
+      white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       text-align: left;

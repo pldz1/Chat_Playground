@@ -1,14 +1,7 @@
 import ChatOptions from "./options.js";
 import StoreHelper from "@/store/store-helper";
 import { renderBlock, textToHtml } from "@/services/md/render.js";
-import {
-  assistantIcon,
-  reRequestIcon,
-  eidtChatItemIcon,
-  copyMarkdownIcon,
-  deleteChatItemIcon,
-  chatDeleteImgIcon,
-} from "@/assets/image/chat-svgs.js";
+import { assistantIcon, reRequestIcon, eidtChatItemIcon, copyMarkdownIcon, deleteChatItemIcon, chatDeleteImgIcon } from "@/assets/image/chat-svgs.js";
 import { createEventSourceAPI } from "../../apis/chat.js";
 
 class ChatItemHelper {

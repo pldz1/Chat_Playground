@@ -50,7 +50,7 @@ watch(
     } else {
       isShowRoleCard.value = true;
     }
-  }
+  },
 );
 
 /** 向服务器发送数据 */

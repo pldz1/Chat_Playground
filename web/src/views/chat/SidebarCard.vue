@@ -13,11 +13,7 @@
           @keyup.enter="handleEditChatName"
         ></el-input>
         <!-- chat item -->
-        <el-button
-          v-else
-          @click="onLoadHistory(item)"
-          :class="['chat-item', { 'selected-chat-item': chatCid === item.chatCid }]"
-        >
+        <el-button v-else @click="onLoadHistory(item)" :class="['chat-item', { 'selected-chat-item': chatCid === item.chatCid }]">
           <!-- chat item label -->
           <el-text class="truncated-text" :tag="chatCid === item.chatCid ? 'b' : 'span'">{{ item.chatName }}</el-text>
           <!-- chat item options -->

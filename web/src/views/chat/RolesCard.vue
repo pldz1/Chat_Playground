@@ -3,11 +3,7 @@
     <div class="container">
       <div class="role-group">
         <div class="role-card" @click="uploadJsonFile">
-          <el-tooltip
-            content="Upload chat history with default model parameters"
-            placement="bottom"
-            :show-after="500"
-          >
+          <el-tooltip content="Upload chat history with default model parameters" placement="bottom" :show-after="500">
             <div class="tips" v-html="SVGS.roleTipsSettings"></div>
           </el-tooltip>
 
@@ -15,26 +11,15 @@
           <el-text class="label">Upload History</el-text>
         </div>
         <div class="role-card" @click="newGhostChat(ghostTemplate.translate)">
-          <el-tooltip
-            content="中英互译助手"
-            placement="bottom"
-            :show-after="500"
-          >
+          <el-tooltip content="中英互译助手" placement="bottom" :show-after="500">
             <div class="tips" v-html="SVGS.roleTipsGhost"></div>
           </el-tooltip>
 
           <div class="icon" v-html="SVGS.roleTranslateIcon"></div>
           <el-text class="label">Translate helper</el-text>
         </div>
-        <div
-          class="role-card"
-          @click="newGhostChat(ghostTemplate.gitCommitHelper)"
-        >
-          <el-tooltip
-            content="git commit和git emoji的助手"
-            placement="bottom"
-            :show-after="500"
-          >
+        <div class="role-card" @click="newGhostChat(ghostTemplate.gitCommitHelper)">
+          <el-tooltip content="git commit和git emoji的助手" placement="bottom" :show-after="500">
             <div class="tips" v-html="SVGS.roleTipsGhost"></div>
           </el-tooltip>
 

@@ -24,7 +24,7 @@ const renderMarkdown = (data) => {
   if (!el) el = document.getElementById("article-content");
   if (!el) return;
 
-  const tmpDiv = document.createElement('div');
+  const tmpDiv = document.createElement("div");
   tmpDiv.innerHTML = markdownIt.render(data); // 只渲染当前的块
   buildCodeBlock(tmpDiv);
 
@@ -32,16 +32,15 @@ const renderMarkdown = (data) => {
   deepCloneAndUpdate(el, tmpDiv);
 };
 
-
 /** Step 3. 处理异步渲染 */
 const processRenderQueue = () => {
   if (renderQueue.length === 0) {
-    isRendering = false;  // 队列为空时标记渲染完成
+    isRendering = false; // 队列为空时标记渲染完成
     return;
   }
 
   const data = renderQueue.shift(); // 获取并移除队列中的第一个渲染任务
-  renderMarkdown(data);  // 执行渲染操作
+  renderMarkdown(data); // 执行渲染操作
 
   // 继续处理下一个渲染任务
   setTimeout(processRenderQueue, 0);
@@ -91,7 +90,7 @@ const processStep = (generator) => {
 /** Step 0. 开始 SSE 模拟 */
 const yieldedSSEContent = () => {
   // 重置 Demo 的div
-  const el = document.getElementById('article-content');
+  const el = document.getElementById("article-content");
   if (el) {
     htmlData = "";
     el.innerHTML = "";
@@ -143,7 +142,8 @@ const yieldedSSEContent = () => {
       width: 100%;
       cursor: pointer;
       cursor: zoom-in;
-      box-shadow: 0 1px 15px rgba(27, 31, 35, 0.15),
+      box-shadow:
+        0 1px 15px rgba(27, 31, 35, 0.15),
         0 0 1px rgba(106, 115, 125, 0.35);
     }
 
@@ -153,8 +153,8 @@ const yieldedSSEContent = () => {
     h4 code,
     h5 code,
     h6 code,
-    p>code,
-    li>code,
+    p > code,
+    li > code,
     table code {
       color: #c7254e;
       line-height: 1.2;
@@ -364,14 +364,12 @@ const yieldedSSEContent = () => {
       background-color: #f8f8f8;
     }
   }
-
 }
 
 @media screen and (max-width: 900px) {
   .post-body {
     width: 100%;
   }
-
 }
 
 @keyframes fadeInUp {

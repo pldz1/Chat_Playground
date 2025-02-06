@@ -11,9 +11,7 @@ const imageModel = ["gpt-4o", "gpt-4o-mini", "gpt-4-turbo"];
  *   ⭐⭐⭐ 目前的prompts不支持放入图像, 所以不用考虑有图像的情况 */
 export const getPromptByRole = (chatParams, role) => {
   if (chatParams.prompts) {
-    const contentList = (
-      chatParams.prompts.find((item) => item.role === role) || {}
-    ).content;
+    const contentList = (chatParams.prompts.find((item) => item.role === role) || {}).content;
 
     if (contentList) {
       return contentList[0].text;
@@ -51,9 +49,7 @@ export const handleChatPrompts = (chatParams, sys, user, ass) => {
     },
   ];
 
-  chatParams.prompts = tmpPrompts.filter(
-    (item) => item[key] !== "" && item[key] !== undefined
-  );
+  chatParams.prompts = tmpPrompts.filter((item) => item[key] !== "" && item[key] !== undefined);
 };
 
 /** onSelectModel 选择模型 更新对应的参数 */
@@ -75,10 +71,7 @@ export const handleSetChatParams = async (chatParams) => {
   if (isImageModel) {
     const flag = imageModel.includes(chatParams.modelType);
     if (!flag) {
-      showMessage(
-        "error",
-        `对话包含图像数据 必须选择具有图像解析的模型: 【'gpt-4o', 'gpt-4o-mini', 'gpt-4-tubo'】`
-      );
+      showMessage("error", `对话包含图像数据 必须选择具有图像解析的模型: 【'gpt-4o', 'gpt-4o-mini', 'gpt-4-tubo'】`);
       return;
     }
   }
@@ -104,10 +97,7 @@ export const checkImageModel = () => {
   const modelType = chatParams.modelType;
   const flag = imageModel.includes(modelType);
   if (!flag) {
-    showMessage(
-      "error",
-      `对话包含图像数据 必须选择具有图像解析的模型: ${imageModel}`
-    );
+    showMessage("error", `对话包含图像数据 必须选择具有图像解析的模型: ${imageModel}`);
     return false;
   }
   return true;

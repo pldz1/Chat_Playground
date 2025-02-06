@@ -3,14 +3,7 @@ import { isEqual } from "lodash";
 import { initChatPage } from "../chat/common.js";
 import { showMessage } from "@/utils/custom-message.js";
 import { getChatParamsAPI } from "../../apis/chat.js";
-import {
-  loginAPI,
-  deleteAllChatAPI,
-  getUserSettingAPI,
-  setUserSettingAPI,
-  setUserChatParamsAPI,
-  getUserChatParamsAPI,
-} from "../../apis/user.js";
+import { loginAPI, deleteAllChatAPI, getUserSettingAPI, setUserSettingAPI, setUserChatParamsAPI, getUserChatParamsAPI } from "../../apis/user.js";
 
 export const login = async (userName, passWord) => {
   StoreHelper.setUserLoginInfo(userName, passWord);

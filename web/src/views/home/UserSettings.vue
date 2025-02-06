@@ -1,12 +1,6 @@
 <template>
   <!-- overlay-dialog -->
-  <el-dialog
-    class="home-user-settings-overlay"
-    v-model="isShowUserSettings"
-    align-center
-    append-to-body
-    @close="onCloseUserSettingOverlay"
-  >
+  <el-dialog class="home-user-settings-overlay" v-model="isShowUserSettings" align-center append-to-body @close="onCloseUserSettingOverlay">
     <!-- header -->
     <template #header>
       <div class="header">
@@ -28,9 +22,7 @@
             <div class="profile">
               <div class="avatar">
                 <img :src="avatarImg" />
-                <button class="upload-button" @click="onUploadAvatar">
-                  Upload avatar
-                </button>
+                <button class="upload-button" @click="onUploadAvatar">Upload avatar</button>
               </div>
               <div class="avatar-info">
                 <el-text class="text">User name: {{ userName }}</el-text>
@@ -54,59 +46,35 @@
                 <div class="tips" v-html="SVGS.tipsIcon" />
                 <el-text class="text">Default Model: </el-text>
               </div>
-              <el-select
-                v-model="chatParams.modelName"
-                class="item-select"
-                :disabled="true"
-              >
-              </el-select>
+              <el-select v-model="chatParams.modelName" class="item-select" :disabled="true"> </el-select>
             </div>
             <div class="item-textarea">
               <div class="item-label">
                 <div class="tips" v-html="SVGS.tipsIcon" />
                 <el-text class="text">System prompt: </el-text>
               </div>
-              <el-input
-                class="input"
-                type="textarea"
-                v-model="chatSysPrompt"
-                @input="updateChatPrompts"
-              />
+              <el-input class="input" type="textarea" v-model="chatSysPrompt" @input="updateChatPrompts" />
             </div>
             <div class="item-textarea">
               <div class="item-label">
                 <div class="tips" v-html="SVGS.tipsIcon" />
                 <el-text class="text">User prompt: </el-text>
               </div>
-              <el-input
-                class="input"
-                type="textarea"
-                v-model="chatUserPrompt"
-                @input="updateChatPrompts"
-              />
+              <el-input class="input" type="textarea" v-model="chatUserPrompt" @input="updateChatPrompts" />
             </div>
             <div class="item-textarea">
               <div class="item-label">
                 <div class="tips" v-html="SVGS.tipsIcon" />
                 <el-text class="text">Assist prompt: </el-text>
               </div>
-              <el-input
-                class="input"
-                type="textarea"
-                v-model="chatAssPrompt"
-                @input="updateChatPrompts"
-              />
+              <el-input class="input" type="textarea" v-model="chatAssPrompt" @input="updateChatPrompts" />
             </div>
             <div class="item">
               <div class="item-label">
                 <div class="tips" v-html="SVGS.tipsIcon" />
                 <el-text class="text">Passed Message: </el-text>
               </div>
-              <el-input
-                class="input-middle"
-                v-model.number="chatParams.passedMsgLen"
-                @input="validateRange('passedMsgLen', 1, 20)"
-              />
+              <el-input class="input-middle" v-model.number="chatParams.passedMsgLen" @input="validateRange('passedMsgLen', 1, 20)" />
               <el-text class="c-input-tips">value range: 1~20</el-text>
             </div>
             <div class="item">
@@ -114,11 +82,7 @@
                 <div class="tips" v-html="SVGS.tipsIcon" />
                 <el-text class="text">Max Response: </el-text>
               </div>
-              <el-input
-                class="input-middle"
-                v-model="chatParams.maxResponseTokens"
-                @input="validateRange('maxResponseTokens', 1, 4096)"
-              />
+              <el-input class="input-middle" v-model="chatParams.maxResponseTokens" @input="validateRange('maxResponseTokens', 1, 4096)" />
               <el-text class="c-input-tips">value range: 1~4096</el-text>
             </div>
             <div class="item">
@@ -126,11 +90,7 @@
                 <div class="tips" v-html="SVGS.tipsIcon" />
                 <el-text class="text">Temperature: </el-text>
               </div>
-              <el-input
-                class="input-middle"
-                v-model="chatParams.temperature"
-                @input="validateRange('temperature', 0.1, 1)"
-              />
+              <el-input class="input-middle" v-model="chatParams.temperature" @input="validateRange('temperature', 0.1, 1)" />
               <el-text class="c-input-tips">value range: 0.1~1</el-text>
             </div>
             <div class="item">
@@ -138,11 +98,7 @@
                 <div class="tips" v-html="SVGS.tipsIcon" />
                 <el-text class="text">Top P: </el-text>
               </div>
-              <el-input
-                class="input-middle"
-                v-model="chatParams.topP"
-                @input="validateRange('topP', 0.1, 1)"
-              />
+              <el-input class="input-middle" v-model="chatParams.topP" @input="validateRange('topP', 0.1, 1)" />
               <el-text class="c-input-tips">value range: 0.1~1</el-text>
             </div>
             <div class="item">
@@ -150,11 +106,7 @@
                 <div class="tips" v-html="SVGS.tipsIcon" />
                 <el-text class="text">Frequecy penalty: </el-text>
               </div>
-              <el-input
-                class="input-middle"
-                v-model="chatParams.frequecyPenaty"
-                @input="validateRange('frequecyPenaty', 0, 2)"
-              />
+              <el-input class="input-middle" v-model="chatParams.frequecyPenaty" @input="validateRange('frequecyPenaty', 0, 2)" />
               <el-text class="c-input-tips">value range: 0~2</el-text>
             </div>
             <div class="item">
@@ -162,11 +114,7 @@
                 <div class="tips" v-html="SVGS.tipsIcon" />
                 <el-text class="text">Presence penalty: </el-text>
               </div>
-              <el-input
-                class="input-middle"
-                v-model="chatParams.presentPenaty"
-                @input="validateRange('presentPenaty', 0, 2)"
-              />
+              <el-input class="input-middle" v-model="chatParams.presentPenaty" @input="validateRange('presentPenaty', 0, 2)" />
               <el-text class="c-input-tips">value range: 0~2</el-text>
             </div>
             <div class="item">
@@ -174,11 +122,7 @@
                 <div class="tips" v-html="SVGS.tipsIcon" />
                 <el-text class="text">Stop sequences: </el-text>
               </div>
-              <el-input
-                class="input-fit"
-                v-model="chatStopSequence"
-                @input="validStopSequence(chatParams, chatStopSequence)"
-              />
+              <el-input class="input-fit" v-model="chatStopSequence" @input="validStopSequence(chatParams, chatStopSequence)" />
             </div>
           </el-scrollbar>
         </el-tab-pane>
@@ -196,27 +140,15 @@
                 <div class="tips" v-html="SVGS.tipsIcon" />
                 <el-text class="text">Markdown render: </el-text>
               </div>
-              <el-slider
-                v-model="userSettings.wenMarkDownRenderChars"
-                class="slider"
-                :min="1"
-                :max="20"
-              />
-              <el-input
-                class="input-slider"
-                v-model="userSettings.wenMarkDownRenderChars"
-              />
+              <el-slider v-model="userSettings.wenMarkDownRenderChars" class="slider" :min="1" :max="20" />
+              <el-input class="input-slider" v-model="userSettings.wenMarkDownRenderChars" />
             </div>
             <div class="item">
               <div class="item-label">
                 <div class="tips" v-html="SVGS.tipsIcon" />
                 <el-text class="text">Use proxy: </el-text>
               </div>
-              <el-switch
-                class="c-switch"
-                v-model="userSettings.isUseProxy"
-                @change="onChangeProxy"
-              />
+              <el-switch class="c-switch" v-model="userSettings.isUseProxy" @change="onChangeProxy" />
             </div>
             <div class="item">
               <div class="item-label">
@@ -230,9 +162,7 @@
                 <div class="tips" v-html="SVGS.tipsIcon" />
                 <el-text class="text">Delete all chat: </el-text>
               </div>
-              <el-button class="c-dangerous-button" @click="onDeleteAllChat">
-                Delete all chat
-              </el-button>
+              <el-button class="c-dangerous-button" @click="onDeleteAllChat"> Delete all chat </el-button>
             </div>
           </div>
         </el-tab-pane>
@@ -240,12 +170,8 @@
     </div>
     <template #footer>
       <div class="dialog-footer">
-        <el-button class="cancel" @click="onCloseUserSettingOverlay"
-          >Cancel</el-button
-        >
-        <el-button class="confirm" @click="onConfirmSetting">
-          Confirm
-        </el-button>
+        <el-button class="cancel" @click="onCloseUserSettingOverlay">Cancel</el-button>
+        <el-button class="confirm" @click="onConfirmSetting"> Confirm </el-button>
       </div>
     </template>
   </el-dialog>
@@ -257,11 +183,7 @@ import { useStore } from "vuex";
 import * as SVGS from "@/assets/image/home-svgs.js";
 import { showMessage, showMessageBox } from "@/utils/custom-message.js";
 import { deleteAllChat, confirmUserSettings } from "@/services/user/common.js";
-import {
-  getPromptByRole,
-  handleChatPrompts,
-  validStopSequence,
-} from "@/services/chat/settings.js";
+import { getPromptByRole, handleChatPrompts, validStopSequence } from "@/services/chat/settings.js";
 
 const store = useStore();
 const isShowUserSettings = ref(false);
@@ -293,25 +215,17 @@ watch(
       chatAssPrompt.value = getPromptByRole(chatParams.value, "assistant");
       chatStopSequence.value = chatParams.value.stopSequence.join(";");
     }
-  }
+  },
 );
 
 /** validateRange 限制参数的范围 这个内容可以不用抽出去 */
 const validateRange = (param, min, max) => {
-  chatParams.value[param] = Math.max(
-    min,
-    Math.min(max, chatParams.value[param])
-  );
+  chatParams.value[param] = Math.max(min, Math.min(max, chatParams.value[param]));
 };
 
 /** updateChatPrompts 动态更新提示词的内容 */
 const updateChatPrompts = () => {
-  handleChatPrompts(
-    chatParams.value,
-    chatSysPrompt.value,
-    chatUserPrompt.value,
-    chatAssPrompt.value
-  );
+  handleChatPrompts(chatParams.value, chatSysPrompt.value, chatUserPrompt.value, chatAssPrompt.value);
 };
 
 /** onUploadAvatar 更新头像 */

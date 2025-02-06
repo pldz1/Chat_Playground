@@ -57,10 +57,7 @@ function buildCopyButton(element) {
     var t = $(this).children("code").text();
 
     // 创建按钮
-    var btn = $('<span class="copy">复制</span>').attr(
-      "data-clipboard-text",
-      t
-    );
+    var btn = $('<span class="copy">复制</span>').attr("data-clipboard-text", t);
 
     $(this).prepend(btn);
 
@@ -88,11 +85,7 @@ export function deepCloneAndUpdate(div1, div2) {
   // 递归比较和更新 div1 和 div2 的子节点
   function compareAndUpdate(node1, node2) {
     // 情况 1：node1 是文本节点，更新文本内容
-    if (
-      node1 &&
-      node1.nodeType === Node.TEXT_NODE &&
-      node2.nodeType === Node.TEXT_NODE
-    ) {
+    if (node1 && node1.nodeType === Node.TEXT_NODE && node2.nodeType === Node.TEXT_NODE) {
       if (node1.nodeValue !== node2.nodeValue) {
         // 更新文本内容
         node1.nodeValue = node2.nodeValue;
@@ -115,10 +108,7 @@ export function deepCloneAndUpdate(div1, div2) {
     }
 
     // 情况 3：节点的 class 或其他属性更新, 注意对root节点的保护
-    if (
-      node1.className !== "article-content" &&
-      node1.className !== node2.className
-    ) {
+    if (node1.className !== "article-content" && node1.className !== node2.className) {
       // 3.1 更新 className
       node1.className = node2.className;
     }

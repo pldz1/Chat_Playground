@@ -1,12 +1,6 @@
 <template>
   <!-- overlay-dialog -->
-  <el-dialog
-    class="chat-item-editor-overlay"
-    v-model="isShowDialog"
-    align-center
-    append-to-body
-    :close-on-click-modal="false"
-  >
+  <el-dialog class="chat-item-editor-overlay" v-model="isShowDialog" align-center append-to-body :close-on-click-modal="false">
     <!-- header -->
     <template #header>
       <div class="header">
@@ -16,13 +10,7 @@
     </template>
     <!-- settings tab -->
     <div class="content">
-      <el-input
-        class="editor"
-        v-model="beEditedData"
-        type="textarea"
-        :autosize="{ minRows: 1, maxRows: 8 }"
-      >
-      </el-input>
+      <el-input class="editor" v-model="beEditedData" type="textarea" :autosize="{ minRows: 1, maxRows: 8 }"> </el-input>
     </div>
     <template #footer>
       <div class="dialog-footer">
@@ -48,7 +36,7 @@ watch(
       options.value = newObject.options;
       isShowDialog.value = true;
     }
-  }
+  },
 );
 
 const options = ref({});

@@ -7,12 +7,7 @@ import StoreHelper from "@/store/store-helper";
 import { textToHtml } from "@/services/md/render.js";
 import { getContent, getUserTextMsg } from "./message";
 import { showMessage, showMessageBox } from "@/utils/custom-message.js";
-import {
-  getChatItemAPI,
-  deleteChatItemAPI,
-  editChatItemAPI,
-  reGenerateContentAPI,
-} from "../../apis/chat.js";
+import { getChatItemAPI, deleteChatItemAPI, editChatItemAPI, reGenerateContentAPI } from "../../apis/chat.js";
 
 export default class ChatOptions {
   static _chatContainer = this.init();
@@ -82,8 +77,7 @@ export default class ChatOptions {
       data: content.texts,
       options: {
         // 使用箭头函数确保 `this` 指向正确的上下文
-        confirmCallback: (newValue) =>
-          this.editChatItemCallback(newValue, chatIid),
+        confirmCallback: (newValue) => this.editChatItemCallback(newValue, chatIid),
       },
     });
   }
@@ -112,20 +106,14 @@ export default class ChatOptions {
     if (!this.init()) return;
     var rea = await reGenerateContentAPI(chatIid);
     if (!rea.flag) {
-      showMessage(
-        "error",
-        `服务器处理重新生成对话内容过程失败! 【${rea.log}】`
-      );
+      showMessage("error", `服务器处理重新生成对话内容过程失败! 【${rea.log}】`);
       return false;
     }
 
     // 删除目标 div 之后的所有 div 元素
     const targetDiv = this._chatContainer.querySelector(`#${chatIid}`);
     if (this._chatContainer && targetDiv) {
-      let targetIndex = Array.prototype.indexOf.call(
-        this._chatContainer.children,
-        targetDiv
-      );
+      let targetIndex = Array.prototype.indexOf.call(this._chatContainer.children, targetDiv);
       while (this._chatContainer.children.length > targetIndex + 1) {
         this._chatContainer.removeChild(this._chatContainer.lastChild);
       }

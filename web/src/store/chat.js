@@ -86,9 +86,7 @@ export const ChatState = {
 
   /** 根据chatCid编辑对话的名称 */
   editChatNameList(data) {
-    const index = this.chatNameList.findIndex(
-      (item) => item.chatCid === data.chatCid
-    );
+    const index = this.chatNameList.findIndex((item) => item.chatCid === data.chatCid);
     this.chatNameList[index].chatName = data.chatName;
 
     // 同时判断一下是不是改的当前的对话的名称

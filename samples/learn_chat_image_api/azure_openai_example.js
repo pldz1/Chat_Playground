@@ -35,13 +35,7 @@ async function useProxy(client) {
     }
 
     try {
-      return await originalFetchWithTimeout.call(
-        client,
-        url,
-        fetchOptions,
-        ms,
-        controller
-      );
+      return await originalFetchWithTimeout.call(client, url, fetchOptions, ms, controller);
     } finally {
       clearTimeout(timeout);
     }

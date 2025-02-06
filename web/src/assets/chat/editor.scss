@@ -1,88 +1,87 @@
 .chat-item-editor-overlay {
-    width: 40%;
-    height: auto;
-    background-color: white;
-    border-radius: 20px;
-  
-    .el-dialog__body {
-      padding: 0px !important; /** 复写去掉body内的padding */
-    }
-  
-    .header {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      margin-bottom: 16px;
-  
-      .label {
-        font-size: 18px;
-        color: black;
-      }
-    }
-  
-    .content {
-      width: 100%;
-      height: auto;
-      display: flex;
-      justify-content: center;
+  width: 40%;
+  height: auto;
+  background-color: white;
+  border-radius: 20px;
 
-      .editor{
-        max-height: 200px;
-        height: auto;
-        width: 90%;
-        height: 200px;
-        padding: 8px;
-        border-radius: 50px;
-        font-size: 14px;
-        color: black;
-      }
+  .el-dialog__body {
+    padding: 0px !important; /** 复写去掉body内的padding */
+  }
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 16px;
+
+    .label {
+      font-size: 18px;
+      color: black;
     }
-  
-    .dialog-footer {
-      .cancel {
-        height: 32px;
-        width: 60px;
-        background-color: transparent;
-        border-radius: 16px;
-        border-color: #7d7d7d;
-        &:hover {
-          background-color: #ececec;
-          color: black;
-        }
-        &:active {
-          background-color: #ececec;
-          color: black;
-        }
-      }
-      .save {
-        height: 32px;
-        width: 60px;
-        background-color: #2c2c2c;
-        border-radius: 16px;
-        border-color: none;
-        color: white;
-        &:hover {
-          background-color: black;
-        }
-        &:active {
-          background-color: black;
-        }
-      }
-    }
-    .divider {
-      margin: 0px;
-    }
-  
-    .icon {
-      color: #7d7d7d;
-      background-color: transparent;
-      height: 16px;
-      width: 16px;
-    }
-  
-    .text {
+  }
+
+  .content {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+
+    .editor {
+      max-height: 200px;
+      height: auto;
+      width: 90%;
+      height: 200px;
+      padding: 8px;
+      border-radius: 50px;
       font-size: 14px;
       color: black;
     }
   }
-  
+
+  .dialog-footer {
+    .cancel {
+      height: 32px;
+      width: 60px;
+      background-color: transparent;
+      border-radius: 16px;
+      border-color: #7d7d7d;
+      &:hover {
+        background-color: #ececec;
+        color: black;
+      }
+      &:active {
+        background-color: #ececec;
+        color: black;
+      }
+    }
+    .save {
+      height: 32px;
+      width: 60px;
+      background-color: #2c2c2c;
+      border-radius: 16px;
+      border-color: none;
+      color: white;
+      &:hover {
+        background-color: black;
+      }
+      &:active {
+        background-color: black;
+      }
+    }
+  }
+  .divider {
+    margin: 0px;
+  }
+
+  .icon {
+    color: #7d7d7d;
+    background-color: transparent;
+    height: 16px;
+    width: 16px;
+  }
+
+  .text {
+    font-size: 14px;
+    color: black;
+  }
+}

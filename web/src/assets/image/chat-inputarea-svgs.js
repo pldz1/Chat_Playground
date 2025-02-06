@@ -8,13 +8,7 @@ const dalle3Icon = /*HTML*/ `<svg
   ></path>
 </svg>`;
 
-const realTimeVoiceIcon = /* HTML */ `<svg
-  fill="#000000"
-  width="24px"
-  height="24px"
-  viewBox="0 0 0.72 0.72"
-  version="1.1"
->
+const realTimeVoiceIcon = /* HTML */ `<svg fill="#000000" width="24px" height="24px" viewBox="0 0 0.72 0.72" version="1.1">
   <g stroke="none" stroke-width="1" fill="none">
     <g transform="translate(-960 -144)">
       <g transform="translate(960 144)">

@@ -17,9 +17,7 @@
 
       <div class="or"><span>OR</span></div>
       <!-- sign in -->
-      <a @click.prevent="onToDoButton"
-        >Don't have an account? <strong>Click here</strong></a
-      >
+      <a @click.prevent="onToDoButton">Don't have an account? <strong>Click here</strong></a>
     </div>
   </div>
 </template>
@@ -41,16 +39,11 @@ const isLoading = ref(false);
 onMounted(async () => {
   const res = await isExeEnvAPI();
 
-  const flag = res.flag
-    ? await login(res.userName, res.userName)
-    : await login();
+  const flag = res.flag ? await login(res.userName, res.userName) : await login();
 
   if (flag) {
     router.push({
-      path:
-        (res.flag ? res.userName : userName.value) === "admin"
-          ? "/admin"
-          : "/chat",
+      path: (res.flag ? res.userName : userName.value) === "admin" ? "/admin" : "/chat",
     });
   }
 });

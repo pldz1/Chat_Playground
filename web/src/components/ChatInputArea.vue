@@ -31,11 +31,7 @@
         <div class="chat-button">
           <el-button class="send-button">
             <!-- send chat button -->
-            <div
-              v-if="!props.isChatting"
-              :class="['svg-icon', { 'svg-icon-disable': inputText == '' }]"
-              v-html="sendIcon"
-            ></div>
+            <div v-if="!props.isChatting" :class="['svg-icon', { 'svg-icon-disable': inputText == '' }]" v-html="sendIcon"></div>
             <!-- pause chat button -->
             <div v-else class="svg-icon" v-html="pauseIcon"></div>
           </el-button>
@@ -47,13 +43,7 @@
 
 <script setup>
 import { ref, defineEmits, defineProps, onMounted, onBeforeUnmount } from "vue";
-import {
-  dalle3Icon,
-  realTimeVoiceIcon,
-  chatAttachIcon,
-  sendIcon,
-  pauseIcon,
-} from "@/assets/image/chat-inputarea-svgs.js";
+import { dalle3Icon, realTimeVoiceIcon, chatAttachIcon, sendIcon, pauseIcon } from "@/assets/image/chat-inputarea-svgs.js";
 import { addPasteEvent, removePasetEvent, uploadImageFile } from "@/services/user/files.js";
 
 const props = defineProps({

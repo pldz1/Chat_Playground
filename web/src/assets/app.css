@@ -14,11 +14,9 @@
 @import "./home/login.scss";
 @import "./home/user.scss";
 
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 
 /* 设置整个应用的默认样式 */
 html,

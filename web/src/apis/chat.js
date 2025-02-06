@@ -5,8 +5,7 @@ import { fetchEventSource } from "@microsoft/fetch-event-source";
 import { showMessage } from "@/utils/custom-message.js";
 
 /** 📜 获取能使用的全部对话模型列表 */
-export const getChatModelListAPI = () =>
-  apiRequest("get", "/chat/getChatModelList");
+export const getChatModelListAPI = () => apiRequest("get", "/chat/getChatModelList");
 
 /** 📜 获取所有历史记录 */
 export const getAllHistoryAPI = () => apiRequest("get", "/chat/allHistory");
@@ -15,60 +14,46 @@ export const getAllHistoryAPI = () => apiRequest("get", "/chat/allHistory");
 export const addNewChatAPI = () => apiRequest("post", "/chat/addNewChat");
 
 /** 🛠️ 修改对话的参数,可以不是当前的对话 */
-export const setChatNameAPI = (chatCid, chatName) =>
-  apiRequest("post", "/chat/setChatName", { chatCid, chatName });
+export const setChatNameAPI = (chatCid, chatName) => apiRequest("post", "/chat/setChatName", { chatCid, chatName });
 
 /** 🛠️ 修改对话的参数,可以不是当前的对话 */
-export const setChatParamsAPI = (chatCid, paramsData) =>
-  apiRequest("post", "/chat/setChatParams", { chatCid, data: paramsData });
+export const setChatParamsAPI = (chatCid, paramsData) => apiRequest("post", "/chat/setChatParams", { chatCid, data: paramsData });
 
 /** 📖 获取指定对话的历史记录 */
-export const getSpecChatHistoryAPI = (chatCid) =>
-  apiRequest("post", "/chat/getSpecChatHistory", { chatCid });
+export const getSpecChatHistoryAPI = (chatCid) => apiRequest("post", "/chat/getSpecChatHistory", { chatCid });
 
 /** ❌ 删除对话 */
-export const deleteChatAPI = (chatCid) =>
-  apiRequest("post", "/chat/deleteChat", { chatCid });
+export const deleteChatAPI = (chatCid) => apiRequest("post", "/chat/deleteChat", { chatCid });
 
 /** 📃 删除指定chatIid的对话 */
-export const getChatItemAPI = (chatIid) =>
-  apiRequest("post", "/chat/getChatItem", { chatIid });
+export const getChatItemAPI = (chatIid) => apiRequest("post", "/chat/getChatItem", { chatIid });
 
 /** ❌ 删除指定chatIid的对话 */
-export const deleteChatItemAPI = (chatIid) =>
-  apiRequest("post", "/chat/deleteChatItem", { chatIid });
+export const deleteChatItemAPI = (chatIid) => apiRequest("post", "/chat/deleteChatItem", { chatIid });
 
 /** ✏️ 修改指定chatIid的对话 */
-export const editChatItemAPI = (chatIid, msg) =>
-  apiRequest("post", "/chat/editChatItem", { chatIid, msg });
+export const editChatItemAPI = (chatIid, msg) => apiRequest("post", "/chat/editChatItem", { chatIid, msg });
 
 /** ✉️ 设置用户消息 */
-export const setUserMsgAPI = (msg) =>
-  apiRequest("post", "/chat/setUserMsg", { msg });
+export const setUserMsgAPI = (msg) => apiRequest("post", "/chat/setUserMsg", { msg });
 
 /** ⚙️ 获得当前对话的设置 */
-export const getChatParamsAPI = (chatCid) =>
-  apiRequest("post", "/chat/getChatParams", { chatCid });
+export const getChatParamsAPI = (chatCid) => apiRequest("post", "/chat/getChatParams", { chatCid });
 
 /** 🔄 重新生成内容 */
-export const reGenerateContentAPI = (chatIid) =>
-  apiRequest("post", "/chat/reGenerateContent", { chatIid });
+export const reGenerateContentAPI = (chatIid) => apiRequest("post", "/chat/reGenerateContent", { chatIid });
 
 /** 📥 下载对话的全部消息 */
-export const downloadChatHistory = (chatCid) =>
-  apiRequest("post", "/chat/downloadChatHistory", { chatCid });
+export const downloadChatHistory = (chatCid) => apiRequest("post", "/chat/downloadChatHistory", { chatCid });
 
 /** 📤 上传json数据然后开始对话 */
-export const uploadChatHistory = (jsonData) =>
-  apiRequest("post", "/chat/uploadChatHistory", { data: jsonData });
+export const uploadChatHistory = (jsonData) => apiRequest("post", "/chat/uploadChatHistory", { data: jsonData });
 
 /** 👻 新建一个幽灵对话 */
-export const newGhostChatAPI = (name, template) =>
-  apiRequest("post", "/chat/newGhostChat", { name, template });
+export const newGhostChatAPI = (name, template) => apiRequest("post", "/chat/newGhostChat", { name, template });
 
 /** 🔊 对话的语音播报 */
-export const chatAudioAPI = (data) =>
-  apiRequest("post", "/chat/chatAudio", { data });
+export const chatAudioAPI = (data) => apiRequest("post", "/chat/chatAudio", { data });
 
 /** 📡 通过SSE获取来自SERVER端的响应 */
 export const createEventSourceAPI = async (chatCid, assHTMLElem, ctrl) => {
