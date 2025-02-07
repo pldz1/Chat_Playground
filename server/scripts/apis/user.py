@@ -7,7 +7,7 @@ from scripts.libs.arsm import *
 USER_ROUTE = fastapi.APIRouter()
 
 
-@USER_ROUTE.get('/isExeEnv')
+@USER_ROUTE.get('/api/isExeEnv')
 async def isExeEnvAPI():
     '''判断环境 直接返回用户名'''
     from scripts.libs import CONF
@@ -20,7 +20,7 @@ async def isExeEnvAPI():
     return response
 
 
-@USER_ROUTE.post('/login')
+@USER_ROUTE.post('/api/login')
 async def loginAPI(user: str = fastapi.Depends(authenticateUser)):
     '''插件模式 fastapi.Deepends添加对身份信息的验证
     实际上 可以写成 @LOGINANLOGOUTROUTER.post('/login', dependencies=[fastapi.Depends(authenticateUser)])
@@ -47,7 +47,7 @@ async def loginAPI(user: str = fastapi.Depends(authenticateUser)):
 # ==================================================
 
 
-@USER_ROUTE.get('/user/getUserChatParams')
+@USER_ROUTE.get('/api/user/getUserChatParams')
 async def getUserChatParamsAPI(user: str = fastapi.Depends(authenticateUser)):
     rea = GetUserChatParamsResponse()
     rea.data = await UmmAPI.getUserChatDefParamsAPI(user)
@@ -59,7 +59,7 @@ async def getUserChatParamsAPI(user: str = fastapi.Depends(authenticateUser)):
 # ==================================================
 
 
-@USER_ROUTE.post('/user/setUserChatParams')
+@USER_ROUTE.post('/api/user/setUserChatParams')
 async def setUserChatParamsAPI(item: SetUserChatParamsAPIRequest, user: str = fastapi.Depends(authenticateUser)):
     rea = SetUserChatParamsResponse()
     rea.flag = await UmmAPI.setUserChatDefParamsAPI(user, item.data)
@@ -70,7 +70,7 @@ async def setUserChatParamsAPI(item: SetUserChatParamsAPIRequest, user: str = fa
 # ==================================================
 
 
-@USER_ROUTE.get('/user/getUserSetting')
+@USER_ROUTE.get('/api/user/getUserSetting')
 async def getUserSettingAPI(user: str = fastapi.Depends(authenticateUser)):
     rea = GetUserSettingResponse()
     rea.data = await UmmAPI.getUserSettingsAPI(user)
@@ -82,7 +82,7 @@ async def getUserSettingAPI(user: str = fastapi.Depends(authenticateUser)):
 # ==================================================
 
 
-@USER_ROUTE.post('/user/setUserSetting')
+@USER_ROUTE.post('/api/user/setUserSetting')
 async def setUserSettingAPI(item: SetUserSettingAPIRequest, user: str = fastapi.Depends(authenticateUser)):
     rea = SetUserSettingResponse()
     rea.flag = await UmmAPI.setUserSettingsAPI(user, item.data)
@@ -94,7 +94,7 @@ async def setUserSettingAPI(item: SetUserSettingAPIRequest, user: str = fastapi.
 # ==================================================
 
 
-@USER_ROUTE.post('/user/deleteAllChat')
+@USER_ROUTE.post('/api/user/deleteAllChat')
 async def deleteAllChatAPI(user: str = fastapi.Depends(authenticateUser)):
     rea = deleteAllChatAPIResponse()
     rea.flag = await UmmAPI.deleteAllChatAPI(user)

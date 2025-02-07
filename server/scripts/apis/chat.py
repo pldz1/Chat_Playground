@@ -14,7 +14,7 @@ CHAT_ROUTE = fastapi.APIRouter()
 # ==================================================
 
 
-@CHAT_ROUTE.get('/chat/getChatModelList')
+@CHAT_ROUTE.get('/api/chat/getChatModelList')
 async def getChatModelListAPI(user: str = fastapi.Depends(authenticateUser)):
     '''获得这个用户能够用到的全部对话模型的列表的API'''
     rea = GetChatModelListResponse()
@@ -29,7 +29,7 @@ async def getChatModelListAPI(user: str = fastapi.Depends(authenticateUser)):
 # ==================================================
 
 
-@CHAT_ROUTE.get('/chat/allHistory')
+@CHAT_ROUTE.get('/api/chat/allHistory')
 async def allHistoryAPI(user: str = fastapi.Depends(authenticateUser)):
     '''获取全部的对话历史记录的API'''
     rea = AllHistoryResponse()
@@ -47,7 +47,7 @@ async def allHistoryAPI(user: str = fastapi.Depends(authenticateUser)):
 # ==================================================
 
 
-@CHAT_ROUTE.post('/chat/addNewChat')
+@CHAT_ROUTE.post('/api/chat/addNewChat')
 async def addNewChatAPI(user: str = fastapi.Depends(authenticateUser)):
     rea = NewChatResponse()
     handle = UserManage.getChatHandle(user)
@@ -60,7 +60,7 @@ async def addNewChatAPI(user: str = fastapi.Depends(authenticateUser)):
 # 🛠️ setChatNameAPI 修改对话的名称 可以是任意对话
 # ==================================================
 
-@CHAT_ROUTE.post('/chat/setChatName')
+@CHAT_ROUTE.post('/api/chat/setChatName')
 async def setChatNameAPI(item: SetChatNameAPIRequest, user: str = fastapi.Depends(authenticateUser)):
     rea = SetChatNameResponse()
     handle = UserManage.getChatHandle(user)
@@ -75,7 +75,7 @@ async def setChatNameAPI(item: SetChatNameAPIRequest, user: str = fastapi.Depend
 # ==================================================
 
 
-@CHAT_ROUTE.post('/chat/getSpecChatHistory')
+@CHAT_ROUTE.post('/api/chat/getSpecChatHistory')
 async def getSpecChatHistoryAPI(item: GetSpecChatHistoryRequest, user: str = fastapi.Depends(authenticateUser)):
     rea = GetSpecChatHistoryResponse()
     handle = UserManage.getChatHandle(user)
@@ -88,7 +88,7 @@ async def getSpecChatHistoryAPI(item: GetSpecChatHistoryRequest, user: str = fas
 # ==================================================
 
 
-@CHAT_ROUTE.post('/chat/deleteChat')
+@CHAT_ROUTE.post('/api/chat/deleteChat')
 async def deleteChatAPI(item: DeleteChatRequest, user: str = fastapi.Depends(authenticateUser)):
     rea = DeleteChatResponse()
     handle = UserManage.getChatHandle(user)
@@ -102,7 +102,7 @@ async def deleteChatAPI(item: DeleteChatRequest, user: str = fastapi.Depends(aut
 # ==================================================
 
 
-@CHAT_ROUTE.post('/chat/setUserMsg')
+@CHAT_ROUTE.post('/api/chat/setUserMsg')
 async def setUserMsgAPI(item: SetUserMsgRequest, user: str = fastapi.Depends(authenticateUser)):
     rea = SetUserMsgResponse()
     handle = UserManage.getChatHandle(user)
@@ -115,7 +115,7 @@ async def setUserMsgAPI(item: SetUserMsgRequest, user: str = fastapi.Depends(aut
 # ==================================================
 
 
-@CHAT_ROUTE.post('/chat/editChatItem')
+@CHAT_ROUTE.post('/api/chat/editChatItem')
 async def editChatItemAPI(item: EditChatItemRequest, user: str = fastapi.Depends(authenticateUser)):
     rea = EditChatItemResponse()
     handle = UserManage.getChatHandle(user)
@@ -129,7 +129,7 @@ async def editChatItemAPI(item: EditChatItemRequest, user: str = fastapi.Depends
 # ==================================================
 
 
-@CHAT_ROUTE.post('/chat/getChatItem')
+@CHAT_ROUTE.post('/api/chat/getChatItem')
 async def getChatItemAPI(item: GetChatItemRequest, user: str = fastapi.Depends(authenticateUser)):
     rea = GetChatItemResponse()
     handle = UserManage.getChatHandle(user)
@@ -143,7 +143,7 @@ async def getChatItemAPI(item: GetChatItemRequest, user: str = fastapi.Depends(a
 # ==================================================
 
 
-@CHAT_ROUTE.post('/chat/deleteChatItem')
+@CHAT_ROUTE.post('/api/chat/deleteChatItem')
 async def deleteChatItemAPI(item: DeleteChatItemRequest, user: str = fastapi.Depends(authenticateUser)):
     rea = DeleteChatItemResponse()
     handle = UserManage.getChatHandle(user)
@@ -156,7 +156,7 @@ async def deleteChatItemAPI(item: DeleteChatItemRequest, user: str = fastapi.Dep
 # ==================================================
 
 
-@CHAT_ROUTE.post('/chat/getChatParams')
+@CHAT_ROUTE.post('/api/chat/getChatParams')
 async def getChatParamsAPI(item: GetChatParamsRequest, user: str = fastapi.Depends(authenticateUser)):
     rea = GetChatParamsResponse()
     handle = UserManage.getChatHandle(user)
@@ -171,7 +171,7 @@ async def getChatParamsAPI(item: GetChatParamsRequest, user: str = fastapi.Depen
 # ==================================================
 
 
-@CHAT_ROUTE.post('/chat/setChatParams')
+@CHAT_ROUTE.post('/api/chat/setChatParams')
 async def setChatParamsAPI(item: SetChatParamsRequest, user: str = fastapi.Depends(authenticateUser)):
     rea = SetChatParamsResponse()
     handle = UserManage.getChatHandle(user)
@@ -241,7 +241,7 @@ async def sseAPI(user: str = fastapi.Depends(authenticateUser)):
 # ==================================================
 
 
-@CHAT_ROUTE.post('/chat/reGenerateContent')
+@CHAT_ROUTE.post('/api/chat/reGenerateContent')
 async def reGenerateContentAPI(item: ReGenerateContentRequest, user: str = fastapi.Depends(authenticateUser)):
     rea = ReGenerateContentResponse()
     handle = UserManage.getChatHandle(user)
@@ -254,7 +254,7 @@ async def reGenerateContentAPI(item: ReGenerateContentRequest, user: str = fasta
 # ==================================================
 
 
-@CHAT_ROUTE.post('/chat/downloadChatHistory')
+@CHAT_ROUTE.post('/api/chat/downloadChatHistory')
 async def downloadChatHistoryAPI(item: DownloadChatHistoryRequest, user: str = fastapi.Depends(authenticateUser)):
     rea = DownloadChatHistoryResponse()
     handle = UserManage.getChatHandle(user)
@@ -268,7 +268,7 @@ async def downloadChatHistoryAPI(item: DownloadChatHistoryRequest, user: str = f
 # ==================================================
 
 
-@CHAT_ROUTE.post('/chat/uploadChatHistory')
+@CHAT_ROUTE.post('/api/chat/uploadChatHistory')
 async def uploadChatHistoryAPI(item: UploadChatHistoryRequest, user: str = fastapi.Depends(authenticateUser)):
     rea = UploadChatHistoryResponse()
     handle = UserManage.getChatHandle(user)
@@ -283,7 +283,7 @@ async def uploadChatHistoryAPI(item: UploadChatHistoryRequest, user: str = fasta
 # ==================================================
 
 
-@CHAT_ROUTE.post('/chat/newGhostChat')
+@CHAT_ROUTE.post('/api/chat/newGhostChat')
 async def newGhostChatAPI(item: NewGhostChatRequest, user: str = fastapi.Depends(authenticateUser)):
     rea = NewGhostChatResponse()
     handle = UserManage.getChatHandle(user)
@@ -298,7 +298,7 @@ async def newGhostChatAPI(item: NewGhostChatRequest, user: str = fastapi.Depends
 # ==================================================
 
 
-@CHAT_ROUTE.post('/chat/sync')
+@CHAT_ROUTE.post('/api/chat/sync')
 async def chatSyncAPI(request: fastapi.requests.Request, user: str = fastapi.Depends(authenticateUser)):
     rea = ChatSyncAPIsAPIResponse()
     handle = UserManage.getChatHandle(user)

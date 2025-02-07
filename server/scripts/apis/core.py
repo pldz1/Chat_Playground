@@ -2,17 +2,17 @@ import os
 import fastapi
 import uvicorn
 
-from .user import USER_ROUTE
-from .chat import CHAT_ROUTE
+# from .user import USER_ROUTE
+# from .chat import CHAT_ROUTE
 from .app import APP_ROUTE
 
 from scripts.libs import CONF
 
 app = fastapi.FastAPI()
 # 挂载路由
-app.include_router(USER_ROUTE)
-app.include_router(CHAT_ROUTE)
-# app.include_router(APP_ROUTE)
+# app.include_router(USER_ROUTE)
+# app.include_router(CHAT_ROUTE)
+app.include_router(APP_ROUTE)
 
 
 def startDevMode():

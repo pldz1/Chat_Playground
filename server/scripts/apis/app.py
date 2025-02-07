@@ -1,21 +1,20 @@
-'''
-##### 处理WEB的路由请求 发送跳转的response.
-'''
-
 import fastapi
-from fastapi.responses import RedirectResponse
 
+from scripts.typedefs import T_Login_Request, T_Login_Response
 
 APP_ROUTE = fastapi.APIRouter()
 
 
-@APP_ROUTE.get('/login')
-async def loginRedirAPI():
-    '''通知 WEB 跳转到登录界面'''
-    return RedirectResponse(url="/login")
-
-
-@APP_ROUTE.get('/chat')
-async def loginRedirAPI():
-    '''通知 WEB 跳转到对话界面'''
-    return RedirectResponse(url="/chat")
+@APP_ROUTE.post('/api/v1/login')
+async def loginAPI(data: T_Login_Request):
+    '''
+    简单的登录逻辑
+    '''
+    res = T_Login_Response()
+    if(data.user != data.password):
+        res.flag = False
+    else:
+        res.flag = True
+        res.log = "Login successfully."
+        return res
+    

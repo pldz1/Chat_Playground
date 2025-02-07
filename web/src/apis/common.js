@@ -14,7 +14,7 @@ export async function apiRequest(method, endpoint, body = {}) {
   try {
     const response = await axios({
       method: method,
-      url: `${endpoint}`,
+      url: `/api${endpoint}`,
       data: body,
       headers: StoreHelper.getHeaders(),
       timeout: 10000,

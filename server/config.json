@@ -1,6 +1,10 @@
 {
   "host": "127.0.0.1",
   "port": 10088,
+  "administrator": {
+    "user": "admin",
+    "password": "admin"
+  },
   "isExeEnv": true,
   "isEncryptedApiParamsList": false,
   "encryptData": "",

@@ -1,8 +1,5 @@
 import { apiRequest } from "./common.js";
 
-/** FUNNY API 面登录环境用的API */
-export const isExeEnvAPI = () => apiRequest("get", "/isExeEnv");
-
 /** 开始登录 */
 export const loginAPI = () => apiRequest("post", "/login", { data: "" });
 

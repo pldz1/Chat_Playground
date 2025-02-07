@@ -26,17 +26,17 @@ import { showMessage } from "@/utils/custom-message.js";
 const isShowSidebar = ref(true);
 const store = useStore();
 const router = useRouter();
-const isLogged = computed(() => store.state.user.isLogged);
+// const isLogged = computed(() => store.state.user.isLogged);
 
 /** ====================== 下面定义函数 ====================== */
 onMounted(async () => {
-  if (!isLogged.value) {
-    showMessage("error", "请先登录！");
-    // 回到登录界面
-    router.push({
-      path: "/",
-    });
-  }
+  // if (!isLogged.value) {
+  //   showMessage("error", "请先登录！");
+  //   // 回到登录界面
+  //   router.push({
+  //     path: "/",
+  //   });
+  // }
 });
 
 /** 根据子组件的信号来控制显示或者隐藏侧边栏 */

@@ -1,68 +1,55 @@
 <template>
   <div class="home-login-container">
-    <div class="container" v-loading="isLoading">
+    <div class="container">
       <!-- header -->
-      <h1>Welcome back</h1>
+      <h1 class="title">Welcome back</h1>
       <!-- userName & password -->
       <div class="form-group">
-        <input v-model="userName" required />
-        <label>User name*</label>
+        <input class="form-input" v-model="userName" required />
+        <label class="form-label">User name*</label>
       </div>
       <div class="form-group">
-        <input type="password" v-model="password" required />
-        <label>Password*</label>
+        <input class="form-input" type="password" v-model="password" required />
+        <label class="form-label">Password*</label>
       </div>
       <!-- login button -->
-      <button @click="onLogin">Login</button>
+      <button class="btn btn-success login-b-w" @click="onLogin">Login</button>
 
       <div class="or"><span>OR</span></div>
       <!-- sign in -->
-      <a @click.prevent="onToDoButton">Don't have an account? <strong>Click here</strong></a>
+      <a class="a-tips" @click.prevent="onToDoButton">Don't have an account? <strong>Click here</strong></a>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { isExeEnvAPI } from "../../apis/user.js";
-import { login } from "@/services/user/common.js";
-import { showMessage } from "@/utils/custom-message.js";
-
+import { loginAPI } from "@/apis/app-api.js";
+import { showDaisyAlert } from "@/utils/daisy-ui-alert.js";
+import { showDaisyLoading, hiddenDaisyLoading } from "@/utils/daisy-ui-loading.js";
 const router = useRouter();
 
-const userName = ref("");
-const password = ref("");
-const isLoading = ref(false);
-
-/** ====================== 下面定义函数 ====================== */
-onMounted(async () => {
-  const res = await isExeEnvAPI();
-
-  const flag = res.flag ? await login(res.userName, res.userName) : await login();
-
-  if (flag) {
-    router.push({
-      path: (res.flag ? res.userName : userName.value) === "admin" ? "/admin" : "/chat",
-    });
-  }
-});
+const userName = ref("admin");
+const password = ref("admin");
 
 /** 判断用户身份然后登录到应用中，并存入全局的身份信息. */
 const onLogin = async () => {
   // 限制操作
-  isLoading.value = true;
-  var flag = await login(userName.value, password.value);
-  // 登录成功
-  if (!flag) return;
+  showDaisyLoading();
+  const res = await loginAPI(userName.value, password.value);
+  if (!res.flag) {
+    showDaisyAlert({ type: "error", message: `Login failed: ${res.log}` });
+    hiddenDaisyLoading();
+    return;
+  }
 
-  router.push({
-    path: userName.value == "admin" ? "/admin" : "/chat",
-  });
-  isLoading.value = false;
+  showDaisyAlert({ type: "success", message: `Login successfully!` });
+  router.push({ path: "/chat" });
+  hiddenDaisyLoading();
 };
 
 const onToDoButton = () => {
-  showMessage("info", "联系管理员获得登录凭证 😋");
+  showDaisyAlert({ type: "info", message: "This is a test function which is waiting for further development! 😄" });
 };
 </script>
