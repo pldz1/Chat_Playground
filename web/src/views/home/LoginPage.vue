@@ -26,8 +26,8 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { loginAPI } from "@/apis/app-api.js";
-import { showDaisyAlert } from "@/utils/daisy-ui-alert.js";
-import { showDaisyLoading, hiddenDaisyLoading } from "@/utils/daisy-ui-loading.js";
+import { dsAlert } from "@/utils/daisy-ui/alert.js";
+import { dsLoading } from "@/utils/daisy-ui/loading.js";
 const router = useRouter();
 
 const userName = ref("admin");
@@ -36,20 +36,20 @@ const password = ref("admin");
 /** 判断用户身份然后登录到应用中，并存入全局的身份信息. */
 const onLogin = async () => {
   // 限制操作
-  showDaisyLoading();
+  dsLoading(true);
   const res = await loginAPI(userName.value, password.value);
   if (!res.flag) {
-    showDaisyAlert({ type: "error", message: `Login failed: ${res.log}` });
-    hiddenDaisyLoading();
+    dsAlert({ type: "error", message: `Login failed: ${res.log}` });
+    dsLoading(false);
     return;
   }
 
-  showDaisyAlert({ type: "success", message: `Login successfully!` });
+  dsAlert({ type: "success", message: `Login successfully!` });
   router.push({ path: "/chat" });
-  hiddenDaisyLoading();
+  dsLoading(false);
 };
 
 const onToDoButton = () => {
-  showDaisyAlert({ type: "info", message: "This is a test function which is waiting for further development! 😄" });
+  dsAlert({ type: "info", message: "This is a test function which is waiting for further development! 😄" });
 };
 </script>

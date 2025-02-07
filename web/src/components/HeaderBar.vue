@@ -3,17 +3,17 @@
     <!-- 显示 对话(chat) 的列表的头部 -->
     <div v-if="props.chatList" class="chat-list" id="component-header-bar-chat-list">
       <!-- 展开或者折叠 对话(chat) 列表 -->
-      <el-tooltip content="展开(关闭)侧边栏" placement="bottom" :show-after="500">
-        <el-button class="button" @click="onShowSidebar">
+      <div class="tooltip tooltip-right" data-tip="展开(关闭)侧边栏">
+        <button class="btn cw" @click="onShowSidebar">
           <div class="svg-icon" v-html="sildbarIcon"></div>
-        </el-button>
-      </el-tooltip>
+        </button>
+      </div>
       <!-- 新建一个 对话(chat) -->
-      <el-tooltip content="新建对话" placement="bottom" :show-after="500">
-        <el-button class="button" @click="onNewChat">
+      <div class="tooltip tooltip-right" data-tip="新建对话">
+        <button class="btn cw" @click="onNewChat">
           <div class="svg-icon" v-html="newChatIcon"></div>
-        </el-button>
-      </el-tooltip>
+        </button>
+      </div>
     </div>
 
     <div class="chat-model-info" v-if="props.chatModelInfo">
@@ -70,8 +70,8 @@ const onShowSidebar = () => {
   if (chatListEl.style.justifyContent === "flex-start") {
     chatListEl.style.backgroundColor = "#f9f9f9";
     chatListEl.style.justifyContent = "space-between";
-    chatListEl.style.width = "calc(var(--header-bar-chat-list-width) - 16px)";
-    if (chatCardEl) chatCardEl.style.width = "calc(100% - var(--header-bar-chat-list-width))";
+    chatListEl.style.width = "calc(232px - 16px)";
+    if (chatCardEl) chatCardEl.style.width = "calc(100% - 232px)";
     emits("on-show-chat-list", true);
   } else {
     chatListEl.style.justifyContent = "flex-start";

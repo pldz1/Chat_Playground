@@ -1,7 +1,7 @@
 // 定义 loading 元素的 ID
 const loadingElId = "custom-daisy-ui-loading";
 
-export function showDaisyLoading() {
+function showdsLoading() {
   const el = document.getElementById(loadingElId);
   if (el) return;
 
@@ -15,10 +15,16 @@ export function showDaisyLoading() {
   document.body.appendChild(loading);
 }
 
-export function hiddenDaisyLoading() {
+function hiddendsLoading() {
   const el = document.querySelector(`.${loadingElId}`);
   // 如果找到了该元素，则将其从页面中移除
   if (el) {
     el.remove();
   }
+}
+
+/** 根据变量来显示/隐藏loading */
+export function dsLoading(trigger) {
+  if (trigger) showdsLoading();
+  else hiddendsLoading();
 }

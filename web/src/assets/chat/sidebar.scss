@@ -1,9 +1,8 @@
 .chat-sidebar-container {
-  --height: calc(100% - var(--header-bar-height));
-  height: var(--height);
-  max-height: var(--height);
-  width: var(--header-bar-chat-list-width);
-  max-width: var(--header-bar-chat-list-width);
+  height: calc(100% - 48px);
+  max-height: calc(100% - 48px);
+  width: 232px;
+  max-width: 232px;
   background-color: #f9f9f9;
 
   .chats {

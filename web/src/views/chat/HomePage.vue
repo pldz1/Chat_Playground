@@ -4,11 +4,11 @@
     <HeaderBar :chat-list="true" :chat-model-info="true" @on-show-chat-list="onShowSidebar"></HeaderBar>
     <div class="content">
       <!-- Settings overlay -->
-      <SettingsCard />
+      <!-- <SettingsCard /> -->
       <!-- Sidebar -->
-      <SidebarCard v-if="isShowSidebar" />
+      <!-- <SidebarCard v-if="isShowSidebar" /> -->
       <!-- Chat main worksapce -->
-      <div class="chat-card" id="global-chat-card"><ChatCard /></div>
+      <!-- <div class="chat-card" id="global-chat-card"><ChatCard /></div> -->
     </div>
   </div>
 </template>
@@ -63,7 +63,7 @@ const onShowSidebar = (val) => {
     flex-direction: row;
 
     .chat-card {
-      width: calc(100% - var(--header-bar-chat-list-width));
+      width: calc(100% - 232px);
       height: 100%;
     }
   }

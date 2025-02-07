@@ -26,7 +26,7 @@ const defaultClasses = {
  * @param {number} [options.duration=3000] 显示持续时间（单位：毫秒）
  * @param {HTMLElement} [options.container=null] 挂载的容器元素
  */
-export function showDaisyAlert({ type = "info", message = "", icon = "", duration = 3000, container = null } = {}) {
+export function dsAlert({ type = "info", message = "", icon = "", duration = 3000, container = null } = {}) {
   // 如果用户没有自定义 icon，则使用默认 icon
   const iconHTML = icon || defaultIcons[type] || "";
 

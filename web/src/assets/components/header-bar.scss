@@ -3,8 +3,8 @@
   left: 0px;
   top: 0px;
   width: 100%;
-  height: var(--header-bar-height);
-  max-height: var(--header-bar-height);
+  height: 48px;
+  max-height: 48px;
 
   display: flex;
   flex-direction: row;
@@ -12,13 +12,26 @@
 
   .chat-list {
     position: relative;
-    height: calc(100% - 16px);
-    width: calc(var(--header-bar-chat-list-width) - 16px);
+    height: 48px;
+    width: calc(232px - 16px);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 8px;
     background-color: #f9f9f9;
+
+    .cw {
+      height: 32px;
+      width: 32px;
+      min-height: 32px;
+      background-color: #f9f9f9;
+      box-shadow: initial;
+      border-color: transparent;
+
+      &:hover {
+        background-color: #d2d2d2;
+      }
+    }
   }
 
   .chat-model-info {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { showDaisyAlert } from "@/utils/daisy-ui-alert";
+import { dsAlert } from "@/utils/daisy-ui/alert.js";
 
 export const SHORTTIME = 2000;
 export const LONGTIME = 10000;
@@ -27,10 +27,10 @@ export async function apiRequest(method, endpoint, body = {}) {
     if (error.code === "ECONNABORTED") {
       const msg = "Request timeout!";
       console.error(msg);
-      showDaisyAlert({ type: "error", message: msg });
+      dsAlert({ type: "error", message: msg });
     } else {
       console.error(error.message);
-      showDaisyAlert({ type: "error", message: error.message });
+      dsAlert({ type: "error", message: error.message });
     }
     return { data: error.message || "Request failed!" };
   }
