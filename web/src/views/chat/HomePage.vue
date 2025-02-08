@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <!-- 头部 -->
-    <HeaderBar :chat-list="true" :chat-model-info="true" @on-show-chat-list="onShowSidebar"></HeaderBar>
+    <HeaderBar @on-show-chat-list="onShowSidebar"></HeaderBar>
     <div class="content">
       <!-- Settings overlay -->
       <!-- <SettingsCard /> -->
@@ -17,7 +17,7 @@
 import SettingsCard from "./SettingsCard.vue";
 import SidebarCard from "./SidebarCard.vue";
 import ChatCard from "./ChatCard.vue";
-import HeaderBar from "@/components/HeaderBar.vue";
+import HeaderBar from "./HeaderBar.vue";
 import { ref, onMounted, computed } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";

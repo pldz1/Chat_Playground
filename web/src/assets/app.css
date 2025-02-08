@@ -1,7 +1,6 @@
 @import "./components/message-box.scss";
 @import "./components/message.scss";
 @import "./components/markdown.scss";
-@import "./components/header-bar.scss";
 @import "./components/option-dropdown.scss";
 @import "./components/chat-input-area.scss";
 
