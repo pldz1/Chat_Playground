@@ -16,7 +16,6 @@
 </template>
 
 <script setup>
-import { defineEmits, defineProps } from "vue";
 import { optionsIcon } from "@/assets/image/chat-opt-svgs.js";
 
 const props = defineProps({

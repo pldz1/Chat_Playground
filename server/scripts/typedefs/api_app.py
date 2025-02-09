@@ -4,7 +4,7 @@ class T_Login_Request(BaseModel):
     '''
     登录接口请求内容的结构
     '''
-    user: str = ''
+    username: str = ''
     password: str = ''
 
 

@@ -1,6 +1,6 @@
-from .core import runDev, runWithStatics
+from .core import run_dev, run_main
 
 __all__ = [
-    'runDev',
-    'runWithStatics'
+    'run_dev',
+    'run_main'
 ]

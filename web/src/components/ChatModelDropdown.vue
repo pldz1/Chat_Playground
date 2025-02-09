@@ -5,14 +5,20 @@
       <div v-html="downIcon"></div>
     </div>
     <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-      <li><a>Item 1</a></li>
-      <li><a>Item 2</a></li>
+      <li v-for="model in chatModels" :key="model.id">
+        <a>{{ model.name }}</a>
+      </li>
     </ul>
   </div>
 </template>
 
 <script setup>
+import { computed } from "vue";
+import { useStore } from "vuex";
 import { downIcon } from "@/assets/image/global-svgs";
+
+const store = useStore();
+const chatModels = computed(() => store.state.user.chatModels);
 </script>
 
 <style lang="scss" scoped>

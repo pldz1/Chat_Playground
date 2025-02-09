@@ -9,7 +9,7 @@
         </button>
       </div>
       <!-- 新建一个 对话(chat) -->
-      <div class="tooltip tooltip-right" data-tip="新建对话">
+      <div class="tooltip tooltip-bottom" data-tip="新建对话">
         <button class="btn btn-wh1 btn-color1" @click="onNewChat">
           <div class="svg-icon" v-html="newChatIcon"></div>
         </button>
@@ -18,8 +18,11 @@
 
     <!-- 对话模型信息 -->
     <div class="chat-model-info">
-      <ChatModelDropdown></ChatModelDropdown>
-      <div class="tooltip tooltip-right" data-tip="设置模型参数">
+      <!-- <ChatModelDropdown></ChatModelDropdown> -->
+      <select class="select select-bordered w-full max-w-xs" v-model="currentChatModel">
+        <option v-for="model in chatModels" :key="model.name">{{ model.name }}</option>
+      </select>
+      <div class="tooltip tooltip-bottom" data-tip="设置模型参数">
         <button class="btn btn-wh1 btn-color1" @click="onShowSettings">
           <div class="svg-icon" v-html="settingsIcon"></div>
         </button>
@@ -28,19 +31,24 @@
     <!-- 控制主题 -->
     <ThemeController class="theme-controller"></ThemeController>
     <!-- 用户管理界面 -->
-    <AvatarCard class="avatar-pos"></AvatarCard>
+    <AvatarCard class="avatar-pos" onclick="global_user_setting.showModal()"></AvatarCard>
+    <UserHomeCard></UserHomeCard>
   </div>
 </template>
 
 <script setup>
-import { defineEmits, computed } from "vue";
+import { ref, computed } from "vue";
 import { useStore } from "vuex";
 
-import ChatModelDropdown from "@/components/ChatModelDropdown.vue";
 import ThemeController from "@/components/ThemeController.vue";
 import AvatarCard from "@/components/AvatarCard.vue";
+import UserHomeCard from "../user/UserHomeCard.vue";
 
 import { sildbarIcon, newChatIcon, settingsIcon } from "@/assets/image/chat-svgs.js";
+
+const store = useStore();
+const chatModels = computed(() => store.state.user.chatModels);
+const currentChatModel = computed(() => chatModels.value[0] || null);
 
 const emits = defineEmits(["on-show-chat-list"]);
 
@@ -62,18 +70,12 @@ const onShowSidebar = () => {
 };
 
 /** onNewChat 向父组件发送要新建对话的信号 */
-const onNewChat = () => {
-  store.commit("SET_CHATCID", "");
-};
+const onNewChat = () => {};
 
 /** 显示对话的编辑弹窗 chat-settings-overlay */
-const onShowSettings = () => {
-  store.commit("SET_CHAT_SHOWSETTINGUI", true);
-};
+const onShowSettings = () => {};
 
-const onShowUserSettingOverlay = () => {
-  store.commit("SET_USER_SHOWSETTINGUI", true);
-};
+const onShowUserSettingOverlay = () => {};
 </script>
 
 <style lang="scss" scoped>
@@ -82,7 +84,7 @@ const onShowUserSettingOverlay = () => {
   left: 0px;
   top: 0px;
   width: 100vw;
-  height: 48px;
+  height: 100%;
   max-height: 48px;
   background-color: oklch(var(--b1));
 
@@ -129,11 +131,18 @@ const onShowUserSettingOverlay = () => {
   .chat-model-info {
     position: relative;
     height: 36px;
-    width: 240px;
+    width: 320px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
+
+    .select {
+      width: 268px;
+      height: 36px;
+      min-width: 0px;
+      min-height: 0px;
+    }
   }
 }
 </style>

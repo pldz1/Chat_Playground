@@ -3,3 +3,5 @@ uvicorn[standard]
 openai
 tiktoken
 pywebview
+aiohttp
+aiosqlite

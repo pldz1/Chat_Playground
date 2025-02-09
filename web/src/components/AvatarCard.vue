@@ -1,12 +1,21 @@
 <template>
-  <div class="avatar online placeholder" @click="onShowUserSettingOverlay">
-    <div class="bg-neutral text-neutral-content rounded-full hb-wh2">
-      <span class="text-xl">AI</span>
+  <div class="tooltip tooltip-bottom" data-tip="用户设置">
+    <div class="avatar placeholder" :class="{ online: isLoggedIn, offline: !isLoggedIn }" @click="onShowUserSettingOverlay">
+      <div class="bg-neutral text-neutral-content rounded-full hb-wh2">
+        <span class="text-xl">{{ username }}</span>
+      </div>
     </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { computed } from "vue";
+import { useStore } from "vuex";
+
+const store = useStore();
+const username = computed(() => (store.state.user.username ? store.state.user.username.slice(0, 2).toUpperCase() : "无"));
+const isLoggedIn = computed(() => store.state.user.isLoggedIn);
+</script>
 
 <style lang="scss" scoped>
 .avatar {

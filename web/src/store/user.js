@@ -3,10 +3,10 @@ export const UserState = {
    * 当前的用户名称
    * @type {string}
    */
-  name: "",
+  username: "",
 
   /**
-   * 当前的用户名称
+   * 当前的用户客户端id
    * @type {string}
    */
   uid: "",
@@ -22,11 +22,17 @@ export const UserState = {
    * @type {string}
    */
   basicAuth: "",
+
   /**
    * 是否处于登录状态
    * @type {boolean}
    */
-  isLogged: false,
+  isLoggedIn: false,
+
+  /**
+   * 能使用的对话模型全部列表
+   */
+  chatModels: [],
 
   /**
    * 显示设置用户信息的弹框
@@ -76,7 +82,7 @@ export const UserState = {
    * @param {string} data - name。
    */
   setUserName(data) {
-    this.name = data;
+    this.username = data;
   },
 
   /**
@@ -91,8 +97,16 @@ export const UserState = {
    * 设置当前登录的状态
    * @param {boolean} data - 状态
    */
-  setLoginState(data) {
-    this.isLogged = data;
+  setIsLoggedIn(data) {
+    this.isLoggedIn = data;
+  },
+
+  /**
+   * 设置对话模型
+   * @param {Array} data - 状态
+   */
+  setChatModels(data) {
+    this.chatModels = data;
   },
 
   setUid(data) {
