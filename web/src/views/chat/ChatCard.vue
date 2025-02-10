@@ -1,32 +1,17 @@
 <template>
-  <div class="chat-container">
-    <div class="roles-card" v-if="isShowRoleCard">
-      <RolesCard />
+  <div class="chat-card-container">
+    <!-- 显示markdown的问答区域 -->
+    <div class="ccdc-messages-container" ref="scrollbarRef">
+      <div id="chat-messages-container" class="cccd-scroll-window" ref="innerRef"></div>
     </div>
-    <!-- Message Output -->
-    <el-scrollbar class="scroll-window" ref="scrollbarRef">
-      <div id="chat-messages-container" ref="innerRef"></div>
-    </el-scrollbar>
-    <!-- Message Input -->
-    <div class="chat-input-area">
+    <!-- 输入问题 -->
+    <div class="cccd-input-area">
       <ChatInputArea :is-chatting="isChatting" @on-send="onSendContent"></ChatInputArea>
     </div>
-
-    <div class="chat-sticker" v-if="!isShowRoleCard">
-      <div class="sticker-button" v-html="chatToTopIcon" @click="setScrollToTop"></div>
-      <div class="sticker-button" v-html="chatToBottomIcon" @click="setScrollToBottom"></div>
-    </div>
   </div>
-  <!-- item editor ovelay -->
-  <TextEditor />
-  <UserSettings />
 </template>
 
 <script setup>
-import { chatToBottomIcon, chatToTopIcon } from "@/assets/image/chat-svgs.js";
-import TextEditor from "@/components/TextEditor.vue";
-import RolesCard from "./RolesCard.vue";
-import UserSettings from "../home/UserSettings.vue";
 import chatCardHandler from "@/services/chat/card.js";
 import ChatInputArea from "@/components/ChatInputArea.vue";
 
@@ -97,14 +82,7 @@ const setScrollToTop = async () => {
 </script>
 
 <style lang="scss" scoped>
-.scroll-window :deep(.el-button) {
-  margin-left: 0px !important;
-  padding: 0px !important;
-}
-</style>
-
-<style lang="scss" scoped>
-.chat-container {
+.chat-card-container {
   position: relative;
   left: 0px;
   right: 0px;
@@ -112,28 +90,19 @@ const setScrollToTop = async () => {
   height: 100%;
   padding: 8px;
 
-  .roles-card {
+  .ccdc-messages-container {
     position: absolute;
     left: 10%;
-    top: 40%;
-    height: fit-content;
-    max-height: 600px;
-    width: 880px;
-    max-width: 1000px;
-    display: flex;
-    flex-wrap: wrap;
-    align-content: center;
-    z-index: 2001;
-  }
-
-  .scroll-window {
-    position: absolute;
-    left: 10%;
-    height: calc(100% - 168px);
-    max-height: calc(100% - 168px);
     width: 80%;
     max-width: 80%;
+    height: calc(100% - 148px);
     z-index: 100;
+  }
+
+  .cccd-scroll-window {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
 
     .user {
       display: flex;
@@ -258,56 +227,13 @@ const setScrollToTop = async () => {
     }
   }
 
-  .chat-input-area {
+  .cccd-input-area {
     position: absolute;
-    bottom: 66px;
+    bottom: 10px;
     left: 10%;
     width: 80%;
     max-width: 80%;
     z-index: 101;
-  }
-
-  .chat-sticker {
-    position: sticky;
-    left: calc(95% - 10px);
-    top: calc(50% - 60px);
-    display: flex;
-    width: 32px;
-    height: 80px;
-    flex-direction: column;
-    gap: 16px;
-    padding: 4px;
-    border-radius: 16px;
-    border: 1px solid #e3e3e3;
-
-    .sticker-button {
-      height: 32px;
-      width: 32px;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .sticker-button:hover {
-      background-color: #e3e3e3;
-    }
-  }
-
-  .c-label {
-    font-size: 12px;
-    color: #4d4d4d;
-    padding: 8px 4px;
-    display: inline-block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .c-switch {
-    --el-switch-on-color: #10a37f;
-    --el-switch-off-color: #e3e3e3;
-    --el-switch-border-color: "transparent";
   }
 }
 </style>

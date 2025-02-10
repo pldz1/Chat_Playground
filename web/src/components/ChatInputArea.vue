@@ -208,4 +208,8 @@ onBeforeUnmount(() => {
     }
   }
 }
+
+.ccia-imgs-area::-webkit-scrollbar {
+  height: 4px;
+}
 </style>

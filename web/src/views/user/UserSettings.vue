@@ -88,7 +88,7 @@ const onDeleteChatModels = async (index) => {
 
 const addChatModel = async () => {
   const tmpChatModels = [...chatModels.value];
-  tmpChatModels.push({ name: "新增模型", type: "", endPoint: "", apiKey: "", deployment: "" });
+  tmpChatModels.push({ name: "新增模型", type: "", baseURL: "", apiKey: "", deployment: "" });
   store.dispatch("setChatModels", tmpChatModels);
   await setChatModelsAPI(username.value, JSON.stringify(tmpChatModels));
 };

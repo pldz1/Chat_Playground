@@ -36,10 +36,10 @@
 
           <!-- 模型终节点 -->
           <div class="model-item-row">
-            <div class="model-item-label">End point:</div>
+            <div class="model-item-label">Base URL/End point:</div>
             <div class="model-item-content">
               <label class="input input-bordered flex items-center gap-2">
-                <input type="text" class="grow" placeholder="" v-model="model.endPoint" />
+                <input type="text" class="grow" placeholder="" v-model="model.baseURL" />
               </label>
             </div>
           </div>
@@ -59,7 +59,7 @@
 
           <!-- 部署的模型 -->
           <div class="model-item-row">
-            <div class="model-item-label">Model/Deployment:</div>
+            <div class="model-item-label">Deployment/Model:</div>
             <div class="model-item-content">
               <label class="input input-bordered flex items-center gap-2">
                 <input type="text" class="grow" placeholder="" v-model="model.deployment" />
@@ -82,7 +82,7 @@ const emit = defineEmits(["on-update", "on-delete"]);
 const props = defineProps({
   model: {
     type: Object,
-    default: () => ({ name: "新增模型", type: "", endPoint: "", apiKey: "", deployment: "" }),
+    default: () => ({ name: "新增模型", type: "", baseURL: "", apiKey: "", deployment: "" }),
   },
   index: {
     type: Number,

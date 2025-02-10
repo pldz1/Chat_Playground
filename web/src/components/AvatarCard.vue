@@ -17,7 +17,7 @@ const username = computed(() => (store.state.user.username ? store.state.user.us
 const isLoggedIn = computed(() => store.state.user.isLoggedIn);
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .avatar {
   height: 48px;
   width: 48px;

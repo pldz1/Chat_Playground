@@ -1,38 +1,38 @@
 <template>
   <div class="component-header-bar">
     <!-- 显示 对话(chat) 的列表的头部 -->
-    <div class="chat-list" id="component-header-bar-chat-list">
+    <div class="comphb-chat-list" id="component-header-bar-chat-list">
       <!-- 展开或者折叠 对话(chat) 列表 -->
       <div class="tooltip tooltip-right" data-tip="展开(关闭)侧边栏">
-        <button class="btn btn-wh1 btn-color1" @click="onShowSidebar">
-          <div class="svg-icon" v-html="sildbarIcon"></div>
+        <button class="btn comphb-btn-wh1 comphb-btn-color1" @click="onShowSidebar">
+          <div v-html="sildbarIcon"></div>
         </button>
       </div>
       <!-- 新建一个 对话(chat) -->
       <div class="tooltip tooltip-bottom" data-tip="新建对话">
-        <button class="btn btn-wh1 btn-color1" @click="onNewChat">
-          <div class="svg-icon" v-html="newChatIcon"></div>
+        <button class="btn comphb-btn-wh1 comphb-btn-color1" @click="onNewChat">
+          <div v-html="newChatIcon"></div>
         </button>
       </div>
     </div>
 
     <!-- 对话模型信息 -->
-    <div class="chat-model-info">
+    <div class="comphb-chat-model-info">
       <!-- <ChatModelDropdown></ChatModelDropdown> -->
       <select class="select select-bordered w-full max-w-xs" v-model="currentChatModel">
         <option v-for="model in chatModels" :key="model.name">{{ model.name }}</option>
       </select>
       <div class="tooltip tooltip-bottom" data-tip="设置模型参数">
-        <button class="btn btn-wh1 btn-color1" @click="onShowSettings">
-          <div class="svg-icon" v-html="settingsIcon"></div>
+        <button class="btn comphb-btn-wh1 comphb-btn-color1" @click="onShowSettings">
+          <div v-html="settingsIcon"></div>
         </button>
       </div>
     </div>
     <!-- 控制主题 -->
-    <ThemeController class="theme-controller"></ThemeController>
+    <ThemeController class="comphb-theme-controller"></ThemeController>
     <!-- 用户管理界面 -->
-    <AvatarCard class="avatar-pos" onclick="global_user_setting.showModal()"></AvatarCard>
-    <UserHomeCard></UserHomeCard>
+    <AvatarCard class="comphb-avatar-pos" onclick="global_user_setting.showModal()"></AvatarCard>
+    <UserSettings></UserSettings>
   </div>
 </template>
 
@@ -42,7 +42,7 @@ import { useStore } from "vuex";
 
 import ThemeController from "@/components/ThemeController.vue";
 import AvatarCard from "@/components/AvatarCard.vue";
-import UserHomeCard from "../user/UserHomeCard.vue";
+import UserSettings from "../user/UserSettings.vue";
 
 import { sildbarIcon, newChatIcon, settingsIcon } from "@/assets/image/chat-svgs.js";
 
@@ -92,7 +92,7 @@ const onShowUserSettingOverlay = () => {};
   flex-direction: row;
   align-items: center;
 
-  .btn-color1 {
+  .comphb-btn-color1 {
     background-color: oklch(var(--b1));
     box-shadow: initial;
     border-color: transparent;
@@ -102,13 +102,13 @@ const onShowUserSettingOverlay = () => {};
     }
   }
 
-  .btn-wh1 {
+  .comphb-btn-wh1 {
     height: 32px;
     width: 32px;
     min-height: 32px;
   }
 
-  .chat-list {
+  .comphb-chat-list {
     position: relative;
     height: 36px;
     width: 216px;
@@ -119,16 +119,16 @@ const onShowUserSettingOverlay = () => {};
     margin-left: 8px;
   }
 
-  .theme-controller {
+  .comphb-theme-controller {
     position: absolute;
     right: 68px;
   }
-  .avatar-pos {
+  .comphb-avatar-pos {
     position: absolute;
     right: 10px;
   }
 
-  .chat-model-info {
+  .comphb-chat-model-info {
     position: relative;
     height: 36px;
     width: 320px;

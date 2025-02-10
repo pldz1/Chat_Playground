@@ -1,5 +1,4 @@
-import { apiRequest } from "./app-api.js";
-import { dsAlert } from "@/utils/daisy-ui/alert.js";
+import { apiRequest } from "./base.js";
 
 /**
  * 发送获得对话模型的全部内容的请求
