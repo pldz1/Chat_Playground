@@ -102,3 +102,212 @@ const setScrollToTop = async () => {
   padding: 0px !important;
 }
 </style>
+
+<style lang="scss" scoped>
+.chat-container {
+  position: relative;
+  left: 0px;
+  right: 0px;
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+
+  .roles-card {
+    position: absolute;
+    left: 10%;
+    top: 40%;
+    height: fit-content;
+    max-height: 600px;
+    width: 880px;
+    max-width: 1000px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    z-index: 2001;
+  }
+
+  .scroll-window {
+    position: absolute;
+    left: 10%;
+    height: calc(100% - 168px);
+    max-height: calc(100% - 168px);
+    width: 80%;
+    max-width: 80%;
+    z-index: 100;
+
+    .user {
+      display: flex;
+      flex-direction: row-reverse;
+      width: 100%;
+      height: auto;
+      min-height: 40px;
+      border-radius: 32px;
+      margin: 4px 0px;
+
+      .user-content {
+        max-width: 60%;
+        min-width: 30%;
+        width: fit-content;
+        color: #0d0d0d;
+        display: flex;
+        flex-direction: column;
+
+        .content-area,
+        .options {
+          padding: 8px 16px;
+          width: calc(100% - 45px);
+        }
+
+        .content-area {
+          display: flex;
+          flex-direction: column;
+          border-radius: 16px;
+          padding: 8px 16px;
+          background-color: #f4f4f4;
+
+          .img-area {
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: row;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+
+            .item {
+              height: 80px;
+              width: 80px;
+              object-fit: contain;
+            }
+          }
+
+          .text {
+            width: 100%;
+            font-size: 14px;
+            color: black;
+            word-wrap: break-word;
+          }
+        }
+
+        .options {
+          border-radius: 16px;
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-end;
+          height: 24px;
+        }
+      }
+    }
+
+    .options-button {
+      display: none;
+      &.active {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        background-color: transparent;
+        border: none;
+        border-radius: 12px;
+        &:hover {
+          background-color: #939393;
+        }
+        &:active {
+          background-color: #939393;
+        }
+      }
+    }
+    .options-icon {
+      color: #4d4d4d;
+      background-color: transparent;
+      width: 16px;
+      height: 16px;
+    }
+
+    .assistant {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      height: auto;
+      min-height: 40px;
+      border-radius: 32px;
+
+      .assistant-icon {
+        color: black;
+        background-color: transparent;
+        border-radius: 16px;
+      }
+
+      .assistant-content {
+        width: calc(100% - 60px);
+        max-width: calc(100% - 60px);
+        border-radius: 16px;
+        padding: 8px 16px;
+        background-color: transparent;
+        color: #0d0d0d;
+
+        .options {
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+          width: 100%;
+          height: 24px;
+        }
+      }
+    }
+  }
+
+  .chat-input-area {
+    position: absolute;
+    bottom: 66px;
+    left: 10%;
+    width: 80%;
+    max-width: 80%;
+    z-index: 101;
+  }
+
+  .chat-sticker {
+    position: sticky;
+    left: calc(95% - 10px);
+    top: calc(50% - 60px);
+    display: flex;
+    width: 32px;
+    height: 80px;
+    flex-direction: column;
+    gap: 16px;
+    padding: 4px;
+    border-radius: 16px;
+    border: 1px solid #e3e3e3;
+
+    .sticker-button {
+      height: 32px;
+      width: 32px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sticker-button:hover {
+      background-color: #e3e3e3;
+    }
+  }
+
+  .c-label {
+    font-size: 12px;
+    color: #4d4d4d;
+    padding: 8px 4px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .c-switch {
+    --el-switch-on-color: #10a37f;
+    --el-switch-off-color: #e3e3e3;
+    --el-switch-border-color: "transparent";
+  }
+}
+</style>

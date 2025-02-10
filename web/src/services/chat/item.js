@@ -158,22 +158,22 @@ class ChatItemHelper {
 
   /** 监听剪切板的内容 开始做图像的粘贴 */
   displayImage = (base64Image) => {
-    const imgContainer = document.getElementById("chat-input-imgs");
+    const imgContainer = document.getElementById("ccia-chat-input-imgs");
     const itemElem = document.createElement("div");
-    itemElem.classList.add("item");
+    itemElem.classList.add("ccia-item");
     itemElem.addEventListener("click", () => {
       itemElem.remove();
     });
 
     const imgElement = document.createElement("img");
-    imgElement.classList.add("image");
+    imgElement.classList.add("ccia-image");
     imgElement.src = base64Image;
 
     const hoverItem = document.createElement("div");
-    hoverItem.classList.add("hover-item");
+    hoverItem.classList.add("ccia-hover-item");
 
     const deleteButtonElem = document.createElement("div");
-    deleteButtonElem.classList.add("hover-button");
+    deleteButtonElem.classList.add("ccia-hover-button");
     deleteButtonElem.innerHTML = chatDeleteImgIcon;
     hoverItem.appendChild(deleteButtonElem);
 

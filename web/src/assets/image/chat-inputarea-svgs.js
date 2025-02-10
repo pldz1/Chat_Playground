@@ -1,5 +1,5 @@
 const dalle3Icon = /*HTML*/ `<svg 
-  fill="#000000"
+  fill="currentColor"
   width="24px"
   height="24px" 
   viewBox="0 0 22 22" >
@@ -8,7 +8,7 @@ const dalle3Icon = /*HTML*/ `<svg
   ></path>
 </svg>`;
 
-const realTimeVoiceIcon = /* HTML */ `<svg fill="#000000" width="24px" height="24px" viewBox="0 0 0.72 0.72" version="1.1">
+const realTimeVoiceIcon = /* HTML */ `<svg fill="currentColor" width="24px" height="24px" viewBox="0 0 0.72 0.72" version="1.1">
   <g stroke="none" stroke-width="1" fill="none">
     <g transform="translate(-960 -144)">
       <g transform="translate(960 144)">
@@ -17,7 +17,7 @@ const realTimeVoiceIcon = /* HTML */ `<svg fill="#000000" width="24px" height="2
         />
         <path
           d="M0.36 0.075a0.045 0.045 0 0 1 0.045 0.041L0.405 0.12v0.48a0.045 0.045 0 0 1 -0.09 0.004L0.315 0.6V0.12A0.045 0.045 0 0 1 0.36 0.075m-0.12 0.09A0.045 0.045 0 0 1 0.285 0.21v0.3a0.045 0.045 0 0 1 -0.09 0V0.21A0.045 0.045 0 0 1 0.24 0.165m0.24 0A0.045 0.045 0 0 1 0.525 0.21v0.3a0.045 0.045 0 0 1 -0.09 0V0.21A0.045 0.045 0 0 1 0.48 0.165m-0.36 0.09A0.045 0.045 0 0 1 0.165 0.3v0.12a0.045 0.045 0 0 1 -0.09 0v-0.12A0.045 0.045 0 0 1 0.12 0.255m0.48 0a0.045 0.045 0 0 1 0.045 0.041L0.645 0.3v0.12a0.045 0.045 0 0 1 -0.09 0.004L0.555 0.42v-0.12A0.045 0.045 0 0 1 0.6 0.255"
-          fill="#000000"
+          fill="currentColor"
         />
       </g>
     </g>
@@ -25,7 +25,7 @@ const realTimeVoiceIcon = /* HTML */ `<svg fill="#000000" width="24px" height="2
 </svg>`;
 
 const chatAttachIcon = /*HTML*/ `<svg
-  fill="#000000"
+  fill="currentColor"
   width="24px"
   height="24px"
   viewBox="0 0 1.05 1.05"
@@ -37,7 +37,7 @@ const chatAttachIcon = /*HTML*/ `<svg
 const sendIcon = /*HTML*/ `<svg
   width="32"
   height="32"
-  fill="none"
+  fill="currentColor"
   viewBox="0 0 32 32"
   class="icon-2xl"
 >
@@ -52,7 +52,7 @@ const sendIcon = /*HTML*/ `<svg
 const pauseIcon = /*HTML*/ `<svg
   width="32"
   height="32"
-  fill="none"
+  fill="currentColor"
   viewBox="0 0 32 32"
   class="icon-lg"
 >

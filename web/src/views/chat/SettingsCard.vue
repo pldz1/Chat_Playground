@@ -170,11 +170,11 @@ const onCancleSettings = async () => {
 
 /** onStartChat 向server发送请求创建对应的对话的channel */
 const onStartChat = async () => {
-  if (chatParams.value.chatName == "") {
-    showMessage("error", "😡 Chat 的名称不能为空!");
-    return;
-  }
-  await handleSetChatParams(chatParams.value);
-  onCancleSettings();
+  // if (chatParams.value.chatName == "") {
+  //   showMessage("error", "😡 Chat 的名称不能为空!");
+  //   return;
+  // }
+  // await handleSetChatParams(chatParams.value);
+  // onCancleSettings();
 };
 </script>

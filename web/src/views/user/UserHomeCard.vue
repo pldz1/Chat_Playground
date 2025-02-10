@@ -1,14 +1,14 @@
 <template>
-  <dialog id="global_user_setting" class="modal">
-    <div class="modal-box w-11/12 max-w-5xl">
+  <dialog id="global_user_setting" class="modal global-user-setting-modal">
+    <div class="modal-box">
       <form method="dialog">
         <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
       </form>
       <!-- 标题 -->
       <h3 class="text-lg font-bold">用户设置</h3>
       <!-- 主体内容 -->
-      <div class="content">
-        <div class="menu-container">
+      <div class="gusm-content">
+        <div class="gusm-menu-container">
           <ul class="menu bg-base-200 rounded-box w-56">
             <li @click="setTabIndex(0)">
               <a
@@ -24,9 +24,9 @@
             </li>
           </ul>
         </div>
-        <div class="panel-container">
+        <div class="gusm-panel-container">
           <!-- 对话模型的设置界面 -->
-          <div v-if="tab == 0" class="chat-models">
+          <div v-if="tab == 0" class="gusm-chat-models">
             <div v-for="(chatModel, index) in chatModels">
               <ModelEditCard :index="index" :model="chatModel" @on-update="onUpdateChatModels" @on-delete="onDeleteChatModels"></ModelEditCard>
             </div>
@@ -95,26 +95,38 @@ const addChatModel = async () => {
 </script>
 
 <style lang="scss" scoped>
-.content {
-  display: flex;
-  margin-top: 16px;
-  min-height: 300px;
-  flex-direction: row;
-
-  .menu-container {
-    width: 224px;
+.global-user-setting-modal {
+  .modal-box {
+    max-width: 1024px;
+    max-height: 668px;
+    overflow: hidden;
   }
 
-  .panel-container {
+  .gusm-content {
     display: flex;
-    width: 748px;
-    padding: 8px;
-    flex-direction: column;
+    margin-top: 16px;
+    min-height: 300px;
+    max-height: 516px;
+    max-width: 976px;
+    flex-direction: row;
+    overflow-y: auto;
 
-    .chat-models {
-      gap: 8px;
+    .gusm-menu-container {
+      width: 224px;
+    }
+
+    .gusm-panel-container {
       display: flex;
+      width: 748px;
+      padding: 8px;
       flex-direction: column;
+      overflow-y: auto;
+
+      .gusm-chat-models {
+        gap: 8px;
+        display: flex;
+        flex-direction: column;
+      }
     }
   }
 }

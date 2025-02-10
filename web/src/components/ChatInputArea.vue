@@ -1,39 +1,37 @@
 <template>
   <div class="component-chat-input-area" id="component-chat-input-area">
-    <div class="input-card">
-      <div class="input-area">
-        <div class="imgs" id="chat-input-imgs"></div>
+    <div class="ccia-input-card">
+      <div class="ccia-input-area">
+        <div class="ccia-imgs-area" id="ccia-chat-input-imgs"></div>
         <textarea
           v-model="inputText"
-          class="textarea custom-textarea"
-          type="textarea"
+          class="textarea ccia-custom-textarea"
           placeholder="Please input your question ..."
-          :autosize="{ minRows: 1, maxRows: 4 }"
           @keydown.enter="onEnterKeydown"
         ></textarea>
       </div>
 
-      <div class="input-opts">
+      <div class="ccia-input-opts">
         <!-- 丰富对话功能 -->
-        <div class="chat-opts">
-          <el-button class="opts-button" @click="uploadImageFile">
-            <div class="icon" v-html="chatAttachIcon"></div>
+        <div class="ccia-chat-opts">
+          <el-button class="ccia-opts-button" @click="uploadImageFile">
+            <div class="ccia-icon" v-html="chatAttachIcon"></div>
           </el-button>
-          <el-button class="opts-button">
-            <div class="icon" v-html="dalle3Icon"></div>
+          <el-button class="ccia-opts-button">
+            <div class="ccia-icon" v-html="dalle3Icon"></div>
           </el-button>
-          <el-button class="opts-button">
-            <div class="icon" v-html="realTimeVoiceIcon"></div>
+          <el-button class="ccia-opts-button">
+            <div class="ccia-icon" v-html="realTimeVoiceIcon"></div>
           </el-button>
         </div>
 
         <!-- 对话内容的发送或者暂停按钮位置 -->
-        <div class="chat-button">
-          <el-button class="send-button">
+        <div class="ccia-chat-button">
+          <el-button class="ccia-send-button">
             <!-- send chat button -->
-            <div v-if="!props.isChatting" :class="['svg-icon', { 'svg-icon-disable': inputText == '' }]" v-html="sendIcon"></div>
+            <div v-if="!props.isChatting" :class="['ccia-svg-icon', { 'ccia-svg-icon-disable': inputText == '' }]" v-html="sendIcon"></div>
             <!-- pause chat button -->
-            <div v-else class="svg-icon" v-html="pauseIcon"></div>
+            <div v-else class="ccia-svg-icon" v-html="pauseIcon"></div>
           </el-button>
         </div>
       </div>
@@ -84,13 +82,25 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: center;
 
-  .input-card {
+  .ccia-input-card {
     width: calc(100% - 40px);
-    background-color: #f4f4f4;
-    border-radius: 50px;
+    background-color: oklch(var(--b2));
+    border-radius: 24px;
     padding: 8px 20px;
+    min-height: 118px;
 
-    .send-button {
+    .ccia-custom-textarea {
+      padding: 8px 0px 0px 0px;
+      border: none;
+      outline: none;
+      background-color: oklch(var(--b2));
+      resize: none;
+      box-shadow: initial;
+      border-radius: initial;
+      min-height: 76px;
+    }
+
+    .ccia-send-button {
       height: 32;
       width: 32;
       border-radius: 16px;
@@ -98,90 +108,27 @@ onBeforeUnmount(() => {
       border: none;
     }
 
-    .input-area {
+    .ccia-input-area {
       width: 100%;
-      min-height: 31px;
       height: auto;
       display: flex;
       flex-direction: column;
-
-      .imgs {
-        display: flex;
-        flex-direction: row;
-        max-height: 60px;
-        gap: 6px;
-        overflow-y: hidden;
-        overflow-x: auto;
-
-        &::-webkit-scrollbar {
-          height: 8px;
-        }
-
-        &::-webkit-scrollbar-thumb {
-          background-color: #aaa;
-          border-radius: 4px;
-        }
-
-        &::-webkit-scrollbar-track {
-          background-color: #f0f0f0;
-        }
-
-        &::-webkit-scrollbar-button {
-          display: none;
-          width: 0;
-          height: 0;
-          background: transparent;
-        }
-
-        .item {
-          height: 50px;
-          width: 50px;
-
-          .image {
-            height: 50px;
-            width: 50px;
-            object-fit: contain;
-          }
-
-          .hover-item {
-            display: none;
-            position: absolute;
-
-            .hover-button {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              height: 50px;
-              width: 50px;
-            }
-          }
-
-          &:hover {
-            .image {
-              opacity: 0.7;
-            }
-            .hover-item {
-              display: block;
-            }
-          }
-        }
-      }
     }
 
-    .input-opts {
+    .ccia-input-opts {
       display: flex;
       justify-content: space-between;
       flex-direction: row;
       align-items: center;
 
-      .opts-button {
+      .ccia-opts-button {
         height: 32px;
         width: 32px;
         background-color: transparent;
         border: none;
         margin-left: 8px;
 
-        .icon {
+        .ccia-icon {
           min-width: 32px;
           min-height: 32px;
           max-width: 32px;
@@ -193,9 +140,9 @@ onBeforeUnmount(() => {
       }
     }
 
-    .svg-icon {
-      color: white;
-      background-color: black;
+    .ccia-svg-icon {
+      color: oklch(var(--bc));
+      background-color: oklch(var(--b3));
       min-width: 32px;
       min-height: 32px;
       max-width: 32px;
@@ -203,43 +150,60 @@ onBeforeUnmount(() => {
       border-radius: 16px;
     }
 
-    .svg-icon-disable {
-      color: #f4f4f4;
-      background-color: #d7d7d7;
+    .ccia-svg-icon-disable {
+      opacity: 0.4;
       min-width: 32px;
       min-height: 32px;
       border-radius: 16px;
     }
+  }
+}
+</style>
 
-    .custom-textarea {
-      padding: 8px 0px 0px 0px;
-      .el-textarea__inner {
-        border: none !important;
-        outline: none;
-        background-color: #f4f4f4;
-        resize: none !important;
-        box-shadow: initial;
-        border-radius: initial;
+<style lang="scss">
+.ccia-imgs-area {
+  display: flex;
+  flex-direction: row;
+  max-height: 60px;
+  gap: 6px;
+  max-width: 100%;
+  overflow-y: hidden;
+  overflow-x: auto;
 
-        &::-webkit-scrollbar {
-          width: 8px;
-        }
+  .ccia-item {
+    height: 50px;
+    width: 50px;
+    min-height: 50px;
+    min-width: 50px;
+    z-index: 1;
 
-        &::-webkit-scrollbar-thumb {
-          background-color: #aaa;
-          border-radius: 4px;
-        }
+    .ccia-image {
+      height: 50px;
+      width: 50px;
+      object-fit: cover;
+    }
 
-        &::-webkit-scrollbar-track {
-          background-color: #f0f0f0;
-        }
+    .ccia-hover-item {
+      display: none;
+      position: absolute;
+      z-index: 2;
 
-        &::-webkit-scrollbar-button {
-          display: none;
-          width: 0;
-          height: 0;
-          background: transparent;
-        }
+      .ccia-hover-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 50px;
+        width: 50px;
+      }
+    }
+
+    &:hover {
+      .ccia-image {
+        opacity: 0.7;
+      }
+
+      .ccia-hover-item {
+        display: block;
       }
     }
   }

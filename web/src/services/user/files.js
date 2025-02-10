@@ -9,7 +9,7 @@ const ImageMaxMBSize = 20;
 
 /** handleImageFile 处理图像文件的函数 */
 const handleImageFile = (file) => {
-  const flag = checkImageModel();
+  const flag = true;
   if (!flag) return;
   if (file) {
     const fileSizeMB = file.size / (1024 * 1024);

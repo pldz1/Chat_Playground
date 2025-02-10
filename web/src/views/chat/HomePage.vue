@@ -1,16 +1,16 @@
 <template>
-  <div class="container">
+  <div class="chat-homepage-container">
     <!-- 头部 -->
-    <div class="header">
+    <div class="chpc-header">
       <HeaderBar @on-show-chat-list="onShowSidebar"></HeaderBar>
     </div>
-    <div class="content">
+    <div class="chpc-content">
       <!-- Settings overlay -->
       <!-- <SettingsCard /> -->
       <!-- 对话侧边栏 -->
       <SidebarCard v-if="isShowSidebar" />
       <!-- Chat main worksapce -->
-      <div class="chat-card" id="global-chat-card"><ChatCard /></div>
+      <div class="chpc-chat-card" id="global-chat-card"><ChatCard /></div>
     </div>
   </div>
 </template>
@@ -61,18 +61,18 @@ const onShowSidebar = (val) => {
 </script>
 
 <style lang="scss" scoped>
-.container {
+.chat-homepage-container {
   position: relative;
   left: 0px;
   top: 0px;
   height: 100%;
   width: 100%;
 
-  .header {
+  .chpc-header {
     height: 48px;
   }
 
-  .content {
+  .chpc-content {
     position: relative;
     left: 0px;
     top: 0px;
@@ -81,7 +81,7 @@ const onShowSidebar = (val) => {
     display: flex;
     flex-direction: row;
 
-    .chat-card {
+    .chpc-chat-card {
       width: calc(100% - 232px);
       height: 100%;
     }
