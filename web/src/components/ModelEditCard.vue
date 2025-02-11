@@ -5,9 +5,9 @@
       <div class="collapse-title text-xl font-medium">
         {{ model.name }}
         <div class="model-edit">
-          <div v-html="delete18Icon" @click="deleteModel"></div>
-          <div v-if="!isEdit" @click="editModel" v-html="edit18Icon"></div>
-          <div v-else @click="editModel" v-html="save18Icon"></div>
+          <div v-html="delete18" @click="deleteModel"></div>
+          <div v-if="!isEdit" @click="editModel" v-html="edit18"></div>
+          <div v-else @click="editModel" v-html="save18"></div>
         </div>
       </div>
 
@@ -34,9 +34,9 @@
             </div>
           </div>
 
-          <!-- 模型终节点 -->
-          <div class="model-item-row">
-            <div class="model-item-label">Base URL/End point:</div>
+          <!-- OpenAI 模型的 API 连接 -->
+          <div v-if="model.type == 'OpenAI'" class="model-item-row">
+            <div class="model-item-label">Base URL:</div>
             <div class="model-item-content">
               <label class="input input-bordered flex items-center gap-2">
                 <input type="text" class="grow" placeholder="" v-model="model.baseURL" />
@@ -44,22 +44,54 @@
             </div>
           </div>
 
-          <!-- 模型API key -->
+          <!-- Azure OpenAI 模型终节点 -->
+          <div v-if="model.type == 'Azure OpenAI'" class="model-item-row">
+            <div class="model-item-label">End Point:</div>
+            <div class="model-item-content">
+              <label class="input input-bordered flex items-center gap-2">
+                <input type="text" class="grow" placeholder="" v-model="model.endpoint" />
+              </label>
+            </div>
+          </div>
+
+          <!-- 模型 API key -->
           <div class="model-item-row">
             <div class="model-item-label">API key:</div>
             <div class="model-item-content">
               <label class="input input-bordered flex items-center gap-2">
                 <input type="password" class="grow" placeholder="" v-model="model.apiKey" />
                 <button class="btn btn-outline btn-success border-none" @click="copyApiKey">
-                  <div v-html="copy16Icon"></div>
+                  <div v-html="copy16"></div>
                 </button>
               </label>
             </div>
           </div>
 
-          <!-- 部署的模型 -->
-          <div class="model-item-row">
-            <div class="model-item-label">Deployment/Model:</div>
+          <!-- Azure OpenAI 的协议版本 -->
+          <div v-if="model.type == 'Azure OpenAI'" class="model-item-row">
+            <div class="model-item-label">
+              <a class="link link-primary" herf="https://learn.microsoft.com/en-us/azure/ai-services/openai/api-version-deprecation"> API Version :</a>
+            </div>
+            <div class="model-item-content">
+              <label class="input input-bordered flex items-center gap-2">
+                <input type="text" class="grow" placeholder="" v-model="model.apiVersion" />
+              </label>
+            </div>
+          </div>
+
+          <!-- Open AI 部署的模型 -->
+          <div v-if="model.type == 'OpenAI'" class="model-item-row">
+            <div class="model-item-label">Model:</div>
+            <div class="model-item-content">
+              <label class="input input-bordered flex items-center gap-2">
+                <input type="text" class="grow" placeholder="" v-model="model.model" />
+              </label>
+            </div>
+          </div>
+
+          <!-- Azure OpenAI 的模型 -->
+          <div v-if="model.type == 'Azure OpenAI'" class="model-item-row">
+            <div class="model-item-label">Deployment:</div>
             <div class="model-item-content">
               <label class="input input-bordered flex items-center gap-2">
                 <input type="text" class="grow" placeholder="" v-model="model.deployment" />
@@ -74,15 +106,15 @@
 
 <script setup>
 import { ref, reactive, watch } from "vue";
-import { edit18Icon, save18Icon, copy16Icon, delete18Icon } from "@/assets/image/user-setting-svgs.js";
+import { edit18, save18, copy16, delete18 } from "@/assets/svg";
 
-import { dsAlert } from "@/utils/daisy-ui/alert";
+import { dsAlert } from "@/utils";
 
 const emit = defineEmits(["on-update", "on-delete"]);
 const props = defineProps({
   model: {
     type: Object,
-    default: () => ({ name: "新增模型", type: "", baseURL: "", apiKey: "", deployment: "" }),
+    default: () => ({ name: "新增模型", type: "", baseURL: "", endpoint: "", apiKey: "", model: "", deployment: "", apiVersion: "" }),
   },
   index: {
     type: Number,

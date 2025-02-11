@@ -1,4 +1,4 @@
-import store from "../store/index.js";
+import store from "../store";
 
 class StoreHelper {
   /** 设置当前的用户名 */

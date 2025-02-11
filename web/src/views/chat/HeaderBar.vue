@@ -19,8 +19,8 @@
     <!-- 对话模型信息 -->
     <div class="comphb-chat-model-info">
       <!-- <ChatModelDropdown></ChatModelDropdown> -->
-      <select class="select select-bordered w-full max-w-xs" v-model="currentChatModel">
-        <option v-for="model in chatModels" :key="model.name">{{ model.name }}</option>
+      <select class="select select-bordered w-full max-w-xs" v-model="curChatModel" @change="onSelectChatModel">
+        <option v-for="model in chatModels" :key="model" :value="model">{{ model.name }}</option>
       </select>
       <div class="tooltip tooltip-bottom" data-tip="设置模型参数">
         <button class="btn comphb-btn-wh1 comphb-btn-color1" @click="onShowSettings">
@@ -48,7 +48,7 @@ import { sildbarIcon, newChatIcon, settingsIcon } from "@/assets/image/chat-svgs
 
 const store = useStore();
 const chatModels = computed(() => store.state.user.chatModels);
-const currentChatModel = computed(() => chatModels.value[0] || null);
+const curChatModel = ref("");
 
 const emits = defineEmits(["on-show-chat-list"]);
 
@@ -74,6 +74,13 @@ const onNewChat = () => {};
 
 /** 显示对话的编辑弹窗 chat-settings-overlay */
 const onShowSettings = () => {};
+
+/**
+ * 选择当前的对话模型
+ */
+const onSelectChatModel = async () => {
+  store.dispatch("setCurChatModel", curChatModel.value);
+};
 
 const onShowUserSettingOverlay = () => {};
 </script>

@@ -6,16 +6,16 @@ export const UserState = {
   username: "",
 
   /**
+   * 当前的用户密码
+   * @type {string}
+   */
+  password: "",
+
+  /**
    * 当前的用户客户端id
    * @type {string}
    */
   uid: "",
-
-  /**
-   * 当前的用户头像 base64 的图像
-   * @type {string}
-   */
-  avatar: "",
 
   /**
    * 简单的base64加密的认证字符
@@ -33,6 +33,50 @@ export const UserState = {
    * 能使用的对话模型全部列表
    */
   chatModels: [],
+
+  /**
+   * 当前的对话模型信息
+   * @property {string} name - 模型名称，默认为 "新增模型"
+   * @property {string} type - 模型类型（"OpenAI" 或 "AzureOpenAI"）
+   * @property {string} baseURL - OpenAI 专用：API 请求的基础 URL
+   * @property {string} endpoint - Azure 专用：Azure OpenAI 的端点地址
+   * @property {string} apiKey - API 访问密钥
+   * @property {string} model - OpenAI 专用：要使用的 OpenAI 模型名称（如 "gpt-4o"）
+   * @property {string} deployment - Azure 专用：Azure OpenAI 部署名称
+   * @property {string} apiVersion - Azure 专用：Azure OpenAI 的协议版本
+   */
+  curChatModel: { name: "新增模型", type: "", baseURL: "", endpoint: "", apiKey: "", model: "", deployment: "", apiVersion: "" },
+
+  /**
+   * 设置用户登录后的信息
+   */
+  setUserLoginInfo(data) {
+    this.username = data.username;
+    this.password = data.password;
+    this.uid = data.uid;
+    this.basicAuth = "";
+  },
+
+  /**
+   * 设置当前登录的状态
+   */
+  setIsLoggedIn(data) {
+    this.isLoggedIn = data;
+  },
+
+  /**
+   * 设置对话模型
+   */
+  setChatModels(data) {
+    this.chatModels = data;
+  },
+
+  /**
+   * 设置当前模型的信息
+   */
+  setCurChatModel(data) {
+    this.curChatModel = data;
+  },
 
   /**
    * 显示设置用户信息的弹框
@@ -75,42 +119,6 @@ export const UserState = {
     isUseProxy: false,
     proxyURL: "",
     wenMarkDownRenderChars: 5,
-  },
-
-  /**
-   * 设置用户名
-   * @param {string} data - name。
-   */
-  setUserName(data) {
-    this.username = data;
-  },
-
-  /**
-   * 设置base64认证的值
-   * @param {string} data - 密文。
-   */
-  setBasicAuth(data) {
-    this.basicAuth = data;
-  },
-
-  /**
-   * 设置当前登录的状态
-   * @param {boolean} data - 状态
-   */
-  setIsLoggedIn(data) {
-    this.isLoggedIn = data;
-  },
-
-  /**
-   * 设置对话模型
-   * @param {Array} data - 状态
-   */
-  setChatModels(data) {
-    this.chatModels = data;
-  },
-
-  setUid(data) {
-    this.uid = data;
   },
 
   /**

@@ -25,7 +25,7 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { showMessage } from "@/utils/custom-message.js";
 
-import { getChatModelsAPI } from "@/apis/user-api.js";
+import { getChatModelsAPI } from "@/apis";
 import { isArrayType } from "@/utils/is-any-type.js";
 
 const isShowSidebar = ref(true);

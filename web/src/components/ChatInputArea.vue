@@ -15,13 +15,13 @@
         <!-- 丰富对话功能 -->
         <div class="ccia-chat-opts">
           <el-button class="ccia-opts-button" @click="uploadImageFile">
-            <div class="ccia-icon" v-html="chatAttachIcon"></div>
+            <div class="ccia-icon" v-html="attach24"></div>
           </el-button>
           <el-button class="ccia-opts-button">
-            <div class="ccia-icon" v-html="dalle3Icon"></div>
+            <div class="ccia-icon" v-html="dalle24"></div>
           </el-button>
           <el-button class="ccia-opts-button">
-            <div class="ccia-icon" v-html="realTimeVoiceIcon"></div>
+            <div class="ccia-icon" v-html="realTimeVoice24"></div>
           </el-button>
         </div>
 
@@ -29,9 +29,9 @@
         <div class="ccia-chat-button">
           <el-button class="ccia-send-button">
             <!-- send chat button -->
-            <div v-if="!props.isChatting" :class="['ccia-svg-icon', { 'ccia-svg-icon-disable': inputText == '' }]" v-html="sendIcon"></div>
+            <div v-if="!props.isChatting" :class="['ccia-svg-icon', { 'ccia-svg-icon-disable': inputText == '' }]" v-html="arrowUp32"></div>
             <!-- pause chat button -->
-            <div v-else class="ccia-svg-icon" v-html="pauseIcon"></div>
+            <div v-else class="ccia-svg-icon" v-html="pause32"></div>
           </el-button>
         </div>
       </div>
@@ -41,7 +41,7 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
-import { dalle3Icon, realTimeVoiceIcon, chatAttachIcon, sendIcon, pauseIcon } from "@/assets/image/chat-inputarea-svgs.js";
+import { dalle24, realTimeVoice24, attach24, arrowUp32, pause32 } from "@/assets/svg";
 import { addPasteEvent, removePasetEvent, uploadImageFile } from "@/services/user/files.js";
 
 const props = defineProps({
@@ -50,7 +50,7 @@ const props = defineProps({
     default: false,
   },
 });
-const emit = defineEmits("on-send");
+const emit = defineEmits(["on-update"]);
 const inputText = ref("");
 
 /** 输入框的按键组合键 */
@@ -59,7 +59,7 @@ const onEnterKeydown = async (event) => {
   if (event.key === "Enter" && !event.shiftKey) {
     // 阻止默认行为（换行）并发送内容
     event.preventDefault();
-    emit("on-send", inputText.value);
+    emit("on-update", inputText.value);
     inputText.value = "";
   }
 };

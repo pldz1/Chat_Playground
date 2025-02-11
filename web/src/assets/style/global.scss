@@ -1,14 +1,6 @@
-@import "./components/message-box.scss";
-@import "./components/message.scss";
-@import "./components/markdown.scss";
-@import "./components/option-dropdown.scss";
-
-@import "./chat/settings.scss";
-@import "./chat/editor.scss";
-@import "./chat/roles.scss";
-
-@import "./home/login.scss";
-@import "./home/user.scss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* 设置整个应用的默认样式 */
 html,

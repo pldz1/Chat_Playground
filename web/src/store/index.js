@@ -11,8 +11,8 @@ const state = {
 
 const mutations = {
   /** @param {state} state */
-  SET_USER_NAME(state, data) {
-    state.user.setUserName(data);
+  SET_USER_LOGIN_INFO(state, data) {
+    state.user.setUserLoginInfo(data);
   },
 
   /** @param {state} state */
@@ -24,16 +24,25 @@ const mutations = {
   SET_CHAT_MODELS(state, data) {
     state.user.setChatModels(data);
   },
+
+  /** @param {state} state */
+  SET_CUR_CHAT_MODEL(state, data) {
+    state.user.setCurChatModel(data);
+  },
 };
 
 const actions = {
-  async login({ commit }, username) {
-    commit("SET_USER_NAME", username);
+  async login({ commit }, username, password = "", uid = "") {
+    commit("SET_USER_LOGIN_INFO", { username, password, uid });
     commit("SET_LOGIN_STATE", true);
   },
 
   async setChatModels({ commit }, chatModels) {
     commit("SET_CHAT_MODELS", chatModels);
+  },
+
+  async setCurChatModel({ commit }, model) {
+    commit("SET_CUR_CHAT_MODEL", model);
   },
 };
 

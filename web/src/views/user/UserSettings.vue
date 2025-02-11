@@ -12,13 +12,13 @@
           <ul class="menu bg-base-200 rounded-box w-56">
             <li @click="setTabIndex(0)">
               <a
-                ><div v-html="chat16Icon"></div>
+                ><div v-html="chat16"></div>
                 对话模型</a
               >
             </li>
             <li @click="setTabIndex(1)">
               <a>
-                <div v-html="setting16Icon"></div>
+                <div v-html="setting16"></div>
                 软件设置
               </a>
             </li>
@@ -31,7 +31,7 @@
               <ModelEditCard :index="index" :model="chatModel" @on-update="onUpdateChatModels" @on-delete="onDeleteChatModels"></ModelEditCard>
             </div>
             <button class="btn btn-error w-52" @click="addChatModel">
-              <div v-html="add24Icon"></div>
+              <div v-html="add24"></div>
               新增模型
             </button>
           </div>
@@ -51,8 +51,8 @@
 <script setup>
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
-import { chat16Icon, setting16Icon, add24Icon } from "@/assets/image/user-setting-svgs.js";
-import { setChatModelsAPI } from "@/apis/user-api.js";
+import { chat16, setting16, add24 } from "@/assets/svg";
+import { setChatModelsAPI } from "@/apis";
 
 import ModelEditCard from "@/components/ModelEditCard.vue";
 
@@ -88,7 +88,7 @@ const onDeleteChatModels = async (index) => {
 
 const addChatModel = async () => {
   const tmpChatModels = [...chatModels.value];
-  tmpChatModels.push({ name: "新增模型", type: "", baseURL: "", apiKey: "", deployment: "" });
+  tmpChatModels.push({ name: "新增模型", type: "", baseURL: "", endpoint: "", apiKey: "", model: "", deployment: "", apiVersion: "" });
   store.dispatch("setChatModels", tmpChatModels);
   await setChatModelsAPI(username.value, JSON.stringify(tmpChatModels));
 };

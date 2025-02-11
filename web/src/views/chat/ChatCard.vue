@@ -6,7 +6,7 @@
     </div>
     <!-- 输入问题 -->
     <div class="cccd-input-area">
-      <ChatInputArea :is-chatting="isChatting" @on-send="onSendContent"></ChatInputArea>
+      <ChatInputArea :is-chatting="isChatting" @on-update="onSendContent"></ChatInputArea>
     </div>
   </div>
 </template>
@@ -16,7 +16,8 @@ import chatCardHandler from "@/services/chat/card.js";
 import ChatInputArea from "@/components/ChatInputArea.vue";
 
 import { useStore } from "vuex";
-import { ref, watch, nextTick } from "vue";
+import { ref, watch, nextTick, computed } from "vue";
+import { OpenAIClient, AzureOpenAIClient } from "@/services";
 import { showMessage, showMessageBox } from "@/utils/custom-message.js";
 
 const store = useStore();
@@ -26,6 +27,10 @@ const isShowRoleCard = ref(true);
 
 const scrollbarRef = ref();
 const innerRef = ref();
+
+const curChatModel = computed(() => store.state.user.curChatModel);
+const oiClient = new OpenAIClient("OpenAI", "", "", "");
+const aoiClient = new AzureOpenAIClient("Azure OpenAI", "", "", "", "");
 
 watch(
   () => store.state.chat.chatCid,
@@ -40,28 +45,34 @@ watch(
 
 /** 向服务器发送数据 */
 const onSendContent = async (value) => {
-  if (isChatting.value) {
-    const flag = await showMessageBox("取消继续生成对话吗?");
-    if (flag) {
-      chatCardHandler.stopChat();
-      isChatting.value = false;
-    }
-    return;
-  }
+  const { type, baseURL, endpoint, apiKey, model, deployment, apiVersion } = curChatModel.value;
+  console.log("curChatModel.value: ", curChatModel.value);
+  if (type == "OpenAI") oiClient.update(type, baseURL, apiKey, model);
+  else if (type == "Azure OpenAI") aoiClient.update(type, endpoint, apiKey, deployment, apiVersion);
 
-  // 及时清空对话框
-  var msg = value;
-  if (msg == "") {
-    showMessage("warning", "输入正确的问题");
-    return;
-  }
+  await aoiClient.chat([{ role: "user", content: [{ type: "text", text: "Hello?" }] }]);
+  // if (isChatting.value) {
+  //   const flag = await showMessageBox("取消继续生成对话吗?");
+  //   if (flag) {
+  //     chatCardHandler.stopChat();
+  //     isChatting.value = false;
+  //   }
+  //   return;
+  // }
 
-  // 请求API
-  isChatting.value = true;
+  // // 及时清空对话框
+  // var msg = value;
+  // if (msg == "") {
+  //   showMessage("warning", "输入正确的问题");
+  //   return;
+  // }
 
-  await chatCardHandler.sendChat(msg, setScrollToBottom);
-  isChatting.value = false;
-  chatCardHandler.addListener();
+  // // 请求API
+  // isChatting.value = true;
+
+  // await chatCardHandler.sendChat(msg, setScrollToBottom);
+  // isChatting.value = false;
+  // chatCardHandler.addListener();
 };
 
 /**
