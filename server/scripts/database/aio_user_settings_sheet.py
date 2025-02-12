@@ -11,6 +11,7 @@ class AIO_User_Settings_Sheet:
         - username: 用户名称（唯一）
         - chat_models: 全部的对话模型的字符串数据
         - image_models: 全部的图像模型的字符串数据
+        - rt_audio_models: 全部的实时语音模型的字符串数据
         - app_theme: 软件的主题设置
         - app_network: 对软件的网络设置的字符串数据
         '''
@@ -25,6 +26,7 @@ class AIO_User_Settings_Sheet:
                 username TEXT UNIQUE,
                 chat_models TEXT,
                 image_models TEXT,
+                rt_audio_models TEXT,
                 app_theme TEXT,
                 app_network TEXT
             )
@@ -108,6 +110,46 @@ class AIO_User_Settings_Sheet:
             await self.conn.commit()
             LOGGER.info(f"Created entry for {username} with image_models.")
             return True
+        
+    async def get_rt_audio_models(self, username: str) -> str:
+        '''
+        根据指定的用户名获取 rt_audio_models 的值
+        '''
+        cursor = await self.conn.execute(
+            f'SELECT rt_audio_models FROM {self.sheet} WHERE username = ?', (username,)
+        )
+        row = await cursor.fetchone()
+        if row:
+            LOGGER.info(f"Retrieved rt_audio_models for {username}.")
+            return row[0]
+        LOGGER.warning(f"rt_audio_models for {username} not found.")
+        return ""
+
+    async def set_rt_audio_models(self, username: str, data: str) -> bool:
+        '''
+        根据指定的用户名设置 rt_audio_models 的值
+        '''
+        cursor = await self.conn.execute(
+            f'SELECT id FROM {self.sheet} WHERE username = ?', (username,)
+        )
+        row = await cursor.fetchone()
+        if row:
+            await self.conn.execute(
+                f'UPDATE {self.sheet} SET rt_audio_models = ? WHERE username = ?',
+                (data, username)
+            )
+            await self.conn.commit()
+            LOGGER.info(f"Updated rt_audio_models for {username}.")
+            return True
+        else:
+            await self.conn.execute(
+                f'INSERT INTO {self.sheet} (username, rt_audio_models) VALUES (?, ?)',
+                (username, data)
+            )
+            await self.conn.commit()
+            LOGGER.info(f"Created entry for {username} with rt_audio_models.")
+            return True
+
 
     async def get_app_theme(self, username: str) -> str:
         '''

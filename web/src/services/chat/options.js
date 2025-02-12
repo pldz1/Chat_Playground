@@ -4,7 +4,7 @@
  * */
 
 import StoreHelper from "@/store/store-helper";
-import { textToHtml } from "@/services/md/render.js";
+import { textToHtml } from "@/utils";
 import { getContent, getUserTextMsg } from "./message";
 import { showMessage, showMessageBox } from "@/utils/custom-message.js";
 import { getChatItemAPI, deleteChatItemAPI, editChatItemAPI, reGenerateContentAPI } from "../../apis/chat.js";

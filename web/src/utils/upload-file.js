@@ -1,11 +1,33 @@
-import StoreHelper from "@/store/store-helper";
-import chatCardHandler from "../chat/card.js";
-import { checkImageModel } from "../chat/settings.js";
-import { showMessage } from "@/utils/custom-message.js";
-import { uploadChatHistory } from "../../apis/chat.js";
+import { delete32 } from "@/assets/svg";
+import { dsAlert } from "./daisy-ui-alert.js";
 
 const GlobalInputUploadEl = "gloal-file-upload-input";
 const ImageMaxMBSize = 20;
+
+const displayImage = (base64Image) => {
+  const imgContainer = document.getElementById("ccia-chat-input-imgs");
+  const itemElem = document.createElement("div");
+  itemElem.classList.add("ccia-item");
+  itemElem.addEventListener("click", () => {
+    itemElem.remove();
+  });
+
+  const imgElement = document.createElement("img");
+  imgElement.classList.add("ccia-image");
+  imgElement.src = base64Image;
+
+  const hoverItem = document.createElement("div");
+  hoverItem.classList.add("ccia-hover-item");
+
+  const deleteButtonElem = document.createElement("div");
+  deleteButtonElem.classList.add("ccia-hover-button");
+  deleteButtonElem.innerHTML = delete32;
+  hoverItem.appendChild(deleteButtonElem);
+
+  itemElem.appendChild(hoverItem);
+  itemElem.appendChild(imgElement);
+  imgContainer.appendChild(itemElem);
+};
 
 /** handleImageFile 处理图像文件的函数 */
 const handleImageFile = (file) => {
@@ -20,7 +42,7 @@ const handleImageFile = (file) => {
 
     const reader = new FileReader();
     reader.onload = (e) => {
-      chatCardHandler.displayImage(e.target.result);
+      displayImage(e.target.result);
     };
     reader.readAsDataURL(file);
   }
@@ -32,34 +54,34 @@ const onLoadImageFile = (event) => {
   handleImageFile(file);
 };
 
-/** loadChatByJsonFile 读取对话的历史记录文件 json 格式的内容 开始进行新的对话 */
-const loadChatByJsonFile = (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      try {
-        const jsonContent = JSON.parse(e.target.result);
-        // 读取到文本的内容
-        var rea = await uploadChatHistory(jsonContent);
-        if (!rea.flag) {
-          showMessage("error", `SERVER解析对话文本错误 【${rea.log}】`);
-          return;
-        }
-        // 解析成功新建对话
-        chatCardHandler.drawChatHistory(rea.history);
-        StoreHelper.setChatCid(rea.chatCid);
-        StoreHelper.setTokens(rea.tokens);
-        StoreHelper.pushChatName(rea.chatCid, "New Chat");
-      } catch (error) {
-        showMessage("error", `WEB读取JSON文件失败! 【${error}】`);
-        return;
-      }
-    };
-    // 将文件读取为文本
-    reader.readAsText(file);
-  }
-};
+// /** loadChatByJsonFile 读取对话的历史记录文件 json 格式的内容 开始进行新的对话 */
+// const loadChatByJsonFile = (event) => {
+//   const file = event.target.files[0];
+//   if (file) {
+//     const reader = new FileReader();
+//     reader.onload = async (e) => {
+//       try {
+//         const jsonContent = JSON.parse(e.target.result);
+//         // 读取到文本的内容
+//         var rea = await uploadChatHistory(jsonContent);
+//         if (!rea.flag) {
+//           showMessage("error", `SERVER解析对话文本错误 【${rea.log}】`);
+//           return;
+//         }
+//         // 解析成功新建对话
+//         chatCardHandler.drawChatHistory(rea.history);
+//         StoreHelper.setChatCid(rea.chatCid);
+//         StoreHelper.setTokens(rea.tokens);
+//         StoreHelper.pushChatName(rea.chatCid, "New Chat");
+//       } catch (error) {
+//         showMessage("error", `WEB读取JSON文件失败! 【${error}】`);
+//         return;
+//       }
+//     };
+//     // 将文件读取为文本
+//     reader.readAsText(file);
+//   }
+// };
 
 /** handleFileUpload 是通用的处理文件上传操作的函数 */
 const handleFileUpload = (acceptType, handler) => {

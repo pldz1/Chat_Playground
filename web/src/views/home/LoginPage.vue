@@ -26,7 +26,7 @@
 import { ref } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import { loginAPI } from "@/apis";
+import { login } from "@/services";
 import { dsAlert, dsLoading } from "@/utils";
 
 const store = useStore();
@@ -39,16 +39,8 @@ const password = ref("admin");
 const onLogin = async () => {
   // 限制操作
   dsLoading(true);
-  const res = await loginAPI(username.value, password.value);
-  if (!res.flag) {
-    dsAlert({ type: "error", message: `Login failed: ${res.log}` });
-    dsLoading(false);
-    return;
-  }
-
-  dsAlert({ type: "success", message: `Login successfully!` });
-  await store.dispatch("login", username.value);
-  router.push({ path: "/chat" });
+  const flag = await login(username.value, password.value);
+  if (flag) router.push({ path: "/chat" });
   dsLoading(false);
 };
 

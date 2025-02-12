@@ -7,7 +7,7 @@
           <path d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z"></path>
         </svg>
       </div>
-      <ul tabindex="0" class="dropdown-content bg-base-300 rounded-box z-[1] p-2 shadow-2xl">
+      <ul tabindex="0" class="dropdown-content bg-base-300 rounded-box p-2 shadow-2xl">
         <li>
           <input
             type="radio"
@@ -87,5 +87,9 @@ li {
   &:hover {
     background-color: oklch(var(--b2));
   }
+}
+
+.dropdown-content {
+  z-index: 201;
 }
 </style>

@@ -22,36 +22,23 @@ import ChatCard from "./ChatCard.vue";
 import HeaderBar from "./HeaderBar.vue";
 import { ref, onMounted, computed } from "vue";
 import { useStore } from "vuex";
-import { useRouter } from "vue-router";
-import { showMessage } from "@/utils/custom-message.js";
-
-import { getChatModelsAPI } from "@/apis";
-import { isArrayType } from "@/utils/is-any-type.js";
+import { dsAlert } from "@/utils";
+import { getChatModels } from "@/services";
 
 const isShowSidebar = ref(true);
 const store = useStore();
-const router = useRouter();
 
 const username = computed(() => store.state.user.username);
 const isLoggedIn = computed(() => store.state.user.isLoggedIn);
 
 /** ====================== 下面定义函数 ====================== */
 onMounted(async () => {
-  // if (!isLogged.value) {
-  //   showMessage("error", "请先登录！");
-  //   // 回到登录界面
-  //   router.push({
-  //     path: "/",
-  //   });
-  // }
-
   // 初始化获得一些用户对于对话模型的参数
-  if (!isLoggedIn.value) return;
-  const cmRes = await getChatModelsAPI(username.value);
-  if (cmRes.flag && isArrayType(cmRes.data)) {
-    const chatModels = JSON.parse(cmRes.data);
-    store.dispatch("setChatModels", chatModels);
+  if (!isLoggedIn.value) {
+    dsAlert({ type: "warn", message: "未登录, 登录获得更好体验🤣." });
+    return;
   }
+  await getChatModels(username.value);
 });
 
 /** 根据子组件的信号来控制显示或者隐藏侧边栏 */

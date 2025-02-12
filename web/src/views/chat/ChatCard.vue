@@ -16,9 +16,8 @@ import chatCardHandler from "@/services/chat/card.js";
 import ChatInputArea from "@/components/ChatInputArea.vue";
 
 import { useStore } from "vuex";
-import { ref, watch, nextTick, computed } from "vue";
-import { OpenAIClient, AzureOpenAIClient } from "@/services";
-import { showMessage, showMessageBox } from "@/utils/custom-message.js";
+import { ref, watch, nextTick, computed, onMounted } from "vue";
+import { AIGCClient, ChatDrawer } from "@/services";
 
 const store = useStore();
 
@@ -28,9 +27,17 @@ const isShowRoleCard = ref(true);
 const scrollbarRef = ref();
 const innerRef = ref();
 
+const client = new AIGCClient("chat");
+const drawer = new ChatDrawer(false);
 const curChatModel = computed(() => store.state.user.curChatModel);
-const oiClient = new OpenAIClient("OpenAI", "", "", "");
-const aoiClient = new AzureOpenAIClient("Azure OpenAI", "", "", "", "");
+
+watch(
+  () => curChatModel.value,
+  () => {
+    client.init();
+  },
+  { deep: true, immediate: true },
+);
 
 watch(
   () => store.state.chat.chatCid,
@@ -45,12 +52,9 @@ watch(
 
 /** 向服务器发送数据 */
 const onSendContent = async (value) => {
-  const { type, baseURL, endpoint, apiKey, model, deployment, apiVersion } = curChatModel.value;
-  console.log("curChatModel.value: ", curChatModel.value);
-  if (type == "OpenAI") oiClient.update(type, baseURL, apiKey, model);
-  else if (type == "Azure OpenAI") aoiClient.update(type, endpoint, apiKey, deployment, apiVersion);
+  drawer.draw([{ role: "user", content: [{ type: "text", text: "Hello?" }] }]);
+  // await client.chat([{ role: "user", content: [{ type: "text", text: "Hello?" }] }]);
 
-  await aoiClient.chat([{ role: "user", content: [{ type: "text", text: "Hello?" }] }]);
   // if (isChatting.value) {
   //   const flag = await showMessageBox("取消继续生成对话吗?");
   //   if (flag) {
@@ -90,6 +94,10 @@ const setScrollToTop = async () => {
   await nextTick();
   scrollbarRef.value.setScrollTop(0);
 };
+
+onMounted(() => {
+  drawer.init("chat-messages-container");
+});
 </script>
 
 <style lang="scss" scoped>

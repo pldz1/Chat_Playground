@@ -42,7 +42,7 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import { dalle24, realTimeVoice24, attach24, arrowUp32, pause32 } from "@/assets/svg";
-import { addPasteEvent, removePasetEvent, uploadImageFile } from "@/services/user/files.js";
+import { addPasteEvent, removePasetEvent, uploadImageFile } from "@/utils";
 
 const props = defineProps({
   isChatting: {

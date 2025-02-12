@@ -58,6 +58,42 @@ export const UserState = {
   },
 
   /**
+   * 提示内容对象
+   * @typedef {Object} PromptContent
+   * @property {"text"} type - 内容类型，例如 "text"。
+   * @property {string} text - 提示的文本内容。
+   */
+
+  /**
+   * 提示信息对象
+   * @typedef {Object} Prompt
+   * @property {"system" | "user" | "assistant"} role - 角色，例如 "system" 或 "user"。
+   * @property {PromptContent[]} content - 提示内容列表。
+   */
+
+  /**
+   * 配置聊天模型的设置参数。
+   * @property {number} passedMsgLen - 传递的消息长度。
+   * @property {Prompt[]} prompts - 提示信息列表。
+   * @property {number} max_tokens - 生成的最大 token 数。
+   * @property {number} top_p - Nucleus 采样参数（控制高概率 token 的累积概率阈值）。
+   * @property {number} temperature - 生成的随机性（较高的值使输出更随机）。
+   * @property {number} frequency_penalty - 频率惩罚系数（降低重复使用相同 token 的可能性）。
+   * @property {number} presence_penalty - 存在惩罚系数（鼓励使用新 token）。
+   * @property {string[]} stop - 生成停止的标志符列表。
+   */
+  chatModelSettings: {
+    passedMsgLen: 10,
+    prompts: [{ role: "system", content: [{ type: "text", text: "" }] }],
+    max_tokens: 800,
+    top_p: 0.95,
+    temperature: 0.7,
+    frequency_penalty: 0,
+    presence_penalty: 0,
+    stop: [],
+  },
+
+  /**
    * 设置当前登录的状态
    */
   setIsLoggedIn(data) {
@@ -76,78 +112,5 @@ export const UserState = {
    */
   setCurChatModel(data) {
     this.curChatModel = data;
-  },
-
-  /**
-   * 显示设置用户信息的弹框
-   * @type {boolean}
-   */
-  isShowUserSettings: false,
-
-  /**
-   * 当前用户的默认的对话参数
-   * @type {object}
-   */
-  userDefaultChatParams: {
-    chatName: "",
-    modelType: "",
-    modelName: "",
-    maxTokens: 0,
-    prompts: [
-      {
-        role: "system",
-        content: "You are GPT-4o a large language model of OpenAI.",
-      },
-    ],
-    tokens: 0,
-    passedMsgLen: 20,
-    maxResponseTokens: 2000,
-    temperature: 0.7,
-    topP: 0.95,
-    frequecyPenaty: 0,
-    presentPenaty: 0,
-    stopSequence: [],
-    timeout: 10,
-  },
-
-  /**
-   * 当前用户的默认的系统设置的参数
-   * @type {object}
-   */
-
-  userDefaultSettings: {
-    isUseProxy: false,
-    proxyURL: "",
-    wenMarkDownRenderChars: 5,
-  },
-
-  /**
-   * 设置是不是要显示用户设置的弹框
-   * @param {boolean} data;
-   */
-  setShowUserSettings(data) {
-    this.isShowUserSettings = data;
-  },
-
-  /**
-   * 重置当前用户的默认的对话的参数信息
-   * @param {object} data - 要更新的数据
-   */
-  resetUserDefaultChatParams(data) {
-    // 循环键值对赋值,更新对话的参数
-    Object.keys(data).forEach((key) => {
-      this.userDefaultChatParams[key] = data[key];
-    });
-  },
-
-  /**
-   * 重置当前用户的默认的系统设置的信息
-   * @param {object} data - 要更新的数据
-   */
-  resetUserDefaultSettings(data) {
-    // 循环键值对赋值,更新对话的参数
-    Object.keys(data).forEach((key) => {
-      this.userDefaultSettings[key] = data[key];
-    });
   },
 };

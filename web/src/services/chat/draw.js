@@ -1,37 +1,69 @@
-import ChatOptions from "./options.js";
-import StoreHelper from "@/store/store-helper";
-import { textToHtml } from "@/utils";
-import { renderBlock } from "@/services";
-import { assistantIcon, reRequestIcon, eidtChatItemIcon, copyMarkdownIcon, chatDeleteImgIcon } from "@/assets/image/chat-svgs.js";
-import { createEventSourceAPI } from "../../apis/chat.js";
+import { dsAlert, getUuid, textToHtml } from "@/utils";
+import { delete16, edit16, circle16 } from "@/assets/svg";
 
-class ChatItemHelper {
-  constructor() {
-    this._chatContainer = this._init();
-    /** @type {AbortController} */
-    this.ctrl = null;
+/**
+ * 提示内容对象
+ * @typedef {Object} PromptContent
+ * @property {"text" | "image_url"} type - 内容类型，例如 "text"。
+ * @property {string} text - 提示的文本内容。
+ */
+
+/**
+ * 提示信息对象
+ * @typedef {Object} Prompt
+ * @property {"system" | "user" | "assistant"} role - 角色，例如 "system" 或 "user"。
+ * @property {PromptContent[]} content - 提示内容列表。
+ */
+
+export class ChatDrawer {
+  constructor(updateStore = false) {
+    this.id = "";
+    this.container = null;
+    this.updateStore = updateStore;
   }
 
-  _init() {
-    if (!this._chatContainer) {
-      this._chatContainer = document.getElementById("chat-messages-container");
+  init(id) {
+    this.id = id;
+    this.container = document.getElementById(this.id);
+  }
+
+  /**
+   * 绘制对话的气泡卡片.
+   * @param {Prompt[]} messages 是一个符合 v2 版本的对话数据结构
+   */
+  draw(messages) {
+    for (let index = 0; index < messages.length; index++) {
+      const msg = messages[index];
+      const data = { ...msg, mid: getUuid() };
+
+      if (data.role == "user") {
+        this._addUserQHTMLElem(data.mid, data.content);
+      }
     }
-    return this._chatContainer;
   }
 
-  /** 删除容器下的全部div */
+  /**
+   * 删除容器下的全部div
+   * */
   removeAllElem() {
-    const divs = this._chatContainer.getElementsByTagName("div");
+    const divs = this.container.getElementsByTagName("div");
     while (divs.length > 0) {
       divs[0].remove();
     }
   }
 
-  _addUserQHTMLElem = (chatIid, contentList) => {
-    if (!this._init()) return;
+  /**
+   *
+   * @param {str} mid HTMLElement 的 id
+   * @param {PromptContent[]} content 消息的内容
+   * @returns
+   */
+  _addUserQHTMLElem = (mid, content) => {
+    debugger;
+    if (!this.container) return;
     const userDiv = document.createElement("div");
     userDiv.classList.add("user");
-    userDiv.id = chatIid;
+    userDiv.id = mid;
 
     const userContentDiv = document.createElement("div");
     userContentDiv.classList.add("user-content");
@@ -44,20 +76,20 @@ class ChatItemHelper {
     const textDiv = document.createElement("div");
     textDiv.classList.add("markdown-content");
 
-    contentList.forEach((content) => {
-      if (content.type == "text") {
-        textDiv.innerHTML = textToHtml(content.text);
+    content.forEach((prompt) => {
+      if (prompt.type == "text") {
+        textDiv.innerHTML = textToHtml(prompt.text);
       }
 
-      if (content.type == "image_url") {
+      if (prompt.type == "image_url") {
         const imgItem = document.createElement("img");
         imgItem.classList.add("item");
-        imgItem.src = content.image_url.url;
+        imgItem.src = prompt.image_url.url;
         imgAreaElem.appendChild(imgItem);
       }
     });
 
-    const hasImgContent = contentList.some((obj) => obj.type === "image_url");
+    const hasImgContent = content.some((obj) => obj.type === "image_url");
     if (hasImgContent) {
       contentAreaDiv.appendChild(imgAreaElem);
     }
@@ -70,38 +102,34 @@ class ChatItemHelper {
 
     const reGenerateButtonDiv = document.createElement("div");
     reGenerateButtonDiv.classList.add("options-button");
-    reGenerateButtonDiv.innerHTML = reRequestIcon;
+    reGenerateButtonDiv.innerHTML = circle16;
     optionsDiv.appendChild(reGenerateButtonDiv);
 
     reGenerateButtonDiv.addEventListener("click", async () => {
-      const flag = await ChatOptions.reGenerateMessage(userDiv.id);
-      if (!flag) return;
-      // 重新开始生成Assistant的内容
-      const chatCid = StoreHelper.getChatCid();
-      this._getAssistantResponse(chatCid);
+      dsAlert({ type: "info", message: "在补齐了" });
     });
 
     const editButtonDiv = document.createElement("div");
     editButtonDiv.classList.add("options-button");
-    editButtonDiv.innerHTML = eidtChatItemIcon;
+    editButtonDiv.innerHTML = edit16;
     optionsDiv.appendChild(editButtonDiv);
 
     editButtonDiv.addEventListener("click", async () => {
-      await ChatOptions.editChatItem(userDiv.id);
+      dsAlert({ type: "info", message: "在补齐了" });
     });
 
     const deleteButtonDiv = document.createElement("div");
     deleteButtonDiv.classList.add("options-button");
-    deleteButtonDiv.innerHTML = deleteChatItemIcon;
+    deleteButtonDiv.innerHTML = delete16;
     optionsDiv.appendChild(deleteButtonDiv);
 
     deleteButtonDiv.addEventListener("click", async () => {
-      await ChatOptions.deleteChatItem(userDiv.id);
+      dsAlert({ type: "info", message: "在补齐了" });
     });
 
     userContentDiv.appendChild(optionsDiv);
     userDiv.appendChild(userContentDiv);
-    this._chatContainer.appendChild(userDiv);
+    this.container.appendChild(userDiv);
   };
 
   _addAssHTMLElem = (chatIid, text) => {
@@ -142,7 +170,7 @@ class ChatItemHelper {
 
     const deleteButtonDiv = document.createElement("div");
     deleteButtonDiv.classList.add("options-button");
-    deleteButtonDiv.innerHTML = deleteChatItemIcon;
+    deleteButtonDiv.innerHTML = delete16;
     optionsDiv.appendChild(deleteButtonDiv);
     deleteButtonDiv.addEventListener("click", async () => {
       await ChatOptions.deleteChatItem(assistantDiv.id);
@@ -156,49 +184,6 @@ class ChatItemHelper {
 
     return assistantDiv;
   };
-
-  /** 监听剪切板的内容 开始做图像的粘贴 */
-  displayImage = (base64Image) => {
-    const imgContainer = document.getElementById("ccia-chat-input-imgs");
-    const itemElem = document.createElement("div");
-    itemElem.classList.add("ccia-item");
-    itemElem.addEventListener("click", () => {
-      itemElem.remove();
-    });
-
-    const imgElement = document.createElement("img");
-    imgElement.classList.add("ccia-image");
-    imgElement.src = base64Image;
-
-    const hoverItem = document.createElement("div");
-    hoverItem.classList.add("ccia-hover-item");
-
-    const deleteButtonElem = document.createElement("div");
-    deleteButtonElem.classList.add("ccia-hover-button");
-    deleteButtonElem.innerHTML = chatDeleteImgIcon;
-    hoverItem.appendChild(deleteButtonElem);
-
-    itemElem.appendChild(hoverItem);
-    itemElem.appendChild(imgElement);
-    imgContainer.appendChild(itemElem);
-  };
-
-  /** 判断当前的对话历史里面 是不是包含了图像 */
-  checkImgsExit() {
-    if (!this._init()) return false;
-    const imgElem = this._chatContainer.querySelector("img");
-    return imgElem ? true : false;
-  }
-
-  /** ⭐⭐⭐ _getAssistantResponse 是根据用户返回*/
-  async _getAssistantResponse(chatCid, callback) {
-    // 从服务端获得输出,并创建一个HTMLElement来缓存值
-    const assHTMLElem = this._addAssHTMLElem("", "Connect to WEB server... ...");
-
-    if (callback) await callback();
-    this.ctrl = new AbortController();
-    await createEventSourceAPI(chatCid, assHTMLElem, this.ctrl);
-  }
 }
 
-export default ChatItemHelper;
+export default ChatDrawer;

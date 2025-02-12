@@ -4,7 +4,7 @@ from typing import Optional
 
 from scripts.libs import LOGGER, CONF
 from .aio_users_sheet import AIO_Users_Sheet
-from .aio_user_setting_sheet import AIO_User_Settings_Sheet
+from .aio_user_settings_sheet import AIO_User_Settings_Sheet
 
 def require_connection(func):
     """
@@ -109,6 +109,20 @@ class AIO_User_Database:
         根据指定的用户名设置 image_models 的值
         '''
         return await self.settings.set_image_models(username, data)
+
+    @require_connection
+    async def get_rt_audio_models(self, username: str) -> str:
+        '''
+        根据指定的用户名获取 rt_audio_models 的值
+        '''
+        return await self.settings.get_rt_audio_models(username)
+
+    @require_connection
+    async def set_rt_audio_models(self, username: str, data: str) -> bool:
+        '''
+        根据指定的用户名设置 rt_audio_models 的值
+        '''
+        return await self.settings.set_rt_audio_models(username, data)
 
     @require_connection
     async def get_app_theme(self, username: str) -> str:

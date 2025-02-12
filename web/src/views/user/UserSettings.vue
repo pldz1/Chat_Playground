@@ -1,5 +1,5 @@
 <template>
-  <dialog id="global_user_setting" class="modal global-user-setting-modal">
+  <dialog id="global_user_settings" class="modal global-user-settings-modal">
     <div class="modal-box">
       <form method="dialog">
         <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
@@ -52,7 +52,7 @@
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
 import { chat16, setting16, add24 } from "@/assets/svg";
-import { setChatModelsAPI } from "@/apis";
+import { setChatModels } from "@/services";
 
 import ModelEditCard from "@/components/ModelEditCard.vue";
 
@@ -71,8 +71,7 @@ const onUpdateChatModels = async (data) => {
   else {
     const tmpChatModels = [...chatModels.value];
     tmpChatModels[data.index] = data.model;
-    store.dispatch("setChatModels", tmpChatModels);
-    await setChatModelsAPI(username.value, JSON.stringify(tmpChatModels));
+    await setChatModels(username.value, tmpChatModels);
   }
 };
 
@@ -81,21 +80,19 @@ const onDeleteChatModels = async (index) => {
   else {
     const tmpChatModels = [...chatModels.value];
     tmpChatModels.splice(index, 1);
-    store.dispatch("setChatModels", tmpChatModels);
-    await setChatModelsAPI(username.value, JSON.stringify(tmpChatModels));
+    await setChatModels(username.value, tmpChatModels);
   }
 };
 
 const addChatModel = async () => {
   const tmpChatModels = [...chatModels.value];
   tmpChatModels.push({ name: "新增模型", type: "", baseURL: "", endpoint: "", apiKey: "", model: "", deployment: "", apiVersion: "" });
-  store.dispatch("setChatModels", tmpChatModels);
-  await setChatModelsAPI(username.value, JSON.stringify(tmpChatModels));
+  await setChatModels(username.value, tmpChatModels);
 };
 </script>
 
 <style lang="scss" scoped>
-.global-user-setting-modal {
+.global-user-settings-modal {
   .modal-box {
     max-width: 1024px;
     max-height: 668px;

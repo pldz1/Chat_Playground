@@ -19,36 +19,63 @@
     <!-- 对话模型信息 -->
     <div class="comphb-chat-model-info">
       <!-- <ChatModelDropdown></ChatModelDropdown> -->
-      <select class="select select-bordered w-full max-w-xs" v-model="curChatModel" @change="onSelectChatModel">
+      <select class="select select-bordered w-full max-w-xs" v-model="model" @change="onSelectChatModel">
         <option v-for="model in chatModels" :key="model" :value="model">{{ model.name }}</option>
       </select>
       <div class="tooltip tooltip-bottom" data-tip="设置模型参数">
-        <button class="btn comphb-btn-wh1 comphb-btn-color1" @click="onShowSettings">
+        <button class="btn comphb-btn-wh1 comphb-btn-color1" onclick="global_chat_model_settings.showModal()">
           <div v-html="settingsIcon"></div>
         </button>
       </div>
     </div>
+    <!-- 回到主页标题 -->
+    <div class="tooltip tooltip-bottom comphb-home" data-tip="回到主页">
+      <button class="btn btn-square">
+        <div v-html="app32"></div>
+        <span>AIGC Playground</span>
+      </button>
+    </div>
     <!-- 控制主题 -->
     <ThemeController class="comphb-theme-controller"></ThemeController>
     <!-- 用户管理界面 -->
-    <AvatarCard class="comphb-avatar-pos" onclick="global_user_setting.showModal()"></AvatarCard>
+    <AvatarCard class="comphb-avatar-pos" onclick="global_user_settings.showModal()"></AvatarCard>
     <UserSettings></UserSettings>
+    <ChatSettings></ChatSettings>
   </div>
 </template>
 
 <script setup>
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
+import { app32 } from "@/assets/svg";
 
 import ThemeController from "@/components/ThemeController.vue";
 import AvatarCard from "@/components/AvatarCard.vue";
 import UserSettings from "../user/UserSettings.vue";
+import ChatSettings from "./ChatSettings.vue";
 
 import { sildbarIcon, newChatIcon, settingsIcon } from "@/assets/image/chat-svgs.js";
+import { watch } from "vue";
 
 const store = useStore();
 const chatModels = computed(() => store.state.user.chatModels);
-const curChatModel = ref("");
+const curChatModel = computed(() => store.state.user.curChatModel);
+const model = ref(null);
+
+watch(
+  () => [curChatModel.value, chatModels.value],
+  (newVal) => {
+    model.value = null;
+
+    if (newVal.apiKey && newVal.name) model.value = { ...newVal };
+    else {
+      if (chatModels.value.length > 0) {
+        model.value = chatModels.value[0];
+      }
+    }
+  },
+  { immediate: true, deep: true },
+);
 
 const emits = defineEmits(["on-show-chat-list"]);
 
@@ -79,7 +106,7 @@ const onShowSettings = () => {};
  * 选择当前的对话模型
  */
 const onSelectChatModel = async () => {
-  store.dispatch("setCurChatModel", curChatModel.value);
+  store.dispatch("setCurChatModel", model.value);
 };
 
 const onShowUserSettingOverlay = () => {};
@@ -124,6 +151,21 @@ const onShowUserSettingOverlay = () => {};
     justify-content: space-between;
     padding: 8px;
     margin-left: 8px;
+  }
+
+  .comphb-home {
+    width: 200px;
+    position: absolute;
+    right: 186px;
+
+    .btn {
+      width: 200px;
+      height: 36px;
+      min-height: unset;
+      background-color: oklch(var(--b1));
+      border: none;
+      box-shadow: initial;
+    }
   }
 
   .comphb-theme-controller {

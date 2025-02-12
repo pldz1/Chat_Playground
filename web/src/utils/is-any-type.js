@@ -3,7 +3,7 @@
  * @param {*} jsonStr
  * @returns
  */
-export function isArrayType(jsonStr) {
+export function isArrayTypeStr(jsonStr) {
   try {
     const parsedData = JSON.parse(jsonStr);
     // 判断解析后的数据是否是数组

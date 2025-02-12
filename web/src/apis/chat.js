@@ -1,6 +1,6 @@
 import StoreHelper from "@/store/store-helper";
 import { apiRequest } from "./common.js";
-import { renderBlock } from "@/services/md/render.js";
+import { renderBlock } from "@/services";
 import { fetchEventSource } from "@microsoft/fetch-event-source";
 import { showMessage } from "@/utils/custom-message.js";
 
