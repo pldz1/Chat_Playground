@@ -121,6 +121,7 @@ const onShowUserSettingOverlay = () => {};
   height: 100%;
   max-height: 48px;
   background-color: oklch(var(--b1));
+  z-index: 301;
 
   display: flex;
   flex-direction: row;

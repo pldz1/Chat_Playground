@@ -144,6 +144,7 @@
 import { useStore } from "vuex";
 import { computed, reactive, watch, ref, onMounted, onUnmounted } from "vue";
 import { info24 } from "@/assets/svg";
+import { isArrayTypeStr, dsAlert } from "@/utils";
 
 const store = useStore();
 const chatModelSettings = computed(() => store.state.user.chatModelSettings);
@@ -161,7 +162,7 @@ watch(
     });
     Object.assign(modelSettings, newVal);
 
-    instrStr.value = newVal.prompts[0]?.content[0]?.text || "";
+    instrStr.value = newVal.prompts[0].content[0].text || "";
     stopStr.value = JSON.stringify(newVal.stop);
   },
   { immediate: true, deep: true },
@@ -171,6 +172,15 @@ watch(
 const handleClose = () => {
   if (modal.value) {
     modal.value.removeEventListener("close", handleClose);
+    modelSettings.prompts[0].content[0].text = instrStr.value;
+    const validStop = isArrayTypeStr(stopStr.value);
+
+    if (!validStop) dsAlert({ type: "warn", message: "没有输入有效的stop参数,默认置为空数组" });
+
+    modelSettings.stop = validStop ? JSON.parse(stopStr.value) : [];
+
+    // 保存全部修改
+    store.dispatch("setChatModelSettings", { ...modelSettings });
   }
 };
 

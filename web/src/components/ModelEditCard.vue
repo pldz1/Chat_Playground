@@ -5,9 +5,9 @@
       <div class="collapse-title text-xl font-medium">
         {{ model.name }}
         <div class="model-edit">
-          <div v-html="delete18" @click="deleteModel"></div>
-          <div v-if="!isEdit" @click="editModel" v-html="edit18"></div>
-          <div v-else @click="editModel" v-html="save18"></div>
+          <div v-html="delete18" class="tooltip tooltip-left" data-tip="删除模型" @click="deleteModel"></div>
+          <div v-if="!isEdit" @click="editModel" class="tooltip tooltip-left" data-tip="编辑模型(记得再次点击保存)" v-html="edit18"></div>
+          <div v-else @click="editModel" v-html="save18" class="tooltip tooltip-left" data-tip="保存修改"></div>
         </div>
       </div>
 

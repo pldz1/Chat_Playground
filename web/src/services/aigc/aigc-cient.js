@@ -1,5 +1,5 @@
 import store from "@/store";
-import { AIGC_CLIENT_TYPE, dsAlert } from "@/utils";
+import { dsAlert } from "@/utils";
 
 import { OpenAIClient } from "./openai";
 import { AzureOpenAIClient } from "./azure-openai";
@@ -20,11 +20,11 @@ export class AIGCClient {
     if (this.type == "chat") {
       const model = store.state.user.curChatModel;
       // OpenAI
-      if (model.type == AIGC_CLIENT_TYPE.oi) {
+      if (model.type == "OpenAI") {
         this.client = new OpenAIClient(model.baseURL, model.apiKey, model.model);
       }
       // Azure OpenAI
-      else if (model.type == AIGC_CLIENT_TYPE.aoi) {
+      else if (model.type == "Azure OpenAI") {
         this.client = new AzureOpenAIClient(model.endpoint, model.apiKey, model.deployment, model.apiVersion);
       }
     }
@@ -33,18 +33,12 @@ export class AIGCClient {
   async chat(messages, callback = (response) => console.log(response)) {
     if (!this.client) {
       dsAlert({ type: "warn", message: "对话模型初始化失败, 请重新选择模式再尝试." });
+      callback("模型初始化失败, 检查模型选项!");
+      return false;
     }
 
     const cms = store.state.user.chatModelSettings;
-    await this.client.chat(
-      [...cms.prompts, ...messages],
-      cms.max_tokens,
-      cms.temperature,
-      cms.top_p,
-      cms.frequency_penalty,
-      cms.presence_penalty,
-      cms.stop,
-      callback,
-    );
+    await this.client.chat(messages, cms.max_tokens, cms.temperature, cms.top_p, cms.frequency_penalty, cms.presence_penalty, cms.stop, callback);
+    return true;
   }
 }

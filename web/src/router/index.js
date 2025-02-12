@@ -19,6 +19,11 @@ const router = createRouter({
       path: "/chat",
       component: ChatPage,
     },
+    {
+      path: "/chat/:id",
+      component: ChatPage,
+      props: true,
+    },
   ],
 });
 export default router;

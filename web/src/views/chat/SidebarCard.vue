@@ -59,7 +59,6 @@
 import { useStore } from "vuex";
 import { nextTick, ref, onMounted, onUnmounted } from "vue";
 import { showMessageBox } from "@/utils/custom-message.js";
-import { editChatNameByCid, deletChatByCid, downloadChat } from "@/services/chat/common.js";
 import { export24, edit24, saveAs24, delete24, options24 } from "@/assets/svg";
 
 const store = useStore();

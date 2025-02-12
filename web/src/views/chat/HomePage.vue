@@ -16,23 +16,54 @@
 </template>
 
 <script setup>
-import SettingsCard from "./SettingsCard.vue";
-import SidebarCard from "./SidebarCard.vue";
-import ChatCard from "./ChatCard.vue";
-import HeaderBar from "./HeaderBar.vue";
 import { ref, onMounted, computed } from "vue";
 import { useStore } from "vuex";
 import { dsAlert } from "@/utils";
 import { getChatModels } from "@/services";
+import { useRouter } from "vue-router";
 
-const isShowSidebar = ref(true);
+import SidebarCard from "./SidebarCard.vue";
+import ChatCard from "./ChatCard.vue";
+import HeaderBar from "./HeaderBar.vue";
+
+const props = defineProps({
+  id: {
+    type: String,
+    require: false,
+    default: "",
+  },
+});
+
 const store = useStore();
+const router = useRouter();
 
 const username = computed(() => store.state.user.username);
 const isLoggedIn = computed(() => store.state.user.isLoggedIn);
+const chatList = computed(() => store.state.user.chatList);
+const isShowSidebar = ref(true);
 
-/** ====================== 下面定义函数 ====================== */
+/**
+ * 根据子组件的信号来控制显示或者隐藏侧边栏
+ * */
+const onShowSidebar = (val) => {
+  isShowSidebar.value = val;
+};
+
 onMounted(async () => {
+  if (props.id) {
+    if (chatList.value.includes(props.id)) {
+      //
+    } else {
+      dsAlert({ type: "error", message: "不存在这个对话记录." });
+      // 重置store的消息内容
+      await store.dispatch("resetMessages");
+      router.push({ path: "/chat" });
+    }
+  } else {
+    // 重置store的消息内容
+    await store.dispatch("resetMessages");
+  }
+
   // 初始化获得一些用户对于对话模型的参数
   if (!isLoggedIn.value) {
     dsAlert({ type: "warn", message: "未登录, 登录获得更好体验🤣." });
@@ -40,11 +71,6 @@ onMounted(async () => {
   }
   await getChatModels(username.value);
 });
-
-/** 根据子组件的信号来控制显示或者隐藏侧边栏 */
-const onShowSidebar = (val) => {
-  isShowSidebar.value = val;
-};
 </script>
 
 <style lang="scss" scoped>

@@ -1,3 +1,17 @@
+/**
+ * 提示内容对象
+ * @typedef {Object} PromptContent
+ * @property {"text"} type - 内容类型，例如 "text"。
+ * @property {string} text - 提示的文本内容。
+ */
+
+/**
+ * 提示信息对象
+ * @typedef {Object} Prompt
+ * @property {"system" | "user" | "assistant"} role - 角色，例如 "system" 或 "user"。
+ * @property {PromptContent[]} content - 提示内容列表。
+ */
+
 export const UserState = {
   /**
    * 当前的用户名称
@@ -48,6 +62,11 @@ export const UserState = {
   curChatModel: { name: "新增模型", type: "", baseURL: "", endpoint: "", apiKey: "", model: "", deployment: "", apiVersion: "" },
 
   /**
+   * 对话路由列表
+   */
+  chatList: [],
+
+  /**
    * 设置用户登录后的信息
    */
   setUserLoginInfo(data) {
@@ -56,20 +75,6 @@ export const UserState = {
     this.uid = data.uid;
     this.basicAuth = "";
   },
-
-  /**
-   * 提示内容对象
-   * @typedef {Object} PromptContent
-   * @property {"text"} type - 内容类型，例如 "text"。
-   * @property {string} text - 提示的文本内容。
-   */
-
-  /**
-   * 提示信息对象
-   * @typedef {Object} Prompt
-   * @property {"system" | "user" | "assistant"} role - 角色，例如 "system" 或 "user"。
-   * @property {PromptContent[]} content - 提示内容列表。
-   */
 
   /**
    * 配置聊天模型的设置参数。
@@ -110,9 +115,17 @@ export const UserState = {
   },
 
   /**
-   * 设置当前模型的信息
+   * 设置当前对话模型的信息
    */
   setCurChatModel(data) {
     this.curChatModel = data;
+  },
+
+  /**
+   * 设置当前对话模型参数
+   */
+
+  setChatModelSettings(data) {
+    this.chatModelSettings = data;
   },
 };

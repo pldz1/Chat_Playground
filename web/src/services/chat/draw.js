@@ -1,7 +1,9 @@
+import store from "@/store/index.js";
+
 import { dsAlert, getUuid } from "@/utils";
 import { renderBlock } from "../markdown/md-render.js";
 import { AIGCClient } from "../aigc/aigc-cient.js";
-import { createUserQHTMLElem, createAssHTMLElem, createAssTempElem } from "./creator.js";
+import { ChatElemCreator } from "./creator.js";
 
 /**
  * 提示内容对象
@@ -17,11 +19,10 @@ import { createUserQHTMLElem, createAssHTMLElem, createAssTempElem } from "./cre
  * @property {PromptContent[]} content - 提示内容列表。
  */
 
-export class ChatDrawer {
-  constructor(updateStore = false) {
-    this.id = "";
-    this.container = null;
-    this.updateStore = updateStore;
+export class ChatDrawer extends ChatElemCreator {
+  constructor(sync = false) {
+    super(sync);
+
     this._isListenerActive = false;
 
     this.client = new AIGCClient("chat");
@@ -49,11 +50,29 @@ export class ChatDrawer {
   /**
    * 和 AIGC 进行对话
    */
-  async chat(message) {
+  async chat(data) {
     this.removeListener();
-    this.draw([message]);
+
+    this.draw([data]);
     this.drawStreamAss();
-    await this.client.chat([message], this.enqueueRender);
+
+    await store.dispatch("pushMessages", data);
+
+    const { prompts, passedMsgLen } = store.state.user.chatModelSettings;
+    const history = store.state.chat.messages;
+    const valudHistory = history.slice(-Math.min(passedMsgLen, history.length));
+    const messages = [...prompts, ...valudHistory];
+
+    const flag = await this.client.chat(messages, this.enqueueRender);
+
+    if (flag) {
+      // 结束后立即更新对话历史
+      await store.dispatch("pushMessages", {
+        role: "assistant",
+        content: [{ type: "text", text: this.tempAssTextStr }],
+      });
+    }
+
     this.addListener();
   }
 
@@ -111,8 +130,9 @@ export class ChatDrawer {
    */
   drawStreamAss() {
     const mid = getUuid("msg");
-    this.tempAssTextDiv = createAssTempElem(this.container, mid);
+    this.tempAssTextDiv = this.createAssTempElem(mid);
     this.tempAssTextStr = "";
+    this.scrollToBottom();
   }
 
   /**
@@ -132,7 +152,7 @@ export class ChatDrawer {
    * @returns
    */
   addUserQHTMLElem(content, mid) {
-    const res = createUserQHTMLElem(this.container, content, mid);
+    const res = this.createUserQHTMLElem(content, mid);
     if (!res) {
       dsAlert({ type: "warn", message: "绘制用户问题失败！" });
     }
@@ -145,7 +165,7 @@ export class ChatDrawer {
    * @returns
    */
   addAssHTMLElem(content, mid) {
-    const res = createAssHTMLElem(this.container, content, mid);
+    const res = this.createAssHTMLElem(content, mid);
     if (!res) {
       dsAlert({ type: "warn", message: "绘制机器人助理回答消息失败！" });
     }
