@@ -76,13 +76,14 @@ function buildCopyButton(element) {
 }
 
 /** 构建生成中的 markdown 的内容 */
-function buildCodeBlock(element) {
+export function buildCodeBlock(element) {
   highlightCode(element);
   buildCopyButton(element);
 }
 
 /** 核心函数, 对比节点的内容 实现动态更新 markdown 的 div 而不是用 innerHTML 的属性全部刷新 */
-function deepCloneAndUpdate(div1, div2) {
+export function deepCloneAndUpdate(div1, div2) {
+  if (div2.innerHTML == "") return;
   // 递归比较和更新 div1 和 div2 的子节点
   function compareAndUpdate(node1, node2) {
     // 情况 1：node1 是文本节点，更新文本内容
@@ -152,5 +153,3 @@ function deepCloneAndUpdate(div1, div2) {
   // 从 div2 根节点开始与 div1 比较
   compareAndUpdate(div1, div2);
 }
-
-export { buildCodeBlock, deepCloneAndUpdate };

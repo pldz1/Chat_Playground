@@ -4,6 +4,7 @@ import { buildCodeBlock, deepCloneAndUpdate } from "./code-block.js";
 /** 渲染markdown的 HTML Element. */
 export function renderBlock(el, data) {
   const tmpDiv = document.createElement("div");
+  tmpDiv.className = "markdown-content";
   // 只渲染当前的块
   tmpDiv.innerHTML = markdownIt.render(data);
   buildCodeBlock(tmpDiv);

@@ -1,7 +1,7 @@
 import ChatItemHelper from "./item.js";
 import StoreHelper from "@/store/store-helper";
 import { showMessage } from "@/utils/custom-message.js";
-import { getUserMsg } from "./message.js";
+// import { getUserMsg } from "./message.js";
 import { addNewChatAPI, setUserMsgAPI, setChatParamsAPI, getSpecChatHistoryAPI } from "../../apis/chat.js";
 
 class ChatCardHelper extends ChatItemHelper {

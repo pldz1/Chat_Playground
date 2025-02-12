@@ -1,5 +1,7 @@
-import { dsAlert, getUuid, textToHtml } from "@/utils";
-import { delete16, edit16, circle16 } from "@/assets/svg";
+import { dsAlert, getUuid } from "@/utils";
+import { renderBlock } from "../markdown/md-render.js";
+import { AIGCClient } from "../aigc/aigc-cient.js";
+import { createUserQHTMLElem, createAssHTMLElem, createAssTempElem } from "./creator.js";
 
 /**
  * 提示内容对象
@@ -20,11 +22,39 @@ export class ChatDrawer {
     this.id = "";
     this.container = null;
     this.updateStore = updateStore;
+    this._isListenerActive = false;
+
+    this.client = new AIGCClient("chat");
+
+    this.tempAssTextDiv = null;
+    this.tempAssTextStr = "";
+    this.renderQueue = [];
+    this.isRendering = false;
+
+    this.enqueueRender = this.enqueueRender.bind(this);
+    this.processRenderQueue = this.processRenderQueue.bind(this);
+    this.renderAssStream = this.renderAssStream.bind(this);
   }
 
   init(id) {
     this.id = id;
     this.container = document.getElementById(this.id);
+    this.addListener();
+  }
+
+  aigcInit() {
+    this.client.init();
+  }
+
+  /**
+   * 和 AIGC 进行对话
+   */
+  async chat(message) {
+    this.removeListener();
+    this.draw([message]);
+    this.drawStreamAss();
+    await this.client.chat([message], this.enqueueRender);
+    this.addListener();
   }
 
   /**
@@ -34,12 +64,55 @@ export class ChatDrawer {
   draw(messages) {
     for (let index = 0; index < messages.length; index++) {
       const msg = messages[index];
-      const data = { ...msg, mid: getUuid() };
+      const mid = getUuid("msg");
 
-      if (data.role == "user") {
-        this._addUserQHTMLElem(data.mid, data.content);
+      if (msg.role == "user") {
+        this.addUserQHTMLElem(msg.content, mid);
+      }
+
+      if (msg.role == "assistant") {
+        this.addAssHTMLElem(msg.content, mid);
       }
     }
+  }
+
+  enqueueRender(response) {
+    this.tempAssTextStr += response;
+    this.renderQueue.push(this.tempAssTextStr);
+    // 如果当前没有渲染任务在进行，启动渲染队列
+    if (!this.isRendering) {
+      this.isRendering = true;
+      this.processRenderQueue();
+    }
+  }
+
+  processRenderQueue() {
+    if (this.renderQueue.length === 0) {
+      // 队列为空时标记渲染完成
+      this.isRendering = false;
+      return;
+    }
+
+    // 获取并移除队列中的第一个渲染任务
+    const data = this.renderQueue.shift();
+    // 执行渲染操作
+    this.renderAssStream(data);
+    // 继续处理下一个渲染任务
+    setTimeout(this.processRenderQueue, 0);
+  }
+
+  renderAssStream() {
+    if (!this.tempAssTextDiv) return;
+    renderBlock(this.tempAssTextDiv, this.tempAssTextStr);
+  }
+
+  /**
+   *
+   */
+  drawStreamAss() {
+    const mid = getUuid("msg");
+    this.tempAssTextDiv = createAssTempElem(this.container, mid);
+    this.tempAssTextStr = "";
   }
 
   /**
@@ -54,135 +127,81 @@ export class ChatDrawer {
 
   /**
    *
-   * @param {str} mid HTMLElement 的 id
    * @param {PromptContent[]} content 消息的内容
+   * @param {str} mid HTMLElement 的 id
    * @returns
    */
-  _addUserQHTMLElem = (mid, content) => {
-    debugger;
+  addUserQHTMLElem(content, mid) {
+    const res = createUserQHTMLElem(this.container, content, mid);
+    if (!res) {
+      dsAlert({ type: "warn", message: "绘制用户问题失败！" });
+    }
+  }
+
+  /**
+   *
+   * @param {PromptContent[]} content 消息的内容
+   * @param {str} mid HTMLElement 的 id
+   * @returns
+   */
+  addAssHTMLElem(content, mid) {
+    const res = createAssHTMLElem(this.container, content, mid);
+    if (!res) {
+      dsAlert({ type: "warn", message: "绘制机器人助理回答消息失败！" });
+    }
+  }
+
+  /**
+   * 给显示对话消息的界面增加鼠标移动事件的监听器, 用一个布尔来保证事件监听器没有被重复
+   *  */
+  addListener() {
     if (!this.container) return;
-    const userDiv = document.createElement("div");
-    userDiv.classList.add("user");
-    userDiv.id = mid;
+    if (this._isListenerActive) return;
+    this.container.addEventListener("mouseover", this._mouseMoveLister);
+    this.container.addEventListener("mouseout", this._mouseOutLister);
+    this._isListenerActive = true;
+  }
 
-    const userContentDiv = document.createElement("div");
-    userContentDiv.classList.add("user-content");
+  /**
+   * 移除对话消息的界面的鼠标移动事件监听器
+   * */
+  removeListener() {
+    if (!this.container) return;
+    if (!this._isListenerActive) return;
+    this.container.removeEventListener("mouseover", this._mouseMoveLister);
+    this.container.removeEventListener("mouseout", this._mouseOutLister);
+    this._isListenerActive = false;
+  }
 
-    const contentAreaDiv = document.createElement("div");
-    contentAreaDiv.classList.add("content-area");
-
-    const imgAreaElem = document.createElement("div");
-    imgAreaElem.classList.add("img-area");
-    const textDiv = document.createElement("div");
-    textDiv.classList.add("markdown-content");
-
-    content.forEach((prompt) => {
-      if (prompt.type == "text") {
-        textDiv.innerHTML = textToHtml(prompt.text);
-      }
-
-      if (prompt.type == "image_url") {
-        const imgItem = document.createElement("img");
-        imgItem.classList.add("item");
-        imgItem.src = prompt.image_url.url;
-        imgAreaElem.appendChild(imgItem);
-      }
-    });
-
-    const hasImgContent = content.some((obj) => obj.type === "image_url");
-    if (hasImgContent) {
-      contentAreaDiv.appendChild(imgAreaElem);
+  /**
+   * 鼠标移动到对话的HTMLElement上要处理显示Options的函数
+   */
+  _mouseMoveLister(event) {
+    const targetClass = event.target.closest(".cmbu-user-content, .cmba-assistant-content");
+    if (targetClass) {
+      const optionButtons = targetClass.querySelectorAll(".chat-md-bubble-options-button");
+      optionButtons.forEach((div) => {
+        div.classList.add("active");
+      });
     }
+  }
 
-    contentAreaDiv.appendChild(textDiv);
-    userContentDiv.appendChild(contentAreaDiv);
-
-    const optionsDiv = document.createElement("div");
-    optionsDiv.classList.add("options");
-
-    const reGenerateButtonDiv = document.createElement("div");
-    reGenerateButtonDiv.classList.add("options-button");
-    reGenerateButtonDiv.innerHTML = circle16;
-    optionsDiv.appendChild(reGenerateButtonDiv);
-
-    reGenerateButtonDiv.addEventListener("click", async () => {
-      dsAlert({ type: "info", message: "在补齐了" });
+  /**
+   * 鼠标移出了对话的HTMLElement上要处理隐藏Options的DIV的函数
+   *  */
+  _mouseOutLister() {
+    const activeOptionButtons = document.querySelectorAll(".chat-md-bubble-options-button.active");
+    activeOptionButtons.forEach((div) => {
+      div.classList.remove("active");
     });
+  }
 
-    const editButtonDiv = document.createElement("div");
-    editButtonDiv.classList.add("options-button");
-    editButtonDiv.innerHTML = edit16;
-    optionsDiv.appendChild(editButtonDiv);
-
-    editButtonDiv.addEventListener("click", async () => {
-      dsAlert({ type: "info", message: "在补齐了" });
-    });
-
-    const deleteButtonDiv = document.createElement("div");
-    deleteButtonDiv.classList.add("options-button");
-    deleteButtonDiv.innerHTML = delete16;
-    optionsDiv.appendChild(deleteButtonDiv);
-
-    deleteButtonDiv.addEventListener("click", async () => {
-      dsAlert({ type: "info", message: "在补齐了" });
-    });
-
-    userContentDiv.appendChild(optionsDiv);
-    userDiv.appendChild(userContentDiv);
-    this.container.appendChild(userDiv);
-  };
-
-  _addAssHTMLElem = (chatIid, text) => {
-    if (!this._init()) return;
-    const assistantDiv = document.createElement("div");
-    assistantDiv.classList.add("assistant");
-    //  注意 这里只是把从历史记录拿的消息和从SSE拿的逻辑统一了一下 存在这个判断条件
-    if (chatIid !== "") {
-      assistantDiv.id = chatIid;
-    }
-
-    const assistantIconDiv = document.createElement("div");
-    assistantIconDiv.classList.add("assistant-icon");
-    assistantIconDiv.innerHTML = assistantIcon;
-
-    const assistantContentDiv = document.createElement("div");
-    assistantContentDiv.classList.add("assistant-content");
-
-    const textDiv = document.createElement("div");
-    textDiv.classList.add("markdown-content");
-    if (chatIid !== "") {
-      renderBlock(textDiv, text);
-    } else {
-      textDiv.innerHTML = text;
-      textDiv.classList.add("markdown-p-text");
-    }
-
-    const optionsDiv = document.createElement("div");
-    optionsDiv.classList.add("options");
-
-    const copyMarkdownButtonDiv = document.createElement("div");
-    copyMarkdownButtonDiv.classList.add("options-button");
-    copyMarkdownButtonDiv.innerHTML = copyMarkdownIcon;
-    optionsDiv.appendChild(copyMarkdownButtonDiv);
-    copyMarkdownButtonDiv.addEventListener("click", async () => {
-      await ChatOptions.copyChatItem(assistantDiv.id);
-    });
-
-    const deleteButtonDiv = document.createElement("div");
-    deleteButtonDiv.classList.add("options-button");
-    deleteButtonDiv.innerHTML = delete16;
-    optionsDiv.appendChild(deleteButtonDiv);
-    deleteButtonDiv.addEventListener("click", async () => {
-      await ChatOptions.deleteChatItem(assistantDiv.id);
-    });
-
-    assistantContentDiv.appendChild(textDiv);
-    assistantContentDiv.appendChild(optionsDiv);
-    assistantDiv.appendChild(assistantIconDiv);
-    assistantDiv.appendChild(assistantContentDiv);
-    this._chatContainer.appendChild(assistantDiv);
-
-    return assistantDiv;
+  /**
+   * 滚动到最底部
+   */
+  scrollToBottom = () => {
+    if (!this.container) return;
+    this.container.scrollTop = this.container.scrollHeight + 200;
   };
 }
 

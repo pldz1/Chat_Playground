@@ -27,9 +27,9 @@
 
         <!-- 对话内容的发送或者暂停按钮位置 -->
         <div class="ccia-chat-button">
-          <el-button class="ccia-send-button">
+          <el-button class="ccia-send-button" @click="onSendInputData">
             <!-- send chat button -->
-            <div v-if="!props.isChatting" :class="['ccia-svg-icon', { 'ccia-svg-icon-disable': inputText == '' }]" v-html="arrowUp32"></div>
+            <div v-if="!props.isChatting" class="ccia-svg-icon" v-html="arrowUp32"></div>
             <!-- pause chat button -->
             <div v-else class="ccia-svg-icon" v-html="pause32"></div>
           </el-button>
@@ -42,7 +42,8 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import { dalle24, realTimeVoice24, attach24, arrowUp32, pause32 } from "@/assets/svg";
-import { addPasteEvent, removePasetEvent, uploadImageFile } from "@/utils";
+import { addPasteEvent, removePasetEvent, uploadImageFile, isValidUserMsg, dsAlert } from "@/utils";
+import { packUserMsg } from "@/services";
 
 const props = defineProps({
   isChatting: {
@@ -50,17 +51,39 @@ const props = defineProps({
     default: false,
   },
 });
-const emit = defineEmits(["on-update"]);
+
+const emit = defineEmits(["on-start", "on-stop"]);
 const inputText = ref("");
 
-/** 输入框的按键组合键 */
+/**
+ * 发送有效的问题, 或者是暂停对话
+ */
+const onSendInputData = async () => {
+  if (props.isChatting) {
+    emit("on-stop");
+    return;
+  }
+
+  const data = packUserMsg("ccia-chat-input-imgs", inputText.value);
+  const flag = isValidUserMsg(data);
+  if (flag) {
+    inputText.value = "";
+    emit("on-start", data);
+  } else {
+    dsAlert({ type: "error", message: "没有输入有效的问题!" });
+    return;
+  }
+};
+
+/**
+ * 输入框的按键组合键
+ *  */
 const onEnterKeydown = async (event) => {
   // Enter 和 Shift 键表示换行的操作
   if (event.key === "Enter" && !event.shiftKey) {
     // 阻止默认行为（换行）并发送内容
     event.preventDefault();
-    emit("on-update", inputText.value);
-    inputText.value = "";
+    await onSendInputData();
   }
 };
 
@@ -147,13 +170,6 @@ onBeforeUnmount(() => {
       min-height: 32px;
       max-width: 32px;
       max-height: 32px;
-      border-radius: 16px;
-    }
-
-    .ccia-svg-icon-disable {
-      opacity: 0.4;
-      min-width: 32px;
-      min-height: 32px;
       border-radius: 16px;
     }
   }

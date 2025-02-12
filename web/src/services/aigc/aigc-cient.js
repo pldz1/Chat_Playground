@@ -36,6 +36,15 @@ export class AIGCClient {
     }
 
     const cms = store.state.user.chatModelSettings;
-    await this.client.chat(messages, cms.max_tokens, cms.temperature, cms.top_p, cms.frequency_penalty, cms.presence_penalty, cms.stop, callback);
+    await this.client.chat(
+      [...cms.prompts, ...messages],
+      cms.max_tokens,
+      cms.temperature,
+      cms.top_p,
+      cms.frequency_penalty,
+      cms.presence_penalty,
+      cms.stop,
+      callback,
+    );
   }
 }

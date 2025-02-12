@@ -5,13 +5,13 @@
       <!-- 展开或者折叠 对话(chat) 列表 -->
       <div class="tooltip tooltip-right" data-tip="展开(关闭)侧边栏">
         <button class="btn comphb-btn-wh1 comphb-btn-color1" @click="onShowSidebar">
-          <div v-html="sildbarIcon"></div>
+          <div v-html="sildbar24"></div>
         </button>
       </div>
       <!-- 新建一个 对话(chat) -->
       <div class="tooltip tooltip-bottom" data-tip="新建对话">
         <button class="btn comphb-btn-wh1 comphb-btn-color1" @click="onNewChat">
-          <div v-html="newChatIcon"></div>
+          <div v-html="new24"></div>
         </button>
       </div>
     </div>
@@ -24,7 +24,7 @@
       </select>
       <div class="tooltip tooltip-bottom" data-tip="设置模型参数">
         <button class="btn comphb-btn-wh1 comphb-btn-color1" onclick="global_chat_model_settings.showModal()">
-          <div v-html="settingsIcon"></div>
+          <div v-html="setting24"></div>
         </button>
       </div>
     </div>
@@ -45,17 +45,16 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
 import { useStore } from "vuex";
-import { app32 } from "@/assets/svg";
+import { ref, computed, watch } from "vue";
+import { app32, sildbar24, new24, setting24 } from "@/assets/svg";
 
 import ThemeController from "@/components/ThemeController.vue";
 import AvatarCard from "@/components/AvatarCard.vue";
 import UserSettings from "../user/UserSettings.vue";
 import ChatSettings from "./ChatSettings.vue";
 
-import { sildbarIcon, newChatIcon, settingsIcon } from "@/assets/image/chat-svgs.js";
-import { watch } from "vue";
+const emits = defineEmits(["on-show-chat-list"]);
 
 const store = useStore();
 const chatModels = computed(() => store.state.user.chatModels);
@@ -64,22 +63,23 @@ const model = ref(null);
 
 watch(
   () => [curChatModel.value, chatModels.value],
-  (newVal) => {
+  async (newVal) => {
     model.value = null;
 
     if (newVal.apiKey && newVal.name) model.value = { ...newVal };
     else {
       if (chatModels.value.length > 0) {
         model.value = chatModels.value[0];
+        await store.dispatch("setCurChatModel", model.value);
       }
     }
   },
   { immediate: true, deep: true },
 );
 
-const emits = defineEmits(["on-show-chat-list"]);
-
-/** onShowSidebar 向父组件发送显示或者隐藏侧边栏的信号, 返回是否开关侧边栏的布尔量 */
+/**
+ * 向父组件发送显示或者隐藏侧边栏的信号, 返回是否开关侧边栏的布尔量
+ *  */
 const onShowSidebar = () => {
   const chatListEl = document.getElementById("component-header-bar-chat-list");
   const chatCardEl = document.getElementById("global-chat-card");

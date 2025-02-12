@@ -5,3 +5,4 @@ export * from "./api/user-api.js";
 export * from "./api/app-api.js";
 export * from "./markdown/md-render.js";
 export * from "./chat/draw.js";
+export * from "./chat/message.js";
