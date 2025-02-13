@@ -62,19 +62,12 @@ const curChatModel = computed(() => store.state.user.curChatModel);
 const model = ref(null);
 
 watch(
-  () => [curChatModel.value, chatModels.value],
+  () => curChatModel.value,
   async (newVal) => {
-    model.value = null;
-
-    if (newVal.apiKey && newVal.name) model.value = { ...newVal };
-    else {
-      if (chatModels.value.length > 0) {
-        model.value = chatModels.value[0];
-        await store.dispatch("setCurChatModel", model.value);
-      }
-    }
+    console.log("HELLO WOLD");
+    model.value = { ...newVal };
   },
-  { immediate: true, deep: true },
+  { deep: true },
 );
 
 /**

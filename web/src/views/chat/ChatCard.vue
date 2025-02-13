@@ -67,7 +67,7 @@ onMounted(() => {
     left: 10%;
     width: 80%;
     max-width: 80%;
-    height: calc(100% - 148px);
+    height: calc(100% - 128px);
     z-index: 100;
   }
 
@@ -86,6 +86,8 @@ onMounted(() => {
     width: 80%;
     max-width: 80%;
     z-index: 101;
+    display: flex;
+    justify-content: center;
   }
 }
 </style>

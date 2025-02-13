@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 import { useStore } from "vuex";
 import { dsAlert } from "@/utils";
 import { getChatModels } from "@/services";
@@ -40,6 +40,8 @@ const router = useRouter();
 const username = computed(() => store.state.user.username);
 const isLoggedIn = computed(() => store.state.user.isLoggedIn);
 const chatList = computed(() => store.state.user.chatList);
+const curChatModel = computed(() => store.state.user.curChatModel);
+const chatModels = computed(() => store.state.user.chatModels);
 const isShowSidebar = ref(true);
 
 /**
@@ -67,9 +69,18 @@ onMounted(async () => {
   // 初始化获得一些用户对于对话模型的参数
   if (!isLoggedIn.value) {
     dsAlert({ type: "warn", message: "未登录, 登录获得更好体验🤣." });
+    // router.push({ path: "/login" });
     return;
   }
+
+  // 设置初始化的模型
   await getChatModels(username.value);
+
+  if (!curChatModel.value.apiKey && !curChatModel.value.name) {
+    if (chatModels.value.length > 0) {
+      await store.dispatch("setCurChatModel", chatModels.value[0]);
+    }
+  }
 });
 </script>
 

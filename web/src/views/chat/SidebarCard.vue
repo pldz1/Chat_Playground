@@ -2,23 +2,40 @@
   <div class="chat-sidebar-container">
     <!-- 具体下滑内容 -->
     <div class="csdb-chats">
+      <div v-if="chatList.length == 0" class="csdb-chats-container">
+        <h2 class="font-bold">
+          无对话列表
+          <br />
+          <img
+            loading="lazy"
+            width="72"
+            height="72"
+            alt="yawing face emoji"
+            src="https://img.daisyui.com/images/emoji/yawning-face@80.webp"
+            srcset="https://img.daisyui.com/images/emoji/yawning-face.webp 2x"
+            class="pointer-events-none inline-block h-[5em] w-[5em] align-bottom"
+          />
+        </h2>
+      </div>
       <!-- chat history list -->
-      <div v-for="item in chatNameList" :key="item">
-        <input
-          v-if="item.chatCid == isEditChatCid"
-          v-model="editChatName"
-          @keyup.enter="handleEditChatName"
-          type="text"
-          placeholder="使用Enter键确认..."
-          class="input input-bordered w-full max-w-xs"
-        />
-        <!-- 对话的单元 -->
-        <div v-else :class="['csdb-chat-item', { 'csdb-chat-item-active': chatCid === item.chatCid }]">
-          <!-- 对话标签 -->
-          <span class="csdb-chat-label" @click="onLoadHistory(item)"> {{ item.chatName }} </span>
-          <div class="tooltip tooltip-bottom" data-tip="其他操作">
-            <div class="csdb-chat-dropdown">
-              <button class="btn" @click="showChatOptions"><div v-html="options24"></div></button>
+      <div v-else class="csdb-chats-container">
+        <div v-for="item in chatList" :key="item">
+          <input
+            v-if="item.cid == isEditChatCid"
+            v-model="editChatName"
+            @keyup.enter="handleEditChatName"
+            type="text"
+            placeholder="使用Enter键确认..."
+            class="input input-bordered w-full max-w-xs"
+          />
+          <!-- 对话的单元 -->
+          <div v-else :class="['csdb-chat-item', { 'csdb-chat-item-active': cid === item.cid }]">
+            <!-- 对话标签 -->
+            <span class="csdb-chat-label" @click="onLoadHistory(item)"> {{ item.cname }} </span>
+            <div class="tooltip tooltip-bottom" data-tip="其他操作">
+              <div class="csdb-chat-dropdown">
+                <button class="btn" @click="showChatOptions"><div v-html="options24"></div></button>
+              </div>
             </div>
           </div>
         </div>
@@ -33,21 +50,8 @@
         </li>
         <li>
           <a
-            ><div v-html="export24"></div>
-            导出对话为文件</a
-          >
-        </li>
-        <li>
-          <a
             ><div v-html="delete24"></div>
             删除对话</a
-          >
-        </li>
-
-        <li>
-          <a
-            ><div v-html="saveAs24"></div>
-            保存为模板</a
           >
         </li>
       </ul>
@@ -59,37 +63,12 @@
 import { useStore } from "vuex";
 import { nextTick, ref, onMounted, onUnmounted } from "vue";
 import { showMessageBox } from "@/utils/custom-message.js";
-import { export24, edit24, saveAs24, delete24, options24 } from "@/assets/svg";
+import { edit24, delete24, options24 } from "@/assets/svg";
 
 const store = useStore();
-const chatCid = ref("33");
+const cid = ref("33");
 
-const chatNameList = ref([
-  { chatCid: "1", chatName: "hellowrodl" },
-  { chatCid: "2", chatName: "vscode" },
-  { chatCid: "3", chatName: "hellowrodl" },
-  { chatCid: "4", chatName: "vscode" },
-  { chatCid: "5", chatName: "hellowrodl" },
-  { chatCid: "6", chatName: "vscode" },
-  { chatCid: "7", chatName: "hellowrodl" },
-  { chatCid: "8", chatName: "vscode" },
-  { chatCid: "9", chatName: "hellowrodl" },
-  { chatCid: "11", chatName: "vscode" },
-  { chatCid: "12", chatName: "hellowrodl" },
-  { chatCid: "13", chatName: "vscode" },
-  { chatCid: "21", chatName: "hellowrodl" },
-  { chatCid: "22", chatName: "vscode" },
-  { chatCid: "31", chatName: "hellowrodl" },
-  { chatCid: "23", chatName: "vscode" },
-  { chatCid: "24", chatName: "hellowrodl" },
-  { chatCid: "32", chatName: "vscode" },
-  { chatCid: "33", chatName: "hellowrodl" },
-  { chatCid: "43", chatName: "vscode" },
-  { chatCid: "44", chatName: "hellowrodl" },
-  { chatCid: "41", chatName: "vscode" },
-  { chatCid: "45", chatName: "hellowrodl" },
-  { chatCid: "51", chatName: "vscode" },
-]);
+const chatList = ref([]);
 
 const dropdownRef = ref(null);
 const isShowChatOptions = ref(false);
@@ -100,17 +79,17 @@ const editChatName = ref("");
 const onChatOperation = async (id, opt) => {
   if (opt === "Delete") await deletChatByCid(id);
   if (opt === "Download") await downloadChat(id);
-  // 点击 Edit 对话后记录要修改名称的对话的 chatCid 并且让它显示成文本编辑框
+  // 点击 Edit 对话后记录要修改名称的对话的 cid 并且让它显示成文本编辑框
   if (opt === "Edit") isEditChatCid.value = id;
 };
 
 /** onLoadHistory 向父组件发送加载对话的信号，并返回对话的chatCid */
 const onLoadHistory = async (item) => {
-  if (item.chatCid == chatCid.value) return;
+  if (item.cid == cid.value) return;
   var flag = await showMessageBox("你想继续这个对话吗?");
   if (!flag) return;
   // 高亮显示当前对话
-  store.commit("SET_CHATCID", item.chatCid);
+  store.commit("SET_CHATCID", item.cid);
 };
 
 /** handleEditChatName 用键盘的enter表示确认修改对话名称 */
@@ -172,6 +151,22 @@ onUnmounted(() => {
     overflow-x: hidden;
     width: 232px;
     max-width: 232px;
+
+    .csdb-chats-container {
+      background-color: oklch(var(--b1));
+      height: 100%;
+      width: 100%;
+      text-align: center;
+      border-right: 1px solid oklch(var(--nc));
+
+      h2 {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        flex-direction: column;
+        justify-content: center;
+      }
+    }
 
     .input {
       height: 36px;

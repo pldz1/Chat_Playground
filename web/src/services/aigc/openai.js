@@ -1,28 +1,28 @@
 import { OpenAI } from "openai";
 
 export class OpenAIClient {
-  constructor(baseURL, apikey, model) {
-    this.init(baseURL, apikey, model);
+  constructor(baseURL, apiKey, model) {
+    this.init(baseURL, apiKey, model);
   }
 
-  init(baseURL, apikey, model) {
+  init(baseURL, apiKey, model) {
     this.baseURL = baseURL;
-    this.apikey = apikey;
+    this.apiKey = apiKey;
     this.model = model;
     this.client = null;
 
-    if (apikey) this.client = new OpenAI({ baseURL: baseURL, apikey: apikey, dangerouslyAllowBrowser: true });
+    if (apiKey) this.client = new OpenAI({ baseURL: baseURL, apiKey: apiKey, dangerouslyAllowBrowser: true });
   }
 
-  update(baseURL, apikey, model) {
-    if (baseURL !== this.baseURL || apikey !== this.apikey || model !== this.model) {
-      this.init(baseURL, apikey, model);
+  update(baseURL, apiKey, model) {
+    if (baseURL !== this.baseURL || apiKey !== this.apiKey || model !== this.model) {
+      this.init(baseURL, apiKey, model);
     }
   }
 
   destroy() {
     this.baseURL = "";
-    this.apikey = "";
+    this.apiKey = "";
     this.model = "";
     this.client = null;
   }

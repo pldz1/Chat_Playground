@@ -110,17 +110,18 @@ onBeforeUnmount(() => {
     background-color: oklch(var(--b2));
     border-radius: 24px;
     padding: 8px 20px;
-    min-height: 118px;
 
     .ccia-custom-textarea {
-      padding: 8px 0px 0px 0px;
+      padding: 8px 0px 4px 0px;
       border: none;
       outline: none;
       background-color: oklch(var(--b2));
       resize: none;
       box-shadow: initial;
       border-radius: initial;
-      min-height: 76px;
+      min-height: 48px;
+      line-height: 1.5;
+      font-size: 14px;
     }
 
     .ccia-send-button {
@@ -133,7 +134,6 @@ onBeforeUnmount(() => {
 
     .ccia-input-area {
       width: 100%;
-      height: auto;
       display: flex;
       flex-direction: column;
     }

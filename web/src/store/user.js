@@ -59,7 +59,7 @@ export const UserState = {
    * @property {string} deployment - Azure 专用：Azure OpenAI 部署名称
    * @property {string} apiVersion - Azure 专用：Azure OpenAI 的协议版本
    */
-  curChatModel: { name: "新增模型", type: "", baseURL: "", endpoint: "", apiKey: "", model: "", deployment: "", apiVersion: "" },
+  curChatModel: { name: "", type: "", baseURL: "", endpoint: "", apiKey: "", model: "", deployment: "", apiVersion: "" },
 
   /**
    * 对话路由列表

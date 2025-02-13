@@ -1,7 +1,7 @@
 <template>
   <div class="models">
     <div class="collapse collapse-arrow bg-base-200">
-      <input type="checkbox" class="peer" />
+      <input type="checkbox" class="peer" ref="modelEditCheckbox" />
       <div class="collapse-title text-xl font-medium">
         {{ model.name }}
         <div class="model-edit">
@@ -124,9 +124,12 @@ const props = defineProps({
 
 const model = reactive({ ...props.model });
 const isEdit = ref(false);
+const modelEditCheckbox = ref(null);
 
 const editModel = async () => {
   isEdit.value = !isEdit.value;
+
+  if (isEdit.value && modelEditCheckbox.value) modelEditCheckbox.value.checked = true;
 
   if (isEdit.value == false) {
     emit("on-update", { index: props.index, model: model });
