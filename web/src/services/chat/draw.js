@@ -4,6 +4,7 @@ import { dsAlert, getUuid } from "@/utils";
 import { renderBlock } from "../markdown/md-render.js";
 import { AIGCClient } from "../aigc/aigc-cient.js";
 import { ChatElemCreator } from "./creator.js";
+import { addMessage } from "../api/chat-api.js";
 
 /**
  * 提示内容对象
@@ -28,6 +29,7 @@ export class ChatDrawer extends ChatElemCreator {
     this.client = new AIGCClient("chat");
 
     this.tempAssTextDiv = null;
+    this.tempAssTextMid = "";
     this.tempAssTextStr = "";
     this.renderQueue = [];
     this.isRendering = false;
@@ -35,6 +37,7 @@ export class ChatDrawer extends ChatElemCreator {
     this.enqueueRender = this.enqueueRender.bind(this);
     this.processRenderQueue = this.processRenderQueue.bind(this);
     this.renderAssStream = this.renderAssStream.bind(this);
+    this.draw = this.draw.bind(this);
   }
 
   init(id) {
@@ -53,10 +56,12 @@ export class ChatDrawer extends ChatElemCreator {
   async chat(data) {
     this.removeListener();
 
-    this.draw([data]);
+    const chatData = { ...data, mid: getUuid("msg") };
+    this.draw([chatData]);
     this.drawStreamAss();
 
     await store.dispatch("pushMessages", data);
+    if (this.sync) await addMessage(chatData.mid, data);
 
     const { prompts, passedMsgLen } = store.state.user.chatModelSettings;
     const history = store.state.chat.messages;
@@ -67,10 +72,13 @@ export class ChatDrawer extends ChatElemCreator {
 
     if (flag) {
       // 结束后立即更新对话历史
-      await store.dispatch("pushMessages", {
+      const assistantData = {
         role: "assistant",
         content: [{ type: "text", text: this.tempAssTextStr }],
-      });
+      };
+      await store.dispatch("pushMessages", assistantData);
+
+      if (this.sync) await addMessage(this.tempAssTextMid, assistantData);
     }
 
     this.addListener();
@@ -83,14 +91,14 @@ export class ChatDrawer extends ChatElemCreator {
   draw(messages) {
     for (let index = 0; index < messages.length; index++) {
       const msg = messages[index];
-      const mid = getUuid("msg");
+      if (!msg.mid) msg.mid = getUuid("msg");
 
       if (msg.role == "user") {
-        this.addUserQHTMLElem(msg.content, mid);
+        this.addUserQHTMLElem(msg.content, msg.mid);
       }
 
       if (msg.role == "assistant") {
-        this.addAssHTMLElem(msg.content, mid);
+        this.addAssHTMLElem(msg.content, msg.mid);
       }
     }
   }
@@ -125,12 +133,9 @@ export class ChatDrawer extends ChatElemCreator {
     renderBlock(this.tempAssTextDiv, this.tempAssTextStr);
   }
 
-  /**
-   *
-   */
   drawStreamAss() {
-    const mid = getUuid("msg");
-    this.tempAssTextDiv = this.createAssTempElem(mid);
+    this.tempAssTextMid = getUuid("msg");
+    this.tempAssTextDiv = this.createAssTempElem(this.tempAssTextMid);
     this.tempAssTextStr = "";
     this.scrollToBottom();
   }

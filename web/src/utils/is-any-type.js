@@ -89,3 +89,25 @@ export function isValidUserMsg(userMsg) {
 
   return hasValidContent;
 }
+
+/**
+ * 对话列表元素类型
+ * @typedef {Object} ChatInfo
+ * @property {string} cid - 对话的id
+ * @property {string} cname - 对话的名称
+ */
+
+/**
+ * 判断返回的数据是否是符合ChatInfo类型的对象数组
+ * @param {Array} data - 要验证的数据
+ * @returns {boolean} - 如果是符合要求的数组返回true，否则返回false
+ */
+export function isValidChatInfoArray(data) {
+  // 检查是否是数组
+  if (!Array.isArray(data)) {
+    return false;
+  }
+
+  // 遍历数组中的每个元素，检查每个元素是否符合ChatInfo类型
+  return data.every((item) => item !== null && typeof item === "object" && typeof item.cid === "string" && typeof item.cname === "string");
+}

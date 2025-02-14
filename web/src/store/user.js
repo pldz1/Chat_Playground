@@ -67,6 +67,11 @@ export const UserState = {
   chatList: [],
 
   /**
+   * 当前的对话id
+   */
+  curChatId: "",
+
+  /**
    * 设置用户登录后的信息
    */
   setUserLoginInfo(data) {
@@ -127,5 +132,48 @@ export const UserState = {
 
   setChatModelSettings(data) {
     this.chatModelSettings = data;
+  },
+
+  /**
+   * 设置对话的列表
+   */
+  resetChatList(data) {
+    this.chatList = data;
+  },
+
+  /**
+   * 增加对话
+   */
+  pushChatList(data) {
+    this.chatList.push(data);
+  },
+
+  /**
+   * 增加对话
+   */
+  deleteChatList(data) {
+    const index = this.chatList.findIndex((item) => item.cid === data);
+    if (index !== -1) {
+      // 使用 splice 删除该对象
+      this.chatList.splice(index, 1);
+    }
+  },
+
+  /**
+   * 修改对话
+   */
+  renameChatList(data) {
+    const index = this.chatList.findIndex((item) => item.cid === data.cid);
+    if (index !== -1) {
+      this.chatList[index] = data;
+    }
+  },
+
+  /**
+   * 设置当前对话
+   */
+
+  setCurChatId(data) {
+    this.curChatId = data;
   },
 };

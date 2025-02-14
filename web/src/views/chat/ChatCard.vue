@@ -13,17 +13,28 @@
 
 <script setup>
 import { useStore } from "vuex";
-import { ref, watch, computed, onMounted } from "vue";
-import { ChatDrawer } from "@/services";
-import ChatInputArea from "@/components/ChatInputArea.vue";
 import { dsAlert } from "@/utils";
+import { ref, watch, computed, onMounted } from "vue";
+import { ChatDrawer, addChat, getAllMessage } from "@/services";
+
+import ChatInputArea from "@/components/ChatInputArea.vue";
 
 const store = useStore();
 const isChatting = ref(false);
 const innerRef = ref(null);
 
-const drawer = new ChatDrawer(false);
+const drawer = new ChatDrawer(true);
 const curChatModel = computed(() => store.state.user.curChatModel);
+const chatMessagesLength = computed(() => store.state.chat.messages.length);
+const curChatId = computed(() => store.state.user.curChatId);
+
+watch(
+  () => curChatId.value,
+  async () => {
+    drawer.removeAllElem();
+    getAllMessage(drawer.draw);
+  },
+);
 
 watch(
   () => curChatModel.value,
@@ -35,6 +46,10 @@ watch(
 
 /** 向服务器发送数据 */
 const onStartChat = async (message) => {
+  // 新建对话
+  if (chatMessagesLength.value == 0) {
+    await addChat();
+  }
   isChatting.value = true;
   await drawer.chat(message);
   isChatting.value = false;

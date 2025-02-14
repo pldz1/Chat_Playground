@@ -46,6 +46,7 @@ class AIO_User_Database:
 
         self.settings = AIO_User_Settings_Sheet(self.conn)
         await self.settings.init_sheet()
+        LOGGER.info("Successfully initialized the user database!")
     
     @require_connection
     async def destroy(self):

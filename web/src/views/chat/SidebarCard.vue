@@ -6,49 +6,34 @@
         <h2 class="font-bold">
           无对话列表
           <br />
-          <img
-            loading="lazy"
-            width="72"
-            height="72"
-            alt="yawing face emoji"
-            src="https://img.daisyui.com/images/emoji/yawning-face@80.webp"
-            srcset="https://img.daisyui.com/images/emoji/yawning-face.webp 2x"
-            class="pointer-events-none inline-block h-[5em] w-[5em] align-bottom"
-          />
+          <img loading="lazy" width="72" height="72" src="/yawning-face@80.webp" class="pointer-events-none inline-block h-[5em] w-[5em] align-bottom" />
         </h2>
       </div>
       <!-- chat history list -->
       <div v-else class="csdb-chats-container">
         <div v-for="item in chatList" :key="item">
-          <input
-            v-if="item.cid == isEditChatCid"
-            v-model="editChatName"
-            @keyup.enter="handleEditChatName"
-            type="text"
-            placeholder="使用Enter键确认..."
-            class="input input-bordered w-full max-w-xs"
-          />
+          <input v-if="isEditChatName" v-model="editChatName" @change="changeChatName" type="text" class="input input-bordered w-full max-w-xs" />
           <!-- 对话的单元 -->
           <div v-else :class="['csdb-chat-item', { 'csdb-chat-item-active': cid === item.cid }]">
             <!-- 对话标签 -->
-            <span class="csdb-chat-label" @click="onLoadHistory(item)"> {{ item.cname }} </span>
+            <span class="csdb-chat-label" @click="onSelectChat(item)"> {{ item.cname }} </span>
             <div class="tooltip tooltip-bottom" data-tip="其他操作">
               <div class="csdb-chat-dropdown">
-                <button class="btn" @click="showChatOptions"><div v-html="options24"></div></button>
+                <button class="btn" @click="showChatOptions($event, item.cid)"><div v-html="options24"></div></button>
               </div>
             </div>
           </div>
         </div>
       </div>
       <!-- 对话选项放在外侧,不被 chats 的尺寸限制住 -->
-      <ul v-if="isShowChatOptions" ref="dropdownRef" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-        <li>
+      <ul v-show="isShowChatOptions" ref="dropdownRef" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+        <li @click="onEditChatName">
           <a
             ><div v-html="edit24"></div>
             编辑对话名称</a
           >
         </li>
-        <li>
+        <li @click="onDeleteChat">
           <a
             ><div v-html="delete24"></div>
             删除对话</a
@@ -61,49 +46,65 @@
 
 <script setup>
 import { useStore } from "vuex";
-import { nextTick, ref, onMounted, onUnmounted } from "vue";
-import { showMessageBox } from "@/utils/custom-message.js";
+import { nextTick, ref, computed, onMounted, onUnmounted } from "vue";
 import { edit24, delete24, options24 } from "@/assets/svg";
+import { deleteChat, renameChat } from "@/services";
 
 const store = useStore();
-const cid = ref("33");
+const cid = computed(() => store.state.user.curChatId);
 
-const chatList = ref([]);
+const chatList = computed(() => {
+  return [...store.state.user.chatList].reverse();
+});
 
 const dropdownRef = ref(null);
 const isShowChatOptions = ref(false);
-const isEditChatCid = ref("");
+const isShowOptionCid = ref("");
+const isEditChatName = ref(false);
 const editChatName = ref("");
 
-/** 回调函数触发的对 chat 的操作 */
-const onChatOperation = async (id, opt) => {
-  if (opt === "Delete") await deletChatByCid(id);
-  if (opt === "Download") await downloadChat(id);
-  // 点击 Edit 对话后记录要修改名称的对话的 cid 并且让它显示成文本编辑框
-  if (opt === "Edit") isEditChatCid.value = id;
-};
-
-/** onLoadHistory 向父组件发送加载对话的信号，并返回对话的chatCid */
-const onLoadHistory = async (item) => {
+/**
+ * 选择对话
+ */
+const onSelectChat = async (item) => {
   if (item.cid == cid.value) return;
-  var flag = await showMessageBox("你想继续这个对话吗?");
-  if (!flag) return;
-  // 高亮显示当前对话
-  store.commit("SET_CHATCID", item.cid);
+  await store.dispatch("setCurChatId", item.cid);
 };
 
-/** handleEditChatName 用键盘的enter表示确认修改对话名称 */
-const handleEditChatName = async () => {
-  await editChatNameByCid(isEditChatCid.value, editChatName.value);
-  isEditChatCid.value = "";
+/**
+ * 删除对话
+ */
+const onDeleteChat = async () => {
+  if (isShowOptionCid.value) await deleteChat(isShowOptionCid.value);
+  if (isShowOptionCid.value == cid.value) {
+    await store.dispatch("setCurChatId", "");
+  }
+  isShowOptionCid.value = "";
+  editChatName.value = "";
+  isShowChatOptions.value = false;
+};
+
+/**
+ * 修改对话名称
+ */
+const onEditChatName = async () => {
+  isEditChatName.value = true;
+  editChatName.value = "";
+};
+
+/**
+ * 修改对话名称
+ */
+const changeChatName = async () => {
+  if (editChatName.value) await renameChat(isShowOptionCid.value, editChatName.value);
+  isEditChatName.value = false;
   editChatName.value = "";
 };
 
 /**
  * 处理显示点击对话编辑按钮的下拉菜单显示
  */
-const showChatOptions = (event) => {
-  event.stopPropagation();
+const showChatOptions = (event, cid) => {
   isShowChatOptions.value = true;
   // 等待 DOM 更新后计算位置
   nextTick(() => {
@@ -116,7 +117,11 @@ const showChatOptions = (event) => {
       dropdownEl.style.top = `${btnRect.bottom - 48}px`;
       dropdownEl.style.left = `${btnRect.left}px`;
     }
+
+    isShowOptionCid.value = cid;
   });
+
+  event.stopPropagation();
 };
 
 /**
@@ -146,7 +151,6 @@ onUnmounted(() => {
     max-height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 4px;
     padding: 8px;
     overflow-x: hidden;
     width: 232px;
@@ -158,6 +162,7 @@ onUnmounted(() => {
       width: 100%;
       text-align: center;
       border-right: 1px solid oklch(var(--nc));
+      gap: 8px;
 
       h2 {
         display: flex;
@@ -193,6 +198,7 @@ onUnmounted(() => {
       justify-content: space-around;
       align-items: center;
       color: oklch(var(--bc));
+      margin-bottom: 4px;
 
       &:hover {
         background-color: oklch(var(--b2));
@@ -202,11 +208,14 @@ onUnmounted(() => {
     .csdb-chat-item-active {
       background-color: oklch(var(--b3));
       font-weight: 900;
+      font-size: 16px;
     }
 
     .csdb-chat-label {
-      width: 136px;
+      width: 162px;
       text-align: left;
+      cursor: pointer;
+      font-size: 14px;
     }
 
     .csdb-chat-dropdown {
@@ -221,11 +230,5 @@ onUnmounted(() => {
       }
     }
   }
-}
-</style>
-
-<style lang="scss" scoped>
-#global-chat-options {
-  position: absolute;
 }
 </style>

@@ -64,7 +64,6 @@ const model = ref(null);
 watch(
   () => curChatModel.value,
   async (newVal) => {
-    console.log("HELLO WOLD");
     model.value = { ...newVal };
   },
   { deep: true },
@@ -89,11 +88,13 @@ const onShowSidebar = () => {
   }
 };
 
-/** onNewChat 向父组件发送要新建对话的信号 */
-const onNewChat = () => {};
-
-/** 显示对话的编辑弹窗 chat-settings-overlay */
-const onShowSettings = () => {};
+/**
+ * 新建对话
+ *  */
+const onNewChat = async () => {
+  await store.dispatch("setCurChatId", "");
+  await store.dispatch("resetMessages");
+};
 
 /**
  * 选择当前的对话模型
@@ -101,8 +102,6 @@ const onShowSettings = () => {};
 const onSelectChatModel = async () => {
   store.dispatch("setCurChatModel", model.value);
 };
-
-const onShowUserSettingOverlay = () => {};
 </script>
 
 <style lang="scss" scoped>

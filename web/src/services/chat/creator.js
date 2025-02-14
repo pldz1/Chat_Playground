@@ -3,6 +3,7 @@ import store from "@/store";
 import { dsAlert, textToHtml } from "@/utils";
 import { renderBlock } from "../markdown/md-render.js";
 import { delete16, app18, copy16 } from "@/assets/svg";
+import { deleteMessage } from "../api/chat-api.js";
 
 /**
  * 提示内容对象
@@ -88,6 +89,7 @@ export class ChatElemCreator {
     deleteButtonDiv.addEventListener("click", async () => {
       this.deleteMessage(mid);
       userDiv.remove();
+      deleteMessage(mid);
     });
 
     userContentDiv.appendChild(optionsDiv);
@@ -172,6 +174,7 @@ export class ChatElemCreator {
     deleteButtonDiv.addEventListener("click", async () => {
       this.deleteMessage(mid);
       assistantDiv.remove();
+      deleteMessage(mid);
     });
 
     assistantContentDiv.appendChild(textDiv);

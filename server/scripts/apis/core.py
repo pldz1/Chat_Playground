@@ -5,25 +5,27 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
 
-from .app import APP_ROUTE
 from .user import USER_ROUTE
+from .chat import CHAT_ROUTE
 
 from scripts.libs import CONF
-from scripts.database import USER_DATABASE
+from scripts.database import USER_DATABASE, CHAT_DATABASE
 
 @asynccontextmanager
 async def lifespan(app=FastAPI):
     # startup: initialize resources
     await USER_DATABASE.initialize()
+    await CHAT_DATABASE.initialize()
     yield
     # shutdown: clean up resources
     await USER_DATABASE.destroy()
+    await CHAT_DATABASE.destroy()
 
 # 设置生命周期的行为
 app = FastAPI(lifespan=lifespan)
 # 挂载路由
-app.include_router(APP_ROUTE)
 app.include_router(USER_ROUTE)
+app.include_router(CHAT_ROUTE)
 
 def start_dev():
     '''

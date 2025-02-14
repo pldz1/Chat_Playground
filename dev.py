@@ -29,15 +29,15 @@ def run_python_script():
     try:
         os.chdir('..')  # 返回上一级目录
         print("Returning to parent directory...")
-        
-        # 执行 python3 main.py，并实时输出
+
+        # 执行 python3 server/dev.py，并实时输出
         python_process = subprocess.Popen(
             ['python3', 'server/dev.py'],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True
         )
-        print("python3 main.py started.")
+        print("python3 server/dev.py started.")
         
         return python_process
     except Exception as e:
@@ -55,7 +55,7 @@ def main():
     # 执行操作
     npm_process = run_npm_dev()  # 启动 npm dev
     time.sleep(3)  # 等待一些时间确保 npm 服务已启动
-    python_process = run_python_script()  # 执行 python3 main.py
+    python_process = run_python_script()  # 执行 python3 dev.py
     
     # 实时捕获并输出两个进程的输出
     try:

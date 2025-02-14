@@ -16,10 +16,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watch } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useStore } from "vuex";
 import { dsAlert } from "@/utils";
-import { getChatModels } from "@/services";
+import { getChatModels, getChatList } from "@/services";
 import { useRouter } from "vue-router";
 
 import SidebarCard from "./SidebarCard.vue";
@@ -52,6 +52,9 @@ const onShowSidebar = (val) => {
 };
 
 onMounted(async () => {
+  // 设置对话列表
+  await getChatList();
+
   if (props.id) {
     if (chatList.value.includes(props.id)) {
       //
