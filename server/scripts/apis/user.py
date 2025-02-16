@@ -25,25 +25,25 @@ async def login(data: T_Login_Request):
     return res
 
 
-@USER_ROUTE.post('/api/v1/user/getChatModels')
-async def get_user_chatmodels(req:T_Get_Base_A_Request):
+@USER_ROUTE.post('/api/v1/user/getModels')
+async def get_user_models(req:T_Get_Base_A_Request):
     '''
     获取某个用户的 对话模型的数据
     '''
     res = T_Get_Base_A_Response()
-    res.data = await USER_DATABASE.get_chat_models(req.username)
+    res.data = await USER_DATABASE.get_models(req.username)
     res.flag = True
     res.log = "Successfully."
     return res
 
 
-@USER_ROUTE.post('/api/v1/user/setChatModels')
-async def set_user_chatmodels(req:T_Set_Base_A_Request):
+@USER_ROUTE.post('/api/v1/user/setModels')
+async def set_user_models(req:T_Set_Base_A_Request):
     '''
     获取某个用户的 对话模型的数据
     '''
     res = T_Set_Base_A_Response()
-    res.flag = await USER_DATABASE.set_chat_models(req.username, req.data)
+    res.flag = await USER_DATABASE.set_models(req.username, req.data)
 
     if res.flag == True:
         res.log = "Successfully."

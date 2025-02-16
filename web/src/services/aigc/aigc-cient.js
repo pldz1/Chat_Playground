@@ -6,7 +6,6 @@ import { AzureOpenAIClient } from "./azure-openai";
 
 export class AIGCClient {
   /**
-   *
    * @param {"chat" | "image" | "rt_audio"} type
    */
   constructor(type) {
@@ -23,6 +22,7 @@ export class AIGCClient {
       if (model.apiType == "OpenAI") {
         this.client = new OpenAIClient(model.baseURL, model.apiKey, model.model);
       }
+
       // Azure OpenAI
       else if (model.apiType == "Azure OpenAI") {
         this.client = new AzureOpenAIClient(model.endpoint, model.apiKey, model.deployment, model.apiVersion);

@@ -23,6 +23,18 @@
               >
             </li>
             <li @click="setTabIndex(2)">
+              <a
+                ><div v-html="image16"></div>
+                图像模型</a
+              >
+            </li>
+            <li @click="setTabIndex(3)">
+              <a
+                ><div v-html="audio16"></div>
+                实时语音模型</a
+              >
+            </li>
+            <li @click="setTabIndex(4)">
               <a>
                 <div v-html="setting16"></div>
                 软件设置
@@ -37,6 +49,15 @@
           </div>
           <div v-if="tab == 1">
             <ChatModels></ChatModels>
+          </div>
+          <div v-if="tab == 2">
+            <ImageModels></ImageModels>
+          </div>
+          <div v-if="tab == 3">
+            <RtaudioModels></RtaudioModels>
+          </div>
+          <div v-if="tab == 4">
+            <ChatInsTemplateList></ChatInsTemplateList>
           </div>
         </div>
       </div>
@@ -53,9 +74,11 @@
 
 <script setup>
 import { ref } from "vue";
-import { instruction16, chat16, setting16 } from "@/assets/svg";
+import { instruction16, chat16, setting16, image16, audio16 } from "@/assets/svg";
 
 import ChatModels from "./ChatModels.vue";
+import ImageModels from "./ImageModels.vue";
+import RtaudioModels from "./RtaudioModels.vue";
 import ChatInsTemplateList from "./ChatInsTemplateList.vue";
 
 const tab = ref(0);

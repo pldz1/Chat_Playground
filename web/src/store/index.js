@@ -19,8 +19,8 @@ const mutations = {
   },
 
   /** @param {state} state */
-  SET_CHAT_MODELS(state, data) {
-    state.setChatModels(data);
+  SET_MODELS(state, data) {
+    state.setModels(data);
   },
 
   /** @param {state} state */
@@ -70,8 +70,8 @@ const actions = {
     commit("SET_LOGIN_STATE", true);
   },
 
-  async setChatModels({ commit }, chatModels) {
-    commit("SET_CHAT_MODELS", chatModels);
+  async setModels({ commit }, models) {
+    commit("SET_MODELS", models);
   },
 
   async setCurChatModel({ commit }, model) {

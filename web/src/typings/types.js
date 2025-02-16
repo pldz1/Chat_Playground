@@ -1,5 +1,5 @@
 /**
- * 当前的对话模型信息
+ * 当前模型信息
  * @property {string} name - 模型名称，默认为 "新增模型"
  * @property {string} apiType - 调用的库类型（"OpenAI" 或 "AzureOpenAI"）
  * @property {string} baseURL - OpenAI 专用：API 请求的基础 URL
@@ -10,7 +10,7 @@
  * @property {string} deployment - Azure 专用：Azure OpenAI 部署名称
  * @property {string} apiVersion - Azure 专用：Azure OpenAI 的协议版本
  */
-export const chatModel_T = { name: "", apiType: "", baseURL: "", endpoint: "", apiKey: "", modelType: "", model: "", deployment: "", apiVersion: "" };
+export const model_T = { name: "", apiType: "", baseURL: "", endpoint: "", apiKey: "", modelType: "", model: "", deployment: "", apiVersion: "" };
 
 /**
  * 提示内容对象

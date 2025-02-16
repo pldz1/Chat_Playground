@@ -84,18 +84,18 @@ class AIO_User_Database:
         return exists
 
     @require_connection
-    async def get_chat_models(self, username: str) -> str:
+    async def get_models(self, username: str) -> str:
         '''
         根据指定的用户名获取 chat_models 的值
         '''
-        return await self.settings.get_chat_models(username)
+        return await self.settings.get_models(username)
 
     @require_connection
-    async def set_chat_models(self, username: str, data: str) -> bool:
+    async def set_models(self, username: str, data: str) -> bool:
         '''
-        根据指定的用户名设置 chat_models 的值
+        根据指定的用户名设置 models 的值
         '''
-        return await self.settings.set_chat_models(username, data)
+        return await self.settings.set_models(username, data)
 
     @require_connection
     async def get_chat_ins_template_list(self, username: str) -> str:

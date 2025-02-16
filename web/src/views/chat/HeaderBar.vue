@@ -58,7 +58,7 @@ import ChatSettings from "./ChatSettings.vue";
 const emits = defineEmits(["on-show-chat-list"]);
 
 const store = useStore();
-const chatModels = computed(() => store.state.chatModels);
+const chatModels = computed(() => store.state.models.chat);
 const curChatModel = computed(() => store.state.curChatModel);
 const model = ref(null);
 

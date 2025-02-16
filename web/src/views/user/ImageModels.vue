@@ -1,17 +1,17 @@
 <template>
   <div class="gusm-any-settings-container">
-    <div v-for="(chatModel, index) in models.chat">
+    <div v-for="(imageModel, index) in models.image">
       <ModelEditCard
         :index="index"
-        :model="chatModel"
-        :model-type-list="chatModelTypeList"
-        @on-update="onUpdateChatModels"
-        @on-delete="onDeleteChatModels"
+        :model="imageModel"
+        :model-type-list="imageModelTypeList"
+        @on-update="onUpdateImageModels"
+        @on-delete="onDeleteImageModels"
       ></ModelEditCard>
     </div>
-    <button class="btn btn-error w-52" @click="addChatModel">
+    <button class="btn btn-error w-52" @click="addImageModel">
       <div v-html="add24"></div>
-      新增对话模型
+      新增图像模型
     </button>
   </div>
 </template>
@@ -20,7 +20,7 @@
 import { useStore } from "vuex";
 import { computed } from "vue";
 import { add24 } from "@/assets/svg";
-import { model_T, chatModelTypeList } from "@/typings";
+import { model_T, imageModelTypeList } from "@/typings";
 import { append4Random } from "@/utils";
 
 import ModelEditCard from "@/components/ModelEditCard.vue";
@@ -30,31 +30,31 @@ import { setModels } from "@/services";
 const store = useStore();
 const models = computed(() => store.state.models);
 
-const onUpdateChatModels = async (data) => {
+const onUpdateImageModels = async (data) => {
   if (data.index == -1) return;
   else {
     const tmpModels = { ...models.value };
-    tmpModels.chat[data.index] = data.model;
+    tmpModels.image[data.index] = data.model;
     await store.dispatch("setModels", tmpModels);
     await setModels();
   }
 };
 
-const onDeleteChatModels = async (index) => {
+const onDeleteImageModels = async (index) => {
   if (index == -1) return;
   else {
     const tmpModels = { ...models.value };
-    tmpModels.chat.splice(index, 1);
+    tmpModels.image.splice(index, 1);
     await store.dispatch("setModels", tmpModels);
     await setModels();
   }
 };
 
-const addChatModel = async () => {
+const addImageModel = async () => {
   const tmpModels = { ...models.value };
-  const tmpChatModel = structuredClone(model_T);
-  tmpChatModel.name = append4Random("对话模型");
-  tmpModels.chat.push(tmpChatModel);
+  const tmpImageModel = structuredClone(model_T);
+  tmpImageModel.name = append4Random("图像模型");
+  tmpModels.image.push(tmpImageModel);
   await store.dispatch("setModels", tmpModels);
   await setModels();
 };

@@ -1,4 +1,4 @@
-import { chatModel_T } from "@/typings";
+import { model_T } from "@/typings";
 
 export const UserState = {
   /**
@@ -32,14 +32,17 @@ export const UserState = {
   isLoggedIn: false,
 
   /**
-   * 能使用的对话模型全部列表
+   * 全部模型
+   * @property {any[]} chat 对话模型列表
+   * @property {any[]} image 图像模型列表
+   * @property {any[]} rtaduio 实时语音模型列表
    */
-  chatModels: [],
+  models: { chat: [], image: [], rtaudio: [] },
 
   /**
    * 当前的对话模型信息
    */
-  curChatModel: structuredClone(chatModel_T),
+  curChatModel: structuredClone(model_T),
 
   /**
    * 当前用户有的对话指令
@@ -69,10 +72,10 @@ export const UserState = {
   },
 
   /**
-   * 设置对话模型
+   * 设置全部模型
    */
-  setChatModels(data) {
-    this.chatModels = data;
+  setModels(data) {
+    this.models = data;
   },
 
   /**

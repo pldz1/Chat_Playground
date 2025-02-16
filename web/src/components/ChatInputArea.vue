@@ -15,7 +15,7 @@
             </el-button>
           </div>
           <div class="tooltip tooltip-top" data-tip="绘图窗口(预览功能)">
-            <el-button class="ccia-opts-button">
+            <el-button class="ccia-opts-button" onclick="global_image_fun_preview.showModal()">
               <div class="ccia-icon" v-html="dalle24"></div>
             </el-button>
           </div>

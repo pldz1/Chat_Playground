@@ -1,74 +1,54 @@
+import threading
 import subprocess
 import os
 import time
 import sys
 
 def run_npm_dev():
-    # 进入 web 文件夹并执行 npm run dev
-    try:
-        os.chdir('web')  # 进入 web 文件夹
-        print("Entering 'web' directory...")
-        
-        # 启动 npm run dev 并保持进程在后台运行，实时输出
-        npm_process = subprocess.Popen(
-            ['npm', 'run', 'dev'],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True
-        )
-        
-        print("npm run dev started. Keeping it alive...")
-        
-        return npm_process
-    except Exception as e:
-        print(f"Error starting npm process: {e}")
-        sys.exit(1)
+    os.chdir('web')
+    print("Entering 'web' directory...")
+    npm_process = subprocess.Popen(
+        ['npm', 'run', 'dev'],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True
+    )
+    print("npm run dev started.")
+    return npm_process
 
 def run_python_script():
-    # 返回上一级目录并执行 python3 main.py
-    try:
-        os.chdir('..')  # 返回上一级目录
-        print("Returning to parent directory...")
-
-        # 执行 python3 server/dev.py，并实时输出
-        python_process = subprocess.Popen(
-            ['python3', 'server/dev.py'],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True
-        )
-        print("python3 server/dev.py started.")
-        
-        return python_process
-    except Exception as e:
-        print(f"Error running python script: {e}")
-        sys.exit(1)
+    os.chdir('..')
+    print("Returning to parent directory...")
+    python_process = subprocess.Popen(
+        ['python3', '-u', 'server/dev.py'],  # 使用 -u 参数确保不缓冲输出
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True
+    )
+    print("python3 server/dev.py started.")
+    return python_process
 
 def stream_output(process, name):
-    """实时打印进程输出"""
     for line in process.stdout:
-        print(f"[{name}] {line}", end='')  # 打印标准输出
+        print(f"[{name}] {line}", end='')
     for line in process.stderr:
-        print(f"[{name} ERROR] {line}", end='')  # 打印错误输出
+        print(f"[{name} ERROR] {line}", end='')
 
 def main():
-    # 执行操作
-    npm_process = run_npm_dev()  # 启动 npm dev
-    time.sleep(3)  # 等待一些时间确保 npm 服务已启动
-    python_process = run_python_script()  # 执行 python3 dev.py
+    npm_process = run_npm_dev()
+    time.sleep(3)  # 等待 npm 服务启动
+    python_process = run_python_script()
     
-    # 实时捕获并输出两个进程的输出
-    try:
-        stream_output(npm_process, "npm run dev")  # 输出 npm 进程内容
-        stream_output(python_process, "python3 server/dev.py")  # 输出 Python 进程内容
-        
-        # 等待两个进程结束（可选择性地根据需求修改）
-        npm_process.wait()
-        python_process.wait()
-    except KeyboardInterrupt:
-        print("Process interrupted. Terminating...")
-        npm_process.terminate()
-        python_process.terminate()
-        
+    # 分别为两个进程创建线程来读取输出
+    npm_thread = threading.Thread(target=stream_output, args=(npm_process, "npm run dev"), daemon=True)
+    python_thread = threading.Thread(target=stream_output, args=(python_process, "python3 server/dev.py"), daemon=True)
+    
+    npm_thread.start()
+    python_thread.start()
+    
+    # 主线程等待子进程结束
+    npm_process.wait()
+    python_process.wait()
+
 if __name__ == "__main__":
     main()

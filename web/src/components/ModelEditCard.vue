@@ -65,7 +65,14 @@
           <!-- Azure OpenAI 的协议版本 -->
           <div v-if="model.apiType == 'Azure OpenAI'" class="model-item-row">
             <div class="model-item-label">
-              <a class="link link-primary" herf="https://learn.microsoft.com/en-us/azure/ai-services/openai/api-version-deprecation"> API Version :</a>
+              <a
+                class="link link-primary"
+                href="https://learn.microsoft.com/en-us/azure/ai-services/openai/api-version-deprecation"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                API Version :
+              </a>
             </div>
             <div class="model-item-content">
               <label class="input input-bordered flex items-center gap-2">
@@ -79,7 +86,7 @@
             <div class="model-item-label">Model Type:</div>
             <div class="model-item-content">
               <select class="select select-bordered w-full" v-model="model.modelType">
-                <option v-for="mi in modelTypeList" :value="mi.value">{{ mi.name }}</option>
+                <option v-for="mi in props.modelTypeList" :value="mi.value">{{ mi.name }}</option>
               </select>
             </div>
           </div>
@@ -112,13 +119,19 @@
 <script setup>
 import { ref, reactive, watch } from "vue";
 import { edit18, save18, delete18 } from "@/assets/svg";
-import { chatModel_T, apiTypeList, modelTypeList } from "@/typings";
+import { model_T, apiTypeList } from "@/typings";
 
 const emit = defineEmits(["on-update", "on-delete"]);
 const props = defineProps({
   model: {
     type: Object,
-    default: () => structuredClone(chatModel_T),
+    default: () => structuredClone(model_T),
+  },
+  modelTypeList: {
+    type: Array,
+    default: () => {
+      return [];
+    },
   },
   index: {
     type: Number,

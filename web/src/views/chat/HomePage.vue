@@ -19,7 +19,7 @@
 import { ref, onMounted, computed } from "vue";
 import { useStore } from "vuex";
 import { dsAlert } from "@/utils";
-import { getChatModels, getChatList, getChatInsTemplateList } from "@/services";
+import { getModels, getChatList, getChatInsTemplateList } from "@/services";
 import { useRouter } from "vue-router";
 
 import SidebarCard from "./SidebarCard.vue";
@@ -37,11 +37,10 @@ const props = defineProps({
 const store = useStore();
 const router = useRouter();
 
-const username = computed(() => store.state.username);
 const isLoggedIn = computed(() => store.state.isLoggedIn);
 const chatList = computed(() => store.state.chatList);
 const curChatModel = computed(() => store.state.curChatModel);
-const chatModels = computed(() => store.state.chatModels);
+const models = computed(() => store.state.models);
 const isShowSidebar = ref(true);
 
 /**
@@ -53,7 +52,7 @@ const onShowSidebar = (val) => {
 
 onMounted(async () => {
   // 设置初始化的模型
-  await getChatModels();
+  await getModels();
 
   // 设置对话列表
   await getChatList();
@@ -81,8 +80,8 @@ onMounted(async () => {
   }
 
   if (!curChatModel.value.apiKey && !curChatModel.value.name) {
-    if (chatModels.value.length > 0) {
-      await store.dispatch("setCurChatModel", chatModels.value[0]);
+    if (models.value.chat.length > 0) {
+      await store.dispatch("setCurChatModel", models.value.chat[0]);
     }
   }
 });
