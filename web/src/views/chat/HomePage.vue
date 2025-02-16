@@ -77,7 +77,7 @@ onMounted(async () => {
   }
 
   // 设置初始化的模型
-  await getChatModels(username.value);
+  await getChatModels();
 
   if (!curChatModel.value.apiKey && !curChatModel.value.name) {
     if (chatModels.value.length > 0) {

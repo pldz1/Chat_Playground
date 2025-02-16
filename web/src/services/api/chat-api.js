@@ -15,6 +15,18 @@ import { apiRequest, dsAlert, isValidChatInfoArray, getUuid, generateRandomCname
 export const getChatListAPI = (username) => apiRequest("post", "/api/v1/chat/getChatList", { username });
 
 /**
+ * 获取对话的模型设置参数
+ * @return {Promise<{ flag: boolean, log: string, data:string }>} 服务器返回的结果
+ */
+export const getChatSettingsAPI = (username, cid) => apiRequest("post", "/api/v1/chat/getChatSettings", { username, cid });
+
+/**
+ * 设置对话的模型设置参数
+ * @return {Promise<{ flag: boolean, log: string }>} 服务器返回的结果
+ */
+export const setChatSettingsAPI = (username, cid, data) => apiRequest("post", "/api/v1/chat/getChatSettings", { username, cid, data });
+
+/**
  * 新增对话请求
  * @return {Promise<{ flag: boolean, log: string }>} 服务器返回的结果
  */
@@ -77,6 +89,51 @@ export async function getChatList() {
 }
 
 /**
+ * 获得对话对于模型参数的设置
+ * @return {Promise<boolean}>} 操作的结果
+ */
+export async function getChatSettings() {
+  const username = store.state.user.username;
+  const isLoggedIn = store.state.user.isLoggedIn;
+  const cid = store.state.user.curChatId;
+
+  if (!isLoggedIn || !username || !cid) return false;
+
+  const res = await getChatSettingsAPI(username, cid);
+  if (!res.flag) {
+    dsAlert({ type: "error", message: `Get current chat settings failed: ${res.log}` });
+    return false;
+  } else {
+    const validData = JSON.parse(res.data);
+    await store.dispatch("setCurChatModelSettings", validData);
+    return true;
+  }
+}
+
+/**
+ * 设置对话的模型参数
+ * @return {Promise<boolean}>} 操作的结果
+ */
+export async function setChatSettings() {
+  const username = store.state.user.username;
+  const isLoggedIn = store.state.user.isLoggedIn;
+  const cid = store.state.user.curChatId;
+
+  if (!isLoggedIn || !username || !cid) return false;
+
+  const curChatModelSettings = store.state.user.curChatModelSettings;
+  const data = JSON.stringify(curChatModelSettings);
+
+  const res = await setChatSettingsAPI(username, cid, data);
+  if (!res.flag) {
+    dsAlert({ type: "error", message: `Set current chat settings failed: ${res.log}` });
+    return false;
+  }
+
+  return true;
+}
+
+/**
  * 新增对话
  * @return {Promise<boolean}>} 操作的结果
  */
@@ -93,6 +150,8 @@ export async function addChat() {
     dsAlert({ type: "error", message: `Add chat failed: ${res.log}` });
     return false;
   }
+  // 同时设置对话的模型的设置
+  await setChatSettings();
   await store.dispatch("pushChatList", { cid, cname });
   await store.dispatch("setCurChatId", cid);
   return true;

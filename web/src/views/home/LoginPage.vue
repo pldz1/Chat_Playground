@@ -4,20 +4,23 @@
       <!-- header -->
       <h1 class="hlcc-title">Welcome back</h1>
       <!-- username & password -->
-      <div class="hlcc-form-group">
-        <input class="hlcc-form-input" v-model="username" required />
-        <label class="hlcc-form-label">User name*</label>
-      </div>
-      <div class="hlcc-form-group">
-        <input class="hlcc-form-input" type="password" v-model="password" required />
-        <label class="hlcc-form-label">Password*</label>
-      </div>
+      <form>
+        <div class="hlcc-form-group">
+          <input class="hlcc-form-input" autocomplete="username" v-model="username" required />
+          <label class="hlcc-form-label">User name*</label>
+        </div>
+        <div class="hlcc-form-group">
+          <input class="hlcc-form-input" autocomplete="new-password" type="password" v-model="password" required />
+          <label class="hlcc-form-label">Password*</label>
+        </div>
+      </form>
       <!-- login button -->
       <button class="btn btn-success hlcc-login-b-w" @click="onLogin">Login</button>
 
       <div class="hlcc-or"><span>OR</span></div>
       <!-- sign in -->
-      <a class="hlcc-a-tips" @click.prevent="onToDoButton">Don't have an account? <strong>Click here</strong></a>
+      <a class="hlcc-a-tips" @click.prevent="onSignIn">Don't have an account? <strong>Click here</strong></a>
+      <a class="hlcc-a-tips" @click.prevent="onExperience">Experience it first! 🚀</a>
     </div>
   </div>
 </template>
@@ -44,8 +47,12 @@ const onLogin = async () => {
   dsLoading(false);
 };
 
-const onToDoButton = () => {
+const onSignIn = () => {
   dsAlert({ type: "info", message: "This is a test function which is waiting for further development! 😄" });
+};
+
+const onExperience = () => {
+  router.push({ path: "/chat" });
 };
 </script>
 
@@ -69,7 +76,7 @@ const onToDoButton = () => {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     width: 320px;
-    height: 360px;
+    height: 380px;
 
     .hlcc-title {
       margin-bottom: 20px;

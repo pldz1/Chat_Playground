@@ -3,74 +3,79 @@ import { ChatState } from "./chat";
 import { UserState } from "./user";
 
 const state = {
-  user: { ...UserState },
-  chat: { ...ChatState },
+  ...UserState,
+  ...ChatState,
 };
 
 const mutations = {
   /** @param {state} state */
   SET_USER_LOGIN_INFO(state, data) {
-    state.user.setUserLoginInfo(data);
+    state.setUserLoginInfo(data);
   },
 
   /** @param {state} state */
   SET_LOGIN_STATE(state, data) {
-    state.user.setIsLoggedIn(data);
+    state.setIsLoggedIn(data);
   },
 
   /** @param {state} state */
   SET_CHAT_MODELS(state, data) {
-    state.user.setChatModels(data);
+    state.setChatModels(data);
   },
 
   /** @param {state} state */
   SET_CUR_CHAT_MODEL(state, data) {
-    state.user.setCurChatModel(data);
+    state.setCurChatModel(data);
   },
 
   /** @param {state} state */
-  SET_CHAT_MODEL_SETTINGS(state, data) {
-    state.user.setChatModelSettings(data);
+  SET_CHAT_INS_TEMPLATE_LIST(state, data) {
+    state.setChatInsTemplateList(data);
+  },
+
+  /** @param {state} state */
+  SET_CURRENT_CHAT_MODEL_SETTINGS(state, data) {
+    state.setCurChatModelSettings(data);
   },
 
   /** @param {state} state */
   PUSH_CHAT_LIST(state, data) {
-    state.user.pushChatList(data);
+    state.pushChatList(data);
   },
 
   /** @param {state} state */
   DELETE_CHAT_LIST(state, data) {
-    state.user.deleteChatList(data);
+    state.deleteChatList(data);
   },
 
   /** @param {state} state */
   RENAME_CHAT_LIST(state, data) {
-    state.user.renameChatList(data);
+    state.renameChatList(data);
   },
 
   /** @param {state} state */
   RESET_CHAT_LIST(state, data) {
-    state.user.resetChatList(data);
+    state.resetChatList(data);
   },
 
   /** @param {state} state */
   SET_CURRENT_CHAT_ID(state, data) {
-    state.user.setCurChatId(data);
+    state.setCurChatId(data);
   },
 
   /** @param {state} state */
   PUSH_MESSAGES(state, data) {
-    state.chat.pushMessages(data);
+    state.pushMessages(data);
   },
 
   /** @param {state} state */
   SPLICE_MESSAGES(state, index) {
-    state.chat.spliceMessages(index);
+    state.spliceMessages(index);
   },
 
   /** @param {state} state */
   RESET_MESSAGES(state) {
-    state.chat.resetMessages();
+    state.resetMessages();
   },
 };
 
@@ -88,8 +93,12 @@ const actions = {
     commit("SET_CUR_CHAT_MODEL", model);
   },
 
-  async setChatModelSettings({ commit }, data) {
-    commit("SET_CHAT_MODEL_SETTINGS", data);
+  async setChatInsTemplateList({ commit }, data) {
+    commit("SET_CHAT_INS_TEMPLATE_LIST", data);
+  },
+
+  async setCurChatModelSettings({ commit }, data) {
+    commit("SET_CURRENT_CHAT_MODEL_SETTINGS", data);
   },
 
   async pushChatList({ commit }, data) {

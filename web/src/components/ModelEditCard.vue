@@ -3,7 +3,7 @@
     <div class="collapse collapse-arrow bg-base-200">
       <input type="checkbox" class="peer" ref="modelEditCheckbox" />
       <div class="collapse-title text-xl font-medium">
-        {{ model.name }}
+        <span class="model-name">{{ model.name }}</span>
         <div class="model-edit">
           <div v-html="delete18" class="tooltip tooltip-left" data-tip="删除模型" @click="deleteModel"></div>
           <div v-if="!isEdit" @click="editModel" class="tooltip tooltip-left" data-tip="编辑模型(记得再次点击保存)" v-html="edit18"></div>
@@ -24,18 +24,16 @@
           </div>
           <!-- 模型 API 接口类型 -->
           <div class="model-item-row">
-            <div class="model-item-label">Model API Type:</div>
+            <div class="model-item-label">API Type:</div>
             <div class="model-item-content">
-              <select class="select select-bordered w-full" v-model="model.type">
-                <option disabled selected>请选择</option>
-                <option>OpenAI</option>
-                <option>Azure OpenAI</option>
+              <select class="select select-bordered w-full" v-model="model.apiType">
+                <option v-for="ai in apiTypeList" :value="ai.value">{{ ai.name }}</option>
               </select>
             </div>
           </div>
 
           <!-- OpenAI 模型的 API 连接 -->
-          <div v-if="model.type == 'OpenAI'" class="model-item-row">
+          <div v-if="model.apiType == 'OpenAI'" class="model-item-row">
             <div class="model-item-label">Base URL:</div>
             <div class="model-item-content">
               <label class="input input-bordered flex items-center gap-2">
@@ -45,7 +43,7 @@
           </div>
 
           <!-- Azure OpenAI 模型终节点 -->
-          <div v-if="model.type == 'Azure OpenAI'" class="model-item-row">
+          <div v-if="model.apiType == 'Azure OpenAI'" class="model-item-row">
             <div class="model-item-label">End Point:</div>
             <div class="model-item-content">
               <label class="input input-bordered flex items-center gap-2">
@@ -59,16 +57,13 @@
             <div class="model-item-label">API key:</div>
             <div class="model-item-content">
               <label class="input input-bordered flex items-center gap-2">
-                <input type="password" class="grow" placeholder="" v-model="model.apiKey" />
-                <button class="btn btn-outline btn-success border-none" @click="copyApiKey">
-                  <div v-html="copy16"></div>
-                </button>
+                <input type="text" class="grow" placeholder="" v-model="model.apiKey" />
               </label>
             </div>
           </div>
 
           <!-- Azure OpenAI 的协议版本 -->
-          <div v-if="model.type == 'Azure OpenAI'" class="model-item-row">
+          <div v-if="model.apiType == 'Azure OpenAI'" class="model-item-row">
             <div class="model-item-label">
               <a class="link link-primary" herf="https://learn.microsoft.com/en-us/azure/ai-services/openai/api-version-deprecation"> API Version :</a>
             </div>
@@ -79,8 +74,18 @@
             </div>
           </div>
 
+          <!-- 模型 API 接口类型 -->
+          <div class="model-item-row">
+            <div class="model-item-label">Model Type:</div>
+            <div class="model-item-content">
+              <select class="select select-bordered w-full" v-model="model.modelType">
+                <option v-for="mi in modelTypeList" :value="mi.value">{{ mi.name }}</option>
+              </select>
+            </div>
+          </div>
+
           <!-- Open AI 部署的模型 -->
-          <div v-if="model.type == 'OpenAI'" class="model-item-row">
+          <div v-if="model.apiType == 'OpenAI'" class="model-item-row">
             <div class="model-item-label">Model:</div>
             <div class="model-item-content">
               <label class="input input-bordered flex items-center gap-2">
@@ -90,7 +95,7 @@
           </div>
 
           <!-- Azure OpenAI 的模型 -->
-          <div v-if="model.type == 'Azure OpenAI'" class="model-item-row">
+          <div v-if="model.apiType == 'Azure OpenAI'" class="model-item-row">
             <div class="model-item-label">Deployment:</div>
             <div class="model-item-content">
               <label class="input input-bordered flex items-center gap-2">
@@ -106,15 +111,14 @@
 
 <script setup>
 import { ref, reactive, watch } from "vue";
-import { edit18, save18, copy16, delete18 } from "@/assets/svg";
-
-import { dsAlert } from "@/utils";
+import { edit18, save18, delete18 } from "@/assets/svg";
+import { chatModel_T, apiTypeList, modelTypeList } from "@/typings";
 
 const emit = defineEmits(["on-update", "on-delete"]);
 const props = defineProps({
   model: {
     type: Object,
-    default: () => ({ name: "新增模型", type: "", baseURL: "", endpoint: "", apiKey: "", model: "", deployment: "", apiVersion: "" }),
+    default: () => structuredClone(chatModel_T),
   },
   index: {
     type: Number,
@@ -140,17 +144,6 @@ const deleteModel = async () => {
   emit("on-delete", props.index);
 };
 
-const copyApiKey = () => {
-  navigator.clipboard
-    .writeText(model.apiKey)
-    .then(() => {
-      dsAlert({ type: "success", message: "API Key 已成功复制！" });
-    })
-    .catch((err) => {
-      dsAlert({ type: "error", message: `复制到剪切板失败: ${err}` });
-    });
-};
-
 watch(
   () => props.model,
   (newModel) => {
@@ -172,6 +165,9 @@ watch(
     z-index: 1;
   }
 
+  .model-name {
+    min-width: 100px;
+  }
   .model-edit {
     z-index: 2;
     display: flex;

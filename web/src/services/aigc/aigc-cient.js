@@ -37,7 +37,7 @@ export class AIGCClient {
       return false;
     }
 
-    const cms = store.state.user.chatModelSettings;
+    const cms = store.state.user.curChatModelSettings;
     await this.client.chat(messages, cms.max_tokens, cms.temperature, cms.top_p, cms.frequency_penalty, cms.presence_penalty, cms.stop, callback);
     return true;
   }

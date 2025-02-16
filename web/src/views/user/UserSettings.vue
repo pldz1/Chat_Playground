@@ -12,11 +12,17 @@
           <ul class="menu bg-base-200 rounded-box w-56">
             <li @click="setTabIndex(0)">
               <a
+                ><div v-html="instruction16"></div>
+                对话指令模板</a
+              >
+            </li>
+            <li @click="setTabIndex(1)">
+              <a
                 ><div v-html="chat16"></div>
                 对话模型</a
               >
             </li>
-            <li @click="setTabIndex(1)">
+            <li @click="setTabIndex(2)">
               <a>
                 <div v-html="setting16"></div>
                 软件设置
@@ -26,14 +32,8 @@
         </div>
         <div class="gusm-panel-container">
           <!-- 对话模型的设置界面 -->
-          <div v-if="tab == 0" class="gusm-chat-models">
-            <div v-for="(chatModel, index) in chatModels">
-              <ModelEditCard :index="index" :model="chatModel" @on-update="onUpdateChatModels" @on-delete="onDeleteChatModels"></ModelEditCard>
-            </div>
-            <button class="btn btn-error w-52" @click="addChatModel">
-              <div v-html="add24"></div>
-              新增模型
-            </button>
+          <div v-if="tab == 1" class="gusm-chat-models">
+            <ChatModels></ChatModels>
           </div>
         </div>
       </div>
@@ -51,43 +51,14 @@
 <script setup>
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
-import { chat16, setting16, add24 } from "@/assets/svg";
-import { setChatModels } from "@/services";
+import { instruction16, chat16, setting16 } from "@/assets/svg";
 
-import ModelEditCard from "@/components/ModelEditCard.vue";
+import ChatModels from "./ChatModels.vue";
 
-const store = useStore();
 const tab = ref(0);
-
-const chatModels = computed(() => store.state.user.chatModels);
-const username = computed(() => store.state.user.username);
 
 const setTabIndex = (value) => {
   tab.value = value;
-};
-
-const onUpdateChatModels = async (data) => {
-  if (data.index == -1) return;
-  else {
-    const tmpChatModels = [...chatModels.value];
-    tmpChatModels[data.index] = data.model;
-    await setChatModels(username.value, tmpChatModels);
-  }
-};
-
-const onDeleteChatModels = async (index) => {
-  if (index == -1) return;
-  else {
-    const tmpChatModels = [...chatModels.value];
-    tmpChatModels.splice(index, 1);
-    await setChatModels(username.value, tmpChatModels);
-  }
-};
-
-const addChatModel = async () => {
-  const tmpChatModels = [...chatModels.value];
-  tmpChatModels.push({ name: "新增模型", type: "", baseURL: "", endpoint: "", apiKey: "", model: "", deployment: "", apiVersion: "" });
-  await setChatModels(username.value, tmpChatModels);
 };
 </script>
 
@@ -118,12 +89,6 @@ const addChatModel = async () => {
       padding: 8px;
       flex-direction: column;
       overflow-y: auto;
-
-      .gusm-chat-models {
-        gap: 8px;
-        display: flex;
-        flex-direction: column;
-      }
     }
   }
 }

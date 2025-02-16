@@ -43,8 +43,12 @@ export async function login(username, password) {
  * 获取全部的对话模型信息然后更新store
  * @returns {Promise<boolean>}
  */
-export async function getChatModels(username) {
-  const res = await getChatModelsAPI(username.value);
+export async function getChatModels() {
+  const username = store.state.user.username;
+  const isLoggedIn = store.state.user.isLoggedIn;
+  if (!isLoggedIn || !username) return false;
+
+  const res = await getChatModelsAPI(username);
 
   if (!res.flag) {
     dsAlert({ type: "error", message: `从数据库拿对话模型数据失败: ${res.log}` });
@@ -73,7 +77,7 @@ export async function getChatModels(username) {
  * @param {Array} data 模型数据,注意这个数据类型是一个数组.
  * @returns {Promise<boolean>}
  */
-export async function setChatModels(username, data) {
+export async function setChatModels(data) {
   if (!Array.isArray(data)) {
     dsAlert({ type: "error", message: "要设置到数据库里的模型数据不是数组类型的." });
     return false;
@@ -81,7 +85,10 @@ export async function setChatModels(username, data) {
 
   await store.dispatch("setChatModels", data);
 
-  const res = await setChatModelsAPI(username.value, JSON.stringify(data));
+  const username = store.state.user.username;
+  const isLoggedIn = store.state.user.isLoggedIn;
+  if (!isLoggedIn || !username) return false;
+  const res = await setChatModelsAPI(username, JSON.stringify(data));
 
   if (!res.flag) {
     dsAlert({ type: "error", message: `向数据库设置对话模型数据失败: ${res.log}` });

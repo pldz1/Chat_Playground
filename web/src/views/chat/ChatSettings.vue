@@ -147,7 +147,7 @@ import { info24 } from "@/assets/svg";
 import { isArrayTypeStr, dsAlert } from "@/utils";
 
 const store = useStore();
-const chatModelSettings = computed(() => store.state.user.chatModelSettings);
+const curChatModelSettings = computed(() => store.state.user.curChatModelSettings);
 const modelSettings = reactive({});
 const modal = ref(null);
 
@@ -155,7 +155,7 @@ const instrStr = ref("");
 const stopStr = ref("");
 
 watch(
-  () => chatModelSettings.value,
+  () => curChatModelSettings.value,
   (newVal) => {
     Object.keys(modelSettings).forEach((key) => {
       delete modelSettings[key];
@@ -180,7 +180,7 @@ const handleClose = () => {
     modelSettings.stop = validStop ? JSON.parse(stopStr.value) : [];
 
     // 保存全部修改
-    store.dispatch("setChatModelSettings", { ...modelSettings });
+    store.dispatch("setCurChatModelSettings", { ...modelSettings });
   }
 };
 

@@ -63,7 +63,7 @@ export class ChatDrawer extends ChatElemCreator {
     await store.dispatch("pushMessages", data);
     if (this.sync) await addMessage(chatData.mid, data);
 
-    const { prompts, passedMsgLen } = store.state.user.chatModelSettings;
+    const { prompts, passedMsgLen } = store.state.user.curChatModelSettings;
     const history = store.state.chat.messages;
     const valudHistory = history.slice(-Math.min(passedMsgLen, history.length));
     const messages = [...prompts, ...valudHistory];
@@ -120,10 +120,11 @@ export class ChatDrawer extends ChatElemCreator {
       return;
     }
 
-    // 获取并移除队列中的第一个渲染任务
-    const data = this.renderQueue.shift();
+    // 取出最新的渲染数据，清空队列
+    const latestData = this.renderQueue[this.renderQueue.length - 1];
+    this.renderQueue = [];
     // 执行渲染操作
-    this.renderAssStream(data);
+    this.renderAssStream(latestData);
     // 继续处理下一个渲染任务
     setTimeout(this.processRenderQueue, 0);
   }

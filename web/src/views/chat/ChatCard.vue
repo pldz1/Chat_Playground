@@ -1,6 +1,7 @@
 <template>
   <div class="chat-card-container">
     <!-- 显示markdown的问答区域 -->
+    <ChatTemplate v-show="!curChatId"></ChatTemplate>
     <div class="ccdc-messages-container">
       <div id="chat-messages-container" class="cccd-scroll-window" ref="innerRef"></div>
     </div>
@@ -18,6 +19,7 @@ import { ref, watch, computed, onMounted } from "vue";
 import { ChatDrawer, addChat, getAllMessage } from "@/services";
 
 import ChatInputArea from "@/components/ChatInputArea.vue";
+import ChatTemplate from "./ChatTemplate.vue";
 
 const store = useStore();
 const isChatting = ref(false);
