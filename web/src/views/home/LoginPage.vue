@@ -27,12 +27,10 @@
 
 <script setup>
 import { ref } from "vue";
-import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { login } from "@/services";
 import { dsAlert, dsLoading } from "@/utils";
 
-const store = useStore();
 const router = useRouter();
 
 const username = ref("admin");

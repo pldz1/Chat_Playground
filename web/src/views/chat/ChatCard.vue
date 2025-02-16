@@ -1,7 +1,7 @@
 <template>
   <div class="chat-card-container">
     <!-- 显示markdown的问答区域 -->
-    <ChatTemplate v-show="!curChatId"></ChatTemplate>
+    <ChatInsTemplate v-show="!curChatId" @on-update="onDrawTemplateIns"></ChatInsTemplate>
     <div class="ccdc-messages-container">
       <div id="chat-messages-container" class="cccd-scroll-window" ref="innerRef"></div>
     </div>
@@ -19,7 +19,7 @@ import { ref, watch, computed, onMounted } from "vue";
 import { ChatDrawer, addChat, getAllMessage } from "@/services";
 
 import ChatInputArea from "@/components/ChatInputArea.vue";
-import ChatTemplate from "./ChatTemplate.vue";
+import ChatInsTemplate from "./ChatInsTemplate.vue";
 
 const store = useStore();
 const isChatting = ref(false);
@@ -63,6 +63,13 @@ const onStartChat = async (message) => {
 const onStopChat = async () => {
   // isChatting.value = false;
   dsAlert({ type: "info", message: "暂时不支持暂停对话." });
+};
+
+/**
+ * 绘制对话指令的内容, 这个不会放进store
+ */
+const onDrawTemplateIns = (messages) => {
+  drawer.draw(messages);
 };
 
 onMounted(() => {

@@ -22,6 +22,18 @@ export const getChatModelsAPI = (username) => apiRequest("post", "/api/v1/user/g
 export const setChatModelsAPI = (username, data) => apiRequest("post", "/api/v1/user/setChatModels", { username, data });
 
 /**
+ * 发送获得对话模型的全部内容的请求
+ * @return {Promise<{ flag: boolean, data: string, log: string }>} 服务器返回的登录结果
+ */
+export const getChatInsTemplateListAPI = (username) => apiRequest("post", "/api/v1/user/getChatInsTemplateList", { username });
+
+/**
+ * 发送设置对话模型的请求
+ * @return {Promise<{ flag: boolean, data: string, log: string }>} 服务器返回的登录结果
+ */
+export const setChatInsTemplateListAPI = (username, data) => apiRequest("post", "/api/v1/user/setChatInsTemplateList", { username, data });
+
+/**
  * 发送登录请求
  * @param {string} user - 用户名
  * @param {string} password - 密码
@@ -92,6 +104,49 @@ export async function setChatModels(data) {
 
   if (!res.flag) {
     dsAlert({ type: "error", message: `向数据库设置对话模型数据失败: ${res.log}` });
+    return false;
+  }
+  return true;
+}
+
+/**
+ * 获取全部的对话指令
+ * @returns {Promise<boolean>}
+ */
+export async function getChatInsTemplateList() {
+  const username = store.state.username;
+  const isLoggedIn = store.state.isLoggedIn;
+  if (!isLoggedIn || !username) return false;
+
+  const res = await getChatInsTemplateListAPI(username);
+
+  if (!res.flag) {
+    dsAlert({ type: "error", message: `从数据库拿用户对话模型的指令模板失败: ${res.log}` });
+    return false;
+  } else {
+    if (isArrayTypeStr(res.data)) {
+      await store.dispatch("setChatInsTemplateList", JSON.parse(res.data));
+    } else {
+      await store.dispatch("setChatInsTemplateList", []);
+    }
+    return true;
+  }
+}
+
+/**
+ * 获取全部的对话指令模板
+ * @returns {Promise<boolean>}
+ */
+export async function setChatInsTemplateList(data) {
+  await store.dispatch("setChatInsTemplateList", data);
+
+  const username = store.state.username;
+  const isLoggedIn = store.state.isLoggedIn;
+  if (!isLoggedIn || !username) return false;
+  const res = await setChatInsTemplateListAPI(username, JSON.stringify(data));
+
+  if (!res.flag) {
+    dsAlert({ type: "error", message: `向数据库设置用户的指令列表失败: ${res.log}` });
     return false;
   }
   return true;

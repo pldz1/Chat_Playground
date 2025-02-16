@@ -1,9 +1,11 @@
 import fastapi
 
 from scripts.typedefs import T_Get_Base_A_Request, \
+                             T_Get_Base_A_Response, \
                              T_Set_Base_A_Response, \
                              T_Chat_Base_A_Request, \
                              T_Chat_Base_B_Request, \
+                             T_Chat_Base_C_Request, \
                              T_Get_Chat_Base_A_Response, \
                              T_Chat_Add_Message_Request, \
                              T_Chat_Delete_Message_Request
@@ -103,3 +105,26 @@ async def get_all_message(req:T_Chat_Delete_Message_Request):
     res.log = "Successfully."
     return res
 
+
+@CHAT_ROUTE.post('/api/v1/chat/getChatSettings')
+async def get_chat_settings(req:T_Chat_Base_B_Request):
+    '''
+    获得全部的消息
+    '''
+    res = T_Get_Base_A_Response()
+    res.data = await CHAT_DATABASE.get_chat_settings_by_username_cid(req.username, req.cid)
+    res.flag = True
+    res.log = "Successfully."
+    return res
+
+
+@CHAT_ROUTE.post('/api/v1/chat/setChatSettings')
+async def set_chat_settings(req:T_Chat_Base_C_Request):
+    '''
+    获得全部的消息
+    '''
+    res = T_Set_Base_A_Response()
+    await CHAT_DATABASE.set_chat_settings_by_username_cid(req.username, req.cid, req.data)
+    res.flag = True
+    res.log = "Successfully."
+    return res

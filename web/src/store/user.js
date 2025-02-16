@@ -1,4 +1,4 @@
-import { chatModel_T, chatModelSettings_T } from "@/typings";
+import { chatModel_T } from "@/typings";
 
 export const UserState = {
   /**
@@ -47,11 +47,6 @@ export const UserState = {
   chatInsTemplateList: [],
 
   /**
-   * 对话路由列表
-   */
-  chatList: [],
-
-  /**
    * 当前的对话id
    */
   curChatId: "",
@@ -65,11 +60,6 @@ export const UserState = {
     this.uid = data.uid;
     this.basicAuth = "";
   },
-
-  /**
-   * 配置聊天模型的设置参数。
-   */
-  curChatModelSettings: structuredClone(chatModelSettings_T),
 
   /**
    * 设置当前登录的状态
@@ -97,49 +87,6 @@ export const UserState = {
    */
   setCurChatModel(data) {
     this.curChatModel = data;
-  },
-
-  /**
-   * 设置当前对话模型参数
-   */
-
-  setCurChatModelSettings(data) {
-    this.curChatModelSettings = data;
-  },
-
-  /**
-   * 设置对话的列表
-   */
-  resetChatList(data) {
-    this.chatList = data;
-  },
-
-  /**
-   * 增加对话
-   */
-  pushChatList(data) {
-    this.chatList.push(data);
-  },
-
-  /**
-   * 增加对话
-   */
-  deleteChatList(data) {
-    const index = this.chatList.findIndex((item) => item.cid === data);
-    if (index !== -1) {
-      // 使用 splice 删除该对象
-      this.chatList.splice(index, 1);
-    }
-  },
-
-  /**
-   * 修改对话
-   */
-  renameChatList(data) {
-    const index = this.chatList.findIndex((item) => item.cid === data.cid);
-    if (index !== -1) {
-      this.chatList[index] = data;
-    }
   },
 
   /**

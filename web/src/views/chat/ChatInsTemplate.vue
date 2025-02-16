@@ -3,21 +3,42 @@
     <div class="ctdc-typewriter" ref="typewriterRef"></div>
     <div class="ctdc-templates">
       <div class="ctdc-templates-container">
-        <div class="tooltip tooltip-bottom" data-tip="中英文互译">
-          <button class="btn">🔤 翻译助手</button>
-        </div>
-        <div class="tooltip tooltip-bottom" data-tip="生成有emoji的git commit">
-          <button class="btn">🥳 Git emoji助手</button>
-        </div>
+        <button v-for="inst in insTemplateList" :key="inst.id" class="btn" @click="onSelectInst(inst.id)">
+          {{ inst.name }}
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, ref } from "vue";
+import { useStore } from "vuex";
+import { onMounted, onUnmounted, ref, computed } from "vue";
+import { chatInsTemplateList } from "@/typings";
+import { addChat } from "@/services";
 
+const emit = defineEmits(["on-update"]);
+
+const store = useStore();
 const typewriterRef = ref(null);
+const curChatModelSettings = computed(() => store.state.curChatModelSettings);
+const insTemplateList = computed(() => {
+  return [...chatInsTemplateList, ...store.state.chatInsTemplateList];
+});
+
+const onSelectInst = async (id) => {
+  const instText =
+    insTemplateList.value.find((inst) => inst.id === id)?.value || "As an AI assistant, please make your responses more engaging by including lively emojis.";
+  const newVal = { ...curChatModelSettings.value };
+  newVal.prompts[0].content[0].text = instText;
+  await store.dispatch("setCurChatModelSettings", newVal);
+  await addChat();
+  emit("on-update", [
+    { role: "user", content: [{ type: "text", text: "重复一遍你的指令" }] },
+    { role: "assistant", content: [{ type: "text", text: instText }] },
+  ]);
+};
+
 let repeatIntervalId = null; // 用于存储重复调用的定时器ID
 
 const blinkText = () => {
@@ -89,8 +110,8 @@ onUnmounted(() => {
     left: 15%;
     top: 55%;
     width: 70%;
-    height: 20%;
-    max-height: 20%;
+    height: 30%;
+    max-height: 30%;
 
     .ctdc-templates-container {
       position: relative;

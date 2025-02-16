@@ -32,7 +32,10 @@
         </div>
         <div class="gusm-panel-container">
           <!-- 对话模型的设置界面 -->
-          <div v-if="tab == 1" class="gusm-chat-models">
+          <div v-if="tab == 0">
+            <ChatInsTemplateList></ChatInsTemplateList>
+          </div>
+          <div v-if="tab == 1">
             <ChatModels></ChatModels>
           </div>
         </div>
@@ -49,11 +52,11 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import { useStore } from "vuex";
+import { ref } from "vue";
 import { instruction16, chat16, setting16 } from "@/assets/svg";
 
 import ChatModels from "./ChatModels.vue";
+import ChatInsTemplateList from "./ChatInsTemplateList.vue";
 
 const tab = ref(0);
 

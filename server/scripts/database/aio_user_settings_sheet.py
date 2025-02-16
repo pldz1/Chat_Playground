@@ -25,6 +25,7 @@ class AIO_User_Settings_Sheet:
                 id INTEGER PRIMARY KEY,
                 username TEXT UNIQUE,
                 chat_models TEXT,
+                chat_ins_template_list TEXT,
                 image_models TEXT,
                 rt_audio_models TEXT,
                 app_theme TEXT,
@@ -70,6 +71,45 @@ class AIO_User_Settings_Sheet:
             )
             await self.conn.commit()
             LOGGER.info(f"Created entry for {username} with chat_models.")
+            return True
+
+    async def get_chat_ins_template_list(self, username: str) -> str:
+        '''
+        根据指定的用户名获取 chat_ins_template_list 的值
+        '''
+        cursor = await self.conn.execute(
+            f'SELECT chat_ins_template_list FROM {self.sheet} WHERE username = ?', (username,)
+        )
+        row = await cursor.fetchone()
+        if row:
+            LOGGER.info(f"Retrieved chat_ins_template_list for {username}.")
+            return row[0]
+        LOGGER.warning(f"chat_ins_template_list for {username} not found.")
+        return ""
+
+    async def set_chat_ins_template_list(self, username: str, data: str) -> bool:
+        '''
+        根据指定的用户名设置 chat_ins_template_list 的值
+        '''
+        cursor = await self.conn.execute(
+            f'SELECT id FROM {self.sheet} WHERE username = ?', (username,)
+        )
+        row = await cursor.fetchone()
+        if row:
+            await self.conn.execute(
+                f'UPDATE {self.sheet} SET chat_ins_template_list = ? WHERE username = ?',
+                (data, username)
+            )
+            await self.conn.commit()
+            LOGGER.info(f"Updated chat_ins_template_list for {username}.")
+            return True
+        else:
+            await self.conn.execute(
+                f'INSERT INTO {self.sheet} (username, chat_ins_template_list) VALUES (?, ?)',
+                (username, data)
+            )
+            await self.conn.commit()
+            LOGGER.info(f"Created entry for {username} with chat_ins_template_list.")
             return True
 
     async def get_image_models(self, username: str) -> str:

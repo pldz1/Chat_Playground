@@ -7,6 +7,7 @@ from .api_user import T_Login_Request, \
 from .api_chat import T_Get_Chat_Base_A_Response, \
                       T_Chat_Base_A_Request, \
                       T_Chat_Base_B_Request, \
+                      T_Chat_Base_C_Request, \
                       T_Chat_Add_Message_Request, \
                       T_Chat_Delete_Message_Request
 from .database_user import T_App_Ssession
@@ -22,6 +23,7 @@ __all__ = [
     'T_Get_Chat_Base_A_Response',
     'T_Chat_Base_A_Request',
     'T_Chat_Base_B_Request', 
+    'T_Chat_Base_C_Request',
     'T_Chat_Add_Message_Request',
     'T_Chat_Delete_Message_Request'
 ]

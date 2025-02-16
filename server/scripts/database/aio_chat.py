@@ -48,7 +48,8 @@ class AIO_Chat_Database:
                 id INTEGER PRIMARY KEY,
                 username TEXT,
                 cid TEXT,
-                cname TEXT
+                cname TEXT,
+                settings TEXT
             )
         ''')
         await self.conn.commit()
@@ -84,6 +85,49 @@ class AIO_Chat_Database:
         
         LOGGER.info(f"Retrieved cids and cnames for username={username}.")
         return result
+
+    @require_connection
+    async def get_chat_settings_by_username_cid(self, username: str, cid:str) -> str:
+        '''
+        根据指定的 username 和 cid 查询 settings
+        如果没有找到任何记录, 返回字符串
+        '''
+        cursor = await self.conn.execute(f'''
+            SELECT settings FROM {self.cids_sheet_name} WHERE username = ? AND cid = ?
+        ''', (username, cid))
+        
+        data = await cursor.fetchone()
+        
+        # 如果没有数据，返回空字符串
+        if not data:
+            LOGGER.info(f"No settings found for username={username} and cid={cid}")
+            return ""
+
+        LOGGER.info(f"Retrieved settings for username={username} and cid={cid}.")
+        return data
+    
+    @require_connection
+    async def set_chat_settings_by_username_cid(self, username: str, cid: str, settings: str) -> None:
+        '''
+        更新或插入指定 username 和 cid 的 settings
+        '''
+        # 先尝试更新
+        cursor = await self.conn.execute(f'''
+            UPDATE {self.cids_sheet_name}
+            SET settings = ?
+            WHERE username = ? AND cid = ?
+        ''', (settings, username, cid))
+
+        # 如果没有更新任何行，则插入新记录
+        if cursor.rowcount == 0:
+            await self.conn.execute(f'''
+                INSERT INTO {self.cids_sheet_name} (username, cid, settings)
+                VALUES (?, ?, ?)
+            ''', (username, cid, settings))
+
+        await self.conn.commit()
+        LOGGER.info(f"Updated settings for username={username} and cid={cid}.")
+
 
 
     @require_connection

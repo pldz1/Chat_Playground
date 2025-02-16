@@ -19,7 +19,7 @@
 import { ref, onMounted, computed } from "vue";
 import { useStore } from "vuex";
 import { dsAlert } from "@/utils";
-import { getChatModels, getChatList } from "@/services";
+import { getChatModels, getChatList, getChatInsTemplateList } from "@/services";
 import { useRouter } from "vue-router";
 
 import SidebarCard from "./SidebarCard.vue";
@@ -52,8 +52,12 @@ const onShowSidebar = (val) => {
 };
 
 onMounted(async () => {
+  // 设置初始化的模型
+  await getChatModels();
+
   // 设置对话列表
   await getChatList();
+  await getChatInsTemplateList();
 
   if (props.id) {
     if (chatList.value.includes(props.id)) {
@@ -75,9 +79,6 @@ onMounted(async () => {
     // router.push({ path: "/login" });
     return;
   }
-
-  // 设置初始化的模型
-  await getChatModels();
 
   if (!curChatModel.value.apiKey && !curChatModel.value.name) {
     if (chatModels.value.length > 0) {

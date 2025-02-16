@@ -15,38 +15,6 @@ export function isArrayTypeStr(jsonStr) {
 }
 
 /**
- * 检查对象是否符合 `chatModel` 的结构
- * @param {any} obj - 需要验证的对象
- * @returns {boolean} 是否符合 `chatModel` 结构
- */
-export function isValidChatModel(obj) {
-  if (typeof obj !== "object" || obj === null || Array.isArray(obj)) {
-    return false;
-  }
-
-  // 预期的属性及其类型
-  const requiredFields = {
-    name: "string",
-    type: "string",
-    baseURL: "string",
-    endpoint: "string",
-    apiKey: "string",
-    model: "string",
-    deployment: "string",
-    apiVersion: "string",
-  };
-
-  // 遍历 `requiredFields` 确保 `obj` 具备所有属性，且类型正确
-  for (const key in requiredFields) {
-    if (!(key in obj) || typeof obj[key] !== requiredFields[key]) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-/**
  * 验证用户消息是否有效。
  *
  * 一个消息对象被认为是有效的，如果它包含至少一个非空的文本或者有效的图片 URL。

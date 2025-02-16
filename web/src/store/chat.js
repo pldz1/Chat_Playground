@@ -1,3 +1,5 @@
+import { chatModelSettings_T } from "@/typings";
+
 /**
  * 提示内容对象
  * @typedef {Object} PromptContent
@@ -17,11 +19,36 @@
  */
 export const ChatState = {
   /**
+   * 对话路由列表
+   */
+  chatList: [],
+
+  /**
+   * 配置聊天模型的设置参数。
+   */
+  curChatModelSettings: structuredClone(chatModelSettings_T),
+
+  /**
    * 全部的对话信息
    * @type {PromptContent[]}
    */
 
   messages: [],
+
+  /**
+   * 设置对话的列表
+   */
+  resetChatList(data) {
+    this.chatList = data;
+  },
+
+  /**
+   * 设置当前对话模型参数
+   */
+
+  setCurChatModelSettings(data) {
+    this.curChatModelSettings = data;
+  },
 
   /**
    * 向对话数组末尾添加消息

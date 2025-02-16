@@ -48,7 +48,7 @@
 import { useStore } from "vuex";
 import { nextTick, ref, computed, onMounted, onUnmounted } from "vue";
 import { edit24, delete24, options24 } from "@/assets/svg";
-import { deleteChat, renameChat } from "@/services";
+import { deleteChat, renameChat, getChatSettings } from "@/services";
 
 const store = useStore();
 const cid = computed(() => store.state.curChatId);
@@ -69,6 +69,7 @@ const editChatName = ref("");
 const onSelectChat = async (item) => {
   if (item.cid == cid.value) return;
   await store.dispatch("setCurChatId", item.cid);
+  await getChatSettings();
 };
 
 /**

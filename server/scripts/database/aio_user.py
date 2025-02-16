@@ -98,6 +98,20 @@ class AIO_User_Database:
         return await self.settings.set_chat_models(username, data)
 
     @require_connection
+    async def get_chat_ins_template_list(self, username: str) -> str:
+        '''
+        根据指定的用户名获取 chat_ins_template_list 的值
+        '''
+        return await self.settings.get_chat_ins_template_list(username)
+
+    @require_connection
+    async def set_chat_ins_template_list(self, username: str, data: str) -> bool:
+        '''
+        根据指定的用户名设置 chat_ins_template_list 的值
+        '''
+        return await self.settings.set_chat_ins_template_list(username, data)
+
+    @require_connection
     async def get_image_models(self, username: str) -> str:
         '''
         根据指定的用户名获取 image_models 的值

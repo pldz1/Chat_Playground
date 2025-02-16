@@ -26,6 +26,14 @@ class T_Chat_Base_B_Request(BaseModel):
     username:str = ''
     cid: str = ''
 
+class T_Chat_Base_C_Request(BaseModel):
+    '''
+    基础的对话请求格式3
+    '''
+    username:str = ''
+    cid: str = ''
+    data: str = ''
+
 class T_Chat_Add_Message_Request(BaseModel):
     '''
     设置对话消息的请求格式

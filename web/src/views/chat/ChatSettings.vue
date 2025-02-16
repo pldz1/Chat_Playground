@@ -1,8 +1,8 @@
 <template>
-  <dialog id="global_chat_model_settings" class="modal global-chat-model-settings" ref="modal">
+  <dialog id="global_chat_model_settings" class="modal global-chat-model-settings">
     <div class="modal-box">
       <form method="dialog">
-        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" @click="handleClose">✕</button>
       </form>
       <h3 class="text-lg font-bold">设置模型参数</h3>
       <!-- 设置主容器 -->
@@ -142,14 +142,14 @@
 
 <script setup>
 import { useStore } from "vuex";
-import { computed, reactive, watch, ref, onMounted, onUnmounted } from "vue";
+import { computed, reactive, watch, ref } from "vue";
 import { info24 } from "@/assets/svg";
 import { isArrayTypeStr, dsAlert } from "@/utils";
+import { setChatSettings } from "@/services";
 
 const store = useStore();
 const curChatModelSettings = computed(() => store.state.curChatModelSettings);
 const modelSettings = reactive({});
-const modal = ref(null);
 
 const instrStr = ref("");
 const stopStr = ref("");
@@ -169,32 +169,18 @@ watch(
 );
 
 // 定义模态框关闭时的事件处理函数
-const handleClose = () => {
-  if (modal.value) {
-    modal.value.removeEventListener("close", handleClose);
-    modelSettings.prompts[0].content[0].text = instrStr.value;
-    const validStop = isArrayTypeStr(stopStr.value);
+const handleClose = async () => {
+  modelSettings.prompts[0].content[0].text = instrStr.value;
+  const validStop = isArrayTypeStr(stopStr.value);
 
-    if (!validStop) dsAlert({ type: "warn", message: "没有输入有效的stop参数,默认置为空数组" });
+  if (!validStop) dsAlert({ type: "warn", message: "没有输入有效的stop参数,默认置为空数组" });
 
-    modelSettings.stop = validStop ? JSON.parse(stopStr.value) : [];
+  modelSettings.stop = validStop ? JSON.parse(stopStr.value) : [];
 
-    // 保存全部修改
-    store.dispatch("setCurChatModelSettings", { ...modelSettings });
-  }
+  // 保存全部修改
+  store.dispatch("setCurChatModelSettings", { ...modelSettings });
+  await setChatSettings();
 };
-
-onMounted(() => {
-  if (modal.value) {
-    modal.value.addEventListener("close", handleClose);
-  }
-});
-
-onUnmounted(() => {
-  if (modal.value) {
-    modal.value.removeEventListener("close", handleClose);
-  }
-});
 </script>
 
 <style lang="scss" scoped>

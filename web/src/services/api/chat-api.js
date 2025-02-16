@@ -24,7 +24,7 @@ export const getChatSettingsAPI = (username, cid) => apiRequest("post", "/api/v1
  * 设置对话的模型设置参数
  * @return {Promise<{ flag: boolean, log: string }>} 服务器返回的结果
  */
-export const setChatSettingsAPI = (username, cid, data) => apiRequest("post", "/api/v1/chat/getChatSettings", { username, cid, data });
+export const setChatSettingsAPI = (username, cid, data) => apiRequest("post", "/api/v1/chat/setChatSettings", { username, cid, data });
 
 /**
  * 新增对话请求
@@ -150,10 +150,15 @@ export async function addChat() {
     dsAlert({ type: "error", message: `Add chat failed: ${res.log}` });
     return false;
   }
+
+  const chatList = [...store.state.chatList];
+  chatList.push({ cid, cname });
+  await store.dispatch("resetChatList", chatList);
+
+  await store.dispatch("setCurChatId", cid);
+
   // 同时设置对话的模型的设置
   await setChatSettings();
-  await store.dispatch("pushChatList", { cid, cname });
-  await store.dispatch("setCurChatId", cid);
   return true;
 }
 
@@ -172,7 +177,10 @@ export async function deleteChat(cid) {
     return false;
   }
 
-  await store.dispatch("deleteChatList", cid);
+  const chatList = [...store.state.chatList];
+  const index = chatList.findIndex((chat) => chat.cid === cid);
+  if (index >= 0) chatList.splice(index, 1);
+  await store.dispatch("resetChatList", chatList);
   return true;
 }
 
@@ -191,7 +199,9 @@ export async function renameChat(cid, cname) {
     return false;
   }
 
-  await store.dispatch("renameChatList", { cid, cname });
+  const index = chatList.findIndex((chat) => chat.cid === cid);
+  if (index >= 0) chatList[index].cname = cname;
+  await store.dispatch("resetChatList", chatList);
   return true;
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="gusm-chat-models">
+  <div class="gusm-any-settings-container">
     <div v-for="(chatModel, index) in chatModels">
       <ModelEditCard :index="index" :model="chatModel" @on-update="onUpdateChatModels" @on-delete="onDeleteChatModels"></ModelEditCard>
     </div>
@@ -13,10 +13,11 @@
 <script setup>
 import { useStore } from "vuex";
 import { computed } from "vue";
-import ModelEditCard from "@/components/ModelEditCard.vue";
 import { add24 } from "@/assets/svg";
 import { chatModel_T } from "@/typings";
 import { append4Random } from "@/utils";
+
+import ModelEditCard from "@/components/ModelEditCard.vue";
 
 import { setChatModels } from "@/services";
 
@@ -51,7 +52,7 @@ const addChatModel = async () => {
 </script>
 
 <style lang="scss" scoped>
-.gusm-chat-models {
+.gusm-any-settings-container {
   gap: 8px;
   display: flex;
   flex-direction: column;

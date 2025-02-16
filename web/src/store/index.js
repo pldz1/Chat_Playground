@@ -39,21 +39,6 @@ const mutations = {
   },
 
   /** @param {state} state */
-  PUSH_CHAT_LIST(state, data) {
-    state.pushChatList(data);
-  },
-
-  /** @param {state} state */
-  DELETE_CHAT_LIST(state, data) {
-    state.deleteChatList(data);
-  },
-
-  /** @param {state} state */
-  RENAME_CHAT_LIST(state, data) {
-    state.renameChatList(data);
-  },
-
-  /** @param {state} state */
   RESET_CHAT_LIST(state, data) {
     state.resetChatList(data);
   },
@@ -99,18 +84,6 @@ const actions = {
 
   async setCurChatModelSettings({ commit }, data) {
     commit("SET_CURRENT_CHAT_MODEL_SETTINGS", data);
-  },
-
-  async pushChatList({ commit }, data) {
-    commit("PUSH_CHAT_LIST", data);
-  },
-
-  async deleteChatList({ commit }, data) {
-    commit("DELETE_CHAT_LIST", data);
-  },
-
-  async renameChatList({ commit }, data) {
-    commit("RENAME_CHAT_LIST", data);
   },
 
   async resetChatList({ commit }, data) {
