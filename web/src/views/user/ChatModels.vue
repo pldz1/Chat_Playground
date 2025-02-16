@@ -21,7 +21,7 @@ import { append4Random } from "@/utils";
 import { setChatModels } from "@/services";
 
 const store = useStore();
-const chatModels = computed(() => store.state.user.chatModels);
+const chatModels = computed(() => store.state.chatModels);
 
 const onUpdateChatModels = async (data) => {
   if (data.index == -1) return;

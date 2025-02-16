@@ -51,10 +51,10 @@ import { edit24, delete24, options24 } from "@/assets/svg";
 import { deleteChat, renameChat } from "@/services";
 
 const store = useStore();
-const cid = computed(() => store.state.user.curChatId);
+const cid = computed(() => store.state.curChatId);
 
 const chatList = computed(() => {
-  return [...store.state.user.chatList].reverse();
+  return [...store.state.chatList].reverse();
 });
 
 const dropdownRef = ref(null);

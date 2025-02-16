@@ -13,8 +13,8 @@ import { computed } from "vue";
 import { useStore } from "vuex";
 
 const store = useStore();
-const username = computed(() => (store.state.user.username ? store.state.user.username.slice(0, 2).toUpperCase() : "游客"));
-const isLoggedIn = computed(() => store.state.user.isLoggedIn);
+const username = computed(() => (store.state.username ? store.state.username.slice(0, 2).toUpperCase() : "游客"));
+const isLoggedIn = computed(() => store.state.isLoggedIn);
 </script>
 
 <style scoped>

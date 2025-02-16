@@ -66,8 +66,8 @@ export const deleteMessageAPI = (username, cid, mid) => apiRequest("post", "/api
  * 获得全部对话历史
  */
 export async function getChatList() {
-  const username = store.state.user.username;
-  const isLoggedIn = store.state.user.isLoggedIn;
+  const username = store.state.username;
+  const isLoggedIn = store.state.isLoggedIn;
   if (!isLoggedIn || !username) return false;
 
   const res = await getChatListAPI(username);
@@ -93,9 +93,9 @@ export async function getChatList() {
  * @return {Promise<boolean}>} 操作的结果
  */
 export async function getChatSettings() {
-  const username = store.state.user.username;
-  const isLoggedIn = store.state.user.isLoggedIn;
-  const cid = store.state.user.curChatId;
+  const username = store.state.username;
+  const isLoggedIn = store.state.isLoggedIn;
+  const cid = store.state.curChatId;
 
   if (!isLoggedIn || !username || !cid) return false;
 
@@ -115,13 +115,13 @@ export async function getChatSettings() {
  * @return {Promise<boolean}>} 操作的结果
  */
 export async function setChatSettings() {
-  const username = store.state.user.username;
-  const isLoggedIn = store.state.user.isLoggedIn;
-  const cid = store.state.user.curChatId;
+  const username = store.state.username;
+  const isLoggedIn = store.state.isLoggedIn;
+  const cid = store.state.curChatId;
 
   if (!isLoggedIn || !username || !cid) return false;
 
-  const curChatModelSettings = store.state.user.curChatModelSettings;
+  const curChatModelSettings = store.state.curChatModelSettings;
   const data = JSON.stringify(curChatModelSettings);
 
   const res = await setChatSettingsAPI(username, cid, data);
@@ -138,8 +138,8 @@ export async function setChatSettings() {
  * @return {Promise<boolean}>} 操作的结果
  */
 export async function addChat() {
-  const username = store.state.user.username;
-  const isLoggedIn = store.state.user.isLoggedIn;
+  const username = store.state.username;
+  const isLoggedIn = store.state.isLoggedIn;
   if (!isLoggedIn || !username) return false;
 
   const cid = getUuid("chat");
@@ -162,8 +162,8 @@ export async function addChat() {
  * @return {Promise<boolean>} 操作的结果
  */
 export async function deleteChat(cid) {
-  const username = store.state.user.username;
-  const isLoggedIn = store.state.user.isLoggedIn;
+  const username = store.state.username;
+  const isLoggedIn = store.state.isLoggedIn;
   if (!isLoggedIn || !username) return false;
 
   const res = await deleteChatAPI(username, cid);
@@ -181,8 +181,8 @@ export async function deleteChat(cid) {
  * @return {Promise<boolean>} 操作的结果
  */
 export async function renameChat(cid, cname) {
-  const username = store.state.user.username;
-  const isLoggedIn = store.state.user.isLoggedIn;
+  const username = store.state.username;
+  const isLoggedIn = store.state.isLoggedIn;
   if (!isLoggedIn || !username) return false;
 
   const res = await renameChatAPI(username, cid, cname);
@@ -200,9 +200,9 @@ export async function renameChat(cid, cname) {
  * @return {any[]} 返回数据库的对话数据
  */
 export async function getAllMessage(callback) {
-  const username = store.state.user.username;
-  const isLoggedIn = store.state.user.isLoggedIn;
-  const cid = store.state.user.curChatId;
+  const username = store.state.username;
+  const isLoggedIn = store.state.isLoggedIn;
+  const cid = store.state.curChatId;
   if (!isLoggedIn || !username || !cid) return false;
 
   const res = await getAllMessageAPI(username, cid);
@@ -229,9 +229,9 @@ export async function getAllMessage(callback) {
  * @return {Promise<boolean>} 操作的结果
  */
 export async function addMessage(mid, message) {
-  const username = store.state.user.username;
-  const isLoggedIn = store.state.user.isLoggedIn;
-  const cid = store.state.user.curChatId;
+  const username = store.state.username;
+  const isLoggedIn = store.state.isLoggedIn;
+  const cid = store.state.curChatId;
   if (!isLoggedIn || !username || !cid) return false;
 
   const msgStr = JSON.stringify(message);
@@ -248,9 +248,9 @@ export async function addMessage(mid, message) {
  * @return {Promise<boolean>} 操作的结果
  */
 export async function deleteMessage(mid) {
-  const username = store.state.user.username;
-  const isLoggedIn = store.state.user.isLoggedIn;
-  const cid = store.state.user.curChatId;
+  const username = store.state.username;
+  const isLoggedIn = store.state.isLoggedIn;
+  const cid = store.state.curChatId;
   if (!isLoggedIn || !username || !cid) return false;
 
   const res = await deleteMessageAPI(username, cid, mid);

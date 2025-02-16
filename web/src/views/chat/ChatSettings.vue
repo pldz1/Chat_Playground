@@ -147,7 +147,7 @@ import { info24 } from "@/assets/svg";
 import { isArrayTypeStr, dsAlert } from "@/utils";
 
 const store = useStore();
-const curChatModelSettings = computed(() => store.state.user.curChatModelSettings);
+const curChatModelSettings = computed(() => store.state.curChatModelSettings);
 const modelSettings = reactive({});
 const modal = ref(null);
 

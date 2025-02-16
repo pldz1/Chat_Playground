@@ -18,7 +18,7 @@ export class AIGCClient {
 
   init() {
     if (this.type == "chat") {
-      const model = store.state.user.curChatModel;
+      const model = store.state.curChatModel;
       // OpenAI
       if (model.type == "OpenAI") {
         this.client = new OpenAIClient(model.baseURL, model.apiKey, model.model);
@@ -37,7 +37,7 @@ export class AIGCClient {
       return false;
     }
 
-    const cms = store.state.user.curChatModelSettings;
+    const cms = store.state.curChatModelSettings;
     await this.client.chat(messages, cms.max_tokens, cms.temperature, cms.top_p, cms.frequency_penalty, cms.presence_penalty, cms.stop, callback);
     return true;
   }

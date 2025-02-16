@@ -26,9 +26,9 @@ const isChatting = ref(false);
 const innerRef = ref(null);
 
 const drawer = new ChatDrawer(true);
-const curChatModel = computed(() => store.state.user.curChatModel);
-const chatMessagesLength = computed(() => store.state.chat.messages.length);
-const curChatId = computed(() => store.state.user.curChatId);
+const curChatModel = computed(() => store.state.curChatModel);
+const chatMessagesLength = computed(() => store.state.messages.length);
+const curChatId = computed(() => store.state.curChatId);
 
 watch(
   () => curChatId.value,

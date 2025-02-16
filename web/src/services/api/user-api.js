@@ -44,8 +44,8 @@ export async function login(username, password) {
  * @returns {Promise<boolean>}
  */
 export async function getChatModels() {
-  const username = store.state.user.username;
-  const isLoggedIn = store.state.user.isLoggedIn;
+  const username = store.state.username;
+  const isLoggedIn = store.state.isLoggedIn;
   if (!isLoggedIn || !username) return false;
 
   const res = await getChatModelsAPI(username);
@@ -85,8 +85,8 @@ export async function setChatModels(data) {
 
   await store.dispatch("setChatModels", data);
 
-  const username = store.state.user.username;
-  const isLoggedIn = store.state.user.isLoggedIn;
+  const username = store.state.username;
+  const isLoggedIn = store.state.isLoggedIn;
   if (!isLoggedIn || !username) return false;
   const res = await setChatModelsAPI(username, JSON.stringify(data));
 

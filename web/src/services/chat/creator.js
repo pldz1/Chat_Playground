@@ -154,7 +154,7 @@ export class ChatElemCreator {
         return;
       }
 
-      const message = store.state.chat.messages[index];
+      const message = store.state.messages[index];
 
       navigator.clipboard
         .writeText(message.content[0].text)

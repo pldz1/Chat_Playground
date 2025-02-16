@@ -37,11 +37,11 @@ const props = defineProps({
 const store = useStore();
 const router = useRouter();
 
-const username = computed(() => store.state.user.username);
-const isLoggedIn = computed(() => store.state.user.isLoggedIn);
-const chatList = computed(() => store.state.user.chatList);
-const curChatModel = computed(() => store.state.user.curChatModel);
-const chatModels = computed(() => store.state.user.chatModels);
+const username = computed(() => store.state.username);
+const isLoggedIn = computed(() => store.state.isLoggedIn);
+const chatList = computed(() => store.state.chatList);
+const curChatModel = computed(() => store.state.curChatModel);
+const chatModels = computed(() => store.state.chatModels);
 const isShowSidebar = ref(true);
 
 /**
