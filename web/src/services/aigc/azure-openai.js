@@ -49,20 +49,25 @@ export class AzureOpenAIClient {
       return;
     }
 
-    const results = await this.client.chat.completions.create({
-      messages: messages,
-      max_tokens: max_tokens,
-      temperature: temperature,
-      top_p: top_p,
-      frequency_penalty: frequency_penalty,
-      presence_penalty: presence_penalty,
-      stop: stop,
-      stream: true,
-      stream_options: { include_usage: true },
-    });
+    try {
+      const results = await this.client.chat.completions.create({
+        messages: messages,
+        max_tokens: max_tokens,
+        temperature: temperature,
+        top_p: top_p,
+        frequency_penalty: frequency_penalty,
+        presence_penalty: presence_penalty,
+        stop: stop,
+        stream: true,
+        stream_options: { include_usage: true },
+      });
 
-    for await (const chunk of results) {
-      yield chunk.choices[0]?.delta?.content || "";
+      for await (const chunk of results) {
+        yield chunk.choices[0]?.delta?.content || "";
+      }
+    } catch (err) {
+      yield String(err);
+      return;
     }
   }
 

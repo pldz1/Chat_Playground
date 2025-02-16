@@ -149,21 +149,21 @@ onUnmounted(() => {
 
   .csdb-chats {
     height: 100%;
-    max-height: 100%;
     display: flex;
     flex-direction: column;
     padding: 8px;
-    overflow-x: hidden;
     width: 232px;
     max-width: 232px;
 
     .csdb-chats-container {
       background-color: oklch(var(--b1));
       height: 100%;
-      width: 100%;
+      width: 230px;
       text-align: center;
       border-right: 1px solid oklch(var(--nc));
-      gap: 8px;
+      max-height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
 
       h2 {
         display: flex;

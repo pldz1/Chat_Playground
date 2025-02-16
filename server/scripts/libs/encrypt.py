@@ -2,7 +2,7 @@ import base64
 import json
 
 
-def xorEncryptDecrypt(data, key):
+def xor_encrypt_decrypt(data, key):
     # 确保key长度足够长，若不够则重复填充
     key = (key * ((len(data) // len(key)) + 1))[:len(data)]
 
@@ -11,12 +11,12 @@ def xorEncryptDecrypt(data, key):
     return result
 
 
-def encryptDict(data, key, layers=5):
+def encrypt_dict(data, key, layers=5):
     # 将字典转换为JSON字符串
     json_str = json.dumps(data)
 
     # 对JSON字符串进行异或加密
-    encrypted_bytes = xorEncryptDecrypt(json_str.encode('utf-8'), key)
+    encrypted_bytes = xor_encrypt_decrypt(json_str.encode('utf-8'), key)
 
     # 嵌套五层Base64编码
     for _ in range(layers):
@@ -26,16 +26,16 @@ def encryptDict(data, key, layers=5):
     return encrypted_str
 
 
-def decryptDict(encrypted_str, key, layers=5):
+def decrypt_dict(encrypted_str, key, layers=5):
     # 嵌套五层Base64解码
     encrypted_bytes = encrypted_str.encode('utf-8')
     for _ in range(layers):
         # 在这里确保进行解码前进行填充处理
         encrypted_bytes = base64.urlsafe_b64decode(
-            addPadding(encrypted_bytes.decode('utf-8')))
+            add_padding(encrypted_bytes.decode('utf-8')))
 
     # 对字节数据进行异或解密
-    decrypted_bytes = xorEncryptDecrypt(encrypted_bytes, key)
+    decrypted_bytes = xor_encrypt_decrypt(encrypted_bytes, key)
 
     # 将解密后的字节数据转换回JSON字符串
     decrypted_str = decrypted_bytes.decode('utf-8')
@@ -46,5 +46,5 @@ def decryptDict(encrypted_str, key, layers=5):
     return data
 
 
-def addPadding(data):
+def add_padding(data):
     return data + '=' * (-len(data) % 4)
