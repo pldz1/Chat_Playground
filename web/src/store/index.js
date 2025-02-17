@@ -1,10 +1,12 @@
 import { createStore } from "vuex";
-import { ChatState } from "./chat";
-import { UserState } from "./user";
+import { ChatState } from "./chat.js";
+import { UserState } from "./user.js";
+import { ImageState } from "./image.js";
 
 const state = {
   ...UserState,
   ...ChatState,
+  ...ImageState,
 };
 
 const mutations = {
@@ -62,6 +64,11 @@ const mutations = {
   RESET_MESSAGES(state) {
     state.resetMessages();
   },
+
+  /** @param {state} state */
+  PUSH_IMAGES(state, data) {
+    state.pushImages(data);
+  },
 };
 
 const actions = {
@@ -104,6 +111,10 @@ const actions = {
 
   async resetMessages({ commit }) {
     commit("RESET_MESSAGES");
+  },
+
+  async pushImages({ commit }, data) {
+    commit("PUSH_IMAGES", data);
   },
 };
 

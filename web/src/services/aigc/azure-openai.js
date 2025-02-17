@@ -89,4 +89,18 @@ export class AzureOpenAIClient {
       if (callback) await callback(response);
     }
   }
+
+  async generateImage(prompt, size, n) {
+    if (this.client == null) {
+      return [{ type: "text", data: "模型无效" }];
+    }
+
+    try {
+      const res = await this.client.images.generate({ prompt: prompt, size: size, n: n });
+      const urls = res.data.map((item) => ({ type: "url", data: item.url }));
+      return urls;
+    } catch (err) {
+      return [{ type: "text", data: String(err) }];
+    }
+  }
 }

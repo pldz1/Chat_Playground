@@ -46,3 +46,16 @@ export const chatModelSettings_T = {
   presence_penalty: 0,
   stop: [],
 };
+
+/**
+ * 图像模型的简单参数
+ */
+export const imageModelSettings_T = {
+  model: null,
+  prompt: "",
+  size: "256x256",
+  quality: "",
+  mask: null,
+  image: null,
+  n: 1,
+};

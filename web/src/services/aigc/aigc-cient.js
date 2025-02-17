@@ -41,4 +41,25 @@ export class AIGCClient {
     await this.client.chat(messages, cms.max_tokens, cms.temperature, cms.top_p, cms.frequency_penalty, cms.presence_penalty, cms.stop, callback);
     return true;
   }
+
+  async generateImage() {
+    if (!this.client) {
+      dsAlert({ type: "warn", message: "对话模型初始化失败, 请重新选择模式再尝试." });
+      callback("模型初始化失败, 检查模型选项!");
+      return false;
+    }
+
+    const cms = store.state.curChatModelSettings;
+    const urls = await this.client.generateImage(
+      messages,
+      cms.max_tokens,
+      cms.temperature,
+      cms.top_p,
+      cms.frequency_penalty,
+      cms.presence_penalty,
+      cms.stop,
+      callback,
+    );
+    if (typeof urls === "string") return true;
+  }
 }
