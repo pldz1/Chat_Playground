@@ -87,4 +87,25 @@ export class OpenAIClient {
       if (callback) await callback(response);
     }
   }
+
+  /**
+   * 生成图片
+   * @param {string} prompt - 图片生成的提示词
+   * @param {string} size - 图片尺寸
+   * @param {number} n - 生成图片的数量
+   * @returns {Promise<Array<{ type: string, data: string }>>} 返回包含图片 URL 或错误信息的数组
+   */
+  async generateImage(prompt, size, n) {
+    if (this.client == null) {
+      return [{ type: "text", data: "模型无效" }];
+    }
+
+    try {
+      const res = await this.client.images.generate({ model: this.model, prompt: prompt, size: size, n: n });
+      const urls = res.data.map((item) => ({ type: "url", data: item.url }));
+      return urls;
+    } catch (err) {
+      return [{ type: "text", data: String(err) }];
+    }
+  }
 }

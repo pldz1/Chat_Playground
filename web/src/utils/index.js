@@ -6,3 +6,4 @@ export * from "./is-any-type.js";
 export * from "./upload-file.js";
 export * from "./text-html.js";
 export * from "./random-title.js";
+export * from "./download-file.js";

@@ -44,8 +44,6 @@ export const chatInsTemplateList = [
 ];
 
 export const imageModelSize = [
-  { name: "256x256", value: "256x256" },
-  { name: "512x512", value: "512x512" },
   { name: "1024x1024", value: "1024x1024" },
   { name: "1024x1792", value: "1024x1792" },
   { name: "1792x1024", value: "1792x1024" },
