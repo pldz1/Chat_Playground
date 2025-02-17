@@ -15,8 +15,8 @@
 
 <script setup>
 import { useStore } from "vuex";
-import { dsAlert } from "@/utils";
-import { ref, watch, computed, onMounted } from "vue";
+import { dsAlert, dsLoading } from "@/utils";
+import { ref, watch, computed, onMounted, nextTick } from "vue";
 import { ChatDrawer, addChat, getAllMessage } from "@/services";
 
 import ChatInputArea from "@/components/ChatInputArea.vue";
@@ -35,8 +35,12 @@ const curChatId = computed(() => store.state.curChatId);
 watch(
   () => curChatId.value,
   async () => {
-    drawer.removeAllElem();
-    getAllMessage(drawer.draw);
+    dsLoading(true);
+    await nextTick(async () => {
+      drawer.removeAllElem();
+      await getAllMessage(drawer.draw);
+    });
+    dsLoading(false);
   },
 );
 

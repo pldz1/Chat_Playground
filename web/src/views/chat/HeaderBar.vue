@@ -23,7 +23,7 @@
         <option v-for="model in chatModels" :key="model" :value="model">{{ model.name }}</option>
       </select>
       <div class="tooltip tooltip-bottom" data-tip="设置模型参数">
-        <button class="btn comphb-btn-wh1 comphb-btn-color1" onclick="global_chat_model_settings.showModal()">
+        <button class="btn comphb-btn-wh1 comphb-btn-color1" @click="onShowModelSettings">
           <div v-html="setting24"></div>
         </button>
       </div>
@@ -54,6 +54,7 @@ import ThemeController from "@/components/ThemeController.vue";
 import AvatarCard from "@/components/AvatarCard.vue";
 import UserSettings from "../user/UserSettings.vue";
 import ChatSettings from "./ChatSettings.vue";
+import { dsAlert } from "@/utils";
 
 const emits = defineEmits(["on-show-chat-list"]);
 
@@ -103,6 +104,16 @@ const onNewChat = async () => {
  */
 const onSelectChatModel = async () => {
   store.dispatch("setCurChatModel", model.value);
+};
+
+/**
+ * 打开模型设置界面
+ */
+const onShowModelSettings = () => {
+  if (!curChatModel.value.name) {
+    dsAlert({ type: "warn", message: "请先选择模型" });
+    return;
+  } else global_chat_model_settings.showModal();
 };
 </script>
 

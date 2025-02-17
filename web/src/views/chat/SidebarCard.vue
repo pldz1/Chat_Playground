@@ -69,6 +69,7 @@ const editChatName = ref("");
 const onSelectChat = async (item) => {
   if (item.cid == cid.value) return;
   await store.dispatch("setCurChatId", item.cid);
+  await store.dispatch("resetMessages");
   await getChatSettings();
 };
 

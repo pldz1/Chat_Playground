@@ -1,6 +1,6 @@
 import { OpenAI } from "openai";
 
-export class OpenAIClient {
+export class DeepSeekClient {
   constructor(baseURL, apiKey, model) {
     this.init(baseURL, apiKey, model);
   }
@@ -45,35 +45,25 @@ export class OpenAIClient {
         ...params,
       });
 
+      let thinkingOver = false;
+
       for await (const chunk of results) {
-        yield chunk.choices[0]?.delta?.content || "";
+        if (chunk.choices[0]?.delta?.reasoning_content === null) {
+          if (!thinkingOver) {
+            yield `\n \n ---- \n \n`;
+            thinkingOver = true;
+          }
+        }
+
+        if (chunk.choices[0]?.delta?.reasoning_content) {
+          yield chunk.choices[0]?.delta?.reasoning_content;
+        } else {
+          yield chunk.choices[0]?.delta?.content || "";
+        }
       }
     } catch (err) {
       yield String(err);
       return;
-    }
-  }
-
-  /**
-   * 处理对话模型的输入的消息并返回响应，支持回调
-   * @param {Array<{role: string, content: string}>} message - 输入的消息数组，每个对象包含 `role` 和 `content`
-   * @returns {string} 处理后的流内容
-   */
-  async chatSync(messages, params) {
-    if (this.client == null) {
-      return "模型初始化失败, 无法向服务器发送消息.";
-    }
-
-    try {
-      const results = await this.client.chat.completions.create({
-        model: this.model,
-        messages: messages,
-        ...params,
-      });
-
-      return results.choices[0]?.message?.content || "";
-    } catch (err) {
-      return String(err);
     }
   }
 
@@ -90,13 +80,10 @@ export class OpenAIClient {
    *   console.log("AI:", response);
    * });
    */
-  async chat(messages, params = {}, callback = null) {
-    if (params?.stream) {
-      for await (const response of this.chatStream(messages, params)) {
-        if (callback) await callback(response);
-      }
-    } else {
-      const response = await this.chatSync(messages, params);
+  async chat(data, params = {}, callback = null) {
+    // deepseek 的对话协议还是v1版本的 需要额外处理
+    const messages = data.map((item) => ({ role: item.role, content: item.content[0].text }));
+    for await (const response of this.chatStream(messages, { ...params, stream: true })) {
       if (callback) await callback(response);
     }
   }

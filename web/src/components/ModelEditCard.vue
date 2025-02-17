@@ -33,7 +33,7 @@
           </div>
 
           <!-- OpenAI 模型的 API 连接 -->
-          <div v-if="model.apiType == 'OpenAI'" class="model-item-row">
+          <div v-if="model.apiType == 'OpenAI' || model.apiType == 'DeepSeek'" class="model-item-row">
             <div class="model-item-label">Base URL:</div>
             <div class="model-item-content">
               <label class="input input-bordered flex items-center gap-2">
@@ -92,7 +92,7 @@
           </div>
 
           <!-- Open AI 部署的模型 -->
-          <div v-if="model.apiType == 'OpenAI'" class="model-item-row">
+          <div v-if="model.apiType == 'OpenAI' || model.apiType == 'DeepSeek'" class="model-item-row">
             <div class="model-item-label">Model:</div>
             <div class="model-item-content">
               <label class="input input-bordered flex items-center gap-2">

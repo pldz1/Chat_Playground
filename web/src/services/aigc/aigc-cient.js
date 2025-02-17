@@ -1,8 +1,10 @@
 import store from "@/store";
 import { dsAlert } from "@/utils";
+import { reasonModelList } from "@/typings";
 
-import { OpenAIClient } from "./openai";
-import { AzureOpenAIClient } from "./azure-openai";
+import { OpenAIClient } from "./openai.js";
+import { AzureOpenAIClient } from "./azure-openai.js";
+import { DeepSeekClient } from "./deepseek.js";
 
 export class AIGCClient {
   /**
@@ -28,18 +30,54 @@ export class AIGCClient {
     else if (actModel.apiType == "Azure OpenAI") {
       this.client = new AzureOpenAIClient(actModel.endpoint, actModel.apiKey, actModel.deployment, actModel.apiVersion);
     }
+
+    // DeepSeek
+    else if (actModel.apiType == "DeepSeek") {
+      this.client = new DeepSeekClient(actModel.baseURL, actModel.apiKey, actModel.model);
+    }
   }
 
-  async chat(messages, callback = (response) => console.log(response)) {
-    if (!this.client) {
+  async chat(data, callback = (response) => console.log(response)) {
+    const model = store.state.curChatModel;
+    if (!this.client || !model.name || !model.apiKey) {
       dsAlert({ type: "warn", message: "对话模型初始化失败, 请重新选择模式再尝试." });
       callback("模型初始化失败, 检查模型选项!");
       return false;
     }
 
-    const cms = store.state.curChatModelSettings;
-    await this.client.chat(messages, cms.max_tokens, cms.temperature, cms.top_p, cms.frequency_penalty, cms.presence_penalty, cms.stop, callback);
-    return true;
+    if (reasonModelList.includes(model.modelType)) {
+      // 对于思考模型
+      try {
+        await this.client.chat(data, {}, callback);
+        return true;
+      } catch (err) {
+        dsAlert({ type: "warn", message: `模型请求失败: ${String(err)}` });
+        callback(`模型请求失败: ${String(err)}`);
+      }
+    } else {
+      // 对于对话类型的模型
+      const cms = store.state.curChatModelSettings;
+      const params = {
+        max_tokens: cms.max_tokens,
+        temperature: cms.temperature,
+        top_p: cms.top_p,
+        frequency_penalty: cms.frequency_penalty,
+        presence_penalty: cms.presence_penalty,
+        stop: cms.stop,
+        stream: true,
+        stream_options: { include_usage: true },
+      };
+
+      // 加入系统指令
+      try {
+        const messages = cms.prompts[0].content[0].text ? [...cms.prompts, ...data] : data;
+        await this.client.chat(messages, params, callback);
+        return true;
+      } catch (err) {
+        dsAlert({ type: "warn", message: `模型请求失败: ${String(err)}` });
+        callback(`模型请求失败: ${String(err)}`);
+      }
+    }
   }
 
   async generateImage(prompt, size, n) {

@@ -1,6 +1,7 @@
 export const apiTypeList = [
   { value: "OpenAI", name: "OpenAI" },
   { value: "Azure OpenAI", name: "Azure OpenAI" },
+  { value: "DeepSeek", name: "DeepSeek" },
 ];
 
 export const chatModelTypeList = [
@@ -11,6 +12,7 @@ export const chatModelTypeList = [
   { value: "gpt-3.5", name: "gpt-3.5" },
   { value: "gpt-3.5-turbo", name: "gpt-3.5-turbo" },
   { value: "o1", name: "o1" },
+  { value: "o1-mini", name: "o1-mini" },
   { value: "o1-pro", name: "o1-pro" },
   { value: "o3-mini", name: "o3-mini" },
   { value: "o3-mini-high", name: "o3-mini-high" },
@@ -48,3 +50,5 @@ export const imageModelSize = [
   { name: "1024x1792", value: "1024x1792" },
   { name: "1792x1024", value: "1792x1024" },
 ];
+
+export const reasonModelList = ["o1", "o1-mini", "o1-pro", "o3-mini", "o3-mini-high", "deepseek-r1"];

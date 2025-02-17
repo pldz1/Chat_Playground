@@ -63,10 +63,9 @@ export class ChatDrawer extends ChatElemCreator {
     await store.dispatch("pushMessages", data);
     if (this.sync) await addMessage(chatData.mid, data);
 
-    const { prompts, passedMsgLen } = store.state.curChatModelSettings;
+    const passedMsgLen = store.state.curChatModelSettings.passedMsgLen;
     const history = store.state.messages;
-    const valudHistory = history.slice(-Math.min(passedMsgLen, history.length));
-    const messages = [...prompts, ...valudHistory];
+    const messages = history.slice(-Math.min(passedMsgLen, history.length));
 
     const flag = await this.client.chat(messages, this.enqueueRender);
 
