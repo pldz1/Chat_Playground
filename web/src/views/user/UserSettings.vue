@@ -57,7 +57,7 @@
             <RtaudioModels></RtaudioModels>
           </div>
           <div v-if="tab == 4">
-            <ChatInsTemplateList></ChatInsTemplateList>
+            <AppSettings></AppSettings>
           </div>
         </div>
       </div>
@@ -80,6 +80,7 @@ import ChatModels from "./ChatModels.vue";
 import ImageModels from "./ImageModels.vue";
 import RtaudioModels from "./RtaudioModels.vue";
 import ChatInsTemplateList from "./ChatInsTemplateList.vue";
+import AppSettings from "./AppSettings.vue";
 
 const tab = ref(0);
 
