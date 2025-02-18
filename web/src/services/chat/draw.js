@@ -71,13 +71,20 @@ export class ChatDrawer extends ChatElemCreator {
 
     if (flag) {
       // 结束后立即更新对话历史
-      const assistantData = {
-        role: "assistant",
-        content: [{ type: "text", text: this.tempAssTextStr }],
-      };
-      await store.dispatch("pushMessages", assistantData);
+      if (this.tempAssTextStr == "") {
+        // 如果是出现无效的返回结果, 删除 markdown 上正在思考的话
+        const assEl = this.container.querySelector(`#${this.tempAssTextMid}`);
+        if (assEl) assEl.remove();
+        this.draw([{ role: "assistant", content: [{ type: "text", text: "请求超时,无有效内容！" }] }]);
+      } else {
+        const assistantData = {
+          role: "assistant",
+          content: [{ type: "text", text: this.tempAssTextStr }],
+        };
 
-      if (this.sync) await addMessage(this.tempAssTextMid, assistantData);
+        await store.dispatch("pushMessages", assistantData);
+        if (this.sync) await addMessage(this.tempAssTextMid, assistantData);
+      }
     }
 
     this.addListener();

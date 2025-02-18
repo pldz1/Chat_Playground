@@ -9,6 +9,8 @@
 /server/cfg.json
 /server/statics
 /server/.cache
-/server/.dbpath
+/server/.database
 /server/.log
+/server/dist
+/server/build
 

@@ -171,12 +171,12 @@
 
   hr {
     position: relative;
-    margin: 20px 0;
-    border: 2px dashed oklch(var(--pc));
+    margin: 16px 0px;
+    border: 1px solid oklch(var(--bc));
     width: 100%;
     box-sizing: content-box;
     height: 0;
-    overflow: visible;
+    overflow: hidden;
 
     &::before {
       position: absolute;
@@ -248,7 +248,7 @@
     color: inherit;
     border-radius: 4px;
     padding: 1px 15px;
-    border-left: 4px solid var(--theme-color);
+    border-left: 4px solid oklch(var(--bc));
     background-color: oklch(var(--b1));
   }
 }

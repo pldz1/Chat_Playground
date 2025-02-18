@@ -11,6 +11,7 @@ from .chat import CHAT_ROUTE
 from scripts.libs import CONF
 from scripts.database import USER_DATABASE, CHAT_DATABASE
 
+
 @asynccontextmanager
 async def lifespan(app=FastAPI):
     # startup: initialize resources
@@ -27,16 +28,18 @@ app = FastAPI(lifespan=lifespan)
 app.include_router(USER_ROUTE)
 app.include_router(CHAT_ROUTE)
 
+
 def start_dev():
     '''
     设置开发模式下的一些web server的配置
     '''
-    app.add_middleware(CORSMiddleware,
-                       allow_credentials=True,
-                       allow_origins=["*"],  # 允许所有 跨越URL 方法
-                       allow_methods=["*"],  # 允许所有 HTTP 方法
-                       allow_headers=["*"],  # 允许所有 HTTP 头部
-                       )
+    app.add_middleware(
+        CORSMiddleware,
+        allow_credentials=True,   # 允许携带 Cookie
+        allow_origin_regex=".*",  # 允许所有域名（解决 credentials 不能使用 "*" 的问题）
+        allow_methods=["*"],      # 允许所有 HTTP 方法
+        allow_headers=["*"],      # 允许所有 HTTP 头部
+    )
 
 
 def run_dev():
@@ -58,6 +61,6 @@ def run_main():
 
     # 挂载静态资源
     from fastapi.staticfiles import StaticFiles
-    app.mount("/", StaticFiles(directory=CONF.get_statics_path('statics'),
+    app.mount("/", StaticFiles(directory=CONF.get_statics_path(),
               html=True), name="static")
     uvicorn.run(app, host=CONF.host, port=CONF.port)

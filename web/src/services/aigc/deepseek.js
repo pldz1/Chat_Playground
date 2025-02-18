@@ -55,6 +55,14 @@ export class DeepSeekClient {
           }
         }
 
+        if (chunk.choices[0]?.delta?.reasoning_content === "") {
+          yield `> `;
+        }
+
+        if (chunk.choices[0]?.delta?.reasoning_content === "。\n\n") {
+          yield `。\n> `;
+        }
+
         if (chunk.choices[0]?.delta?.reasoning_content) {
           yield chunk.choices[0]?.delta?.reasoning_content;
         } else {

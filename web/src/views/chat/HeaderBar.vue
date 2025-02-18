@@ -30,7 +30,7 @@
     </div>
     <!-- 回到主页标题 -->
     <div class="tooltip tooltip-bottom comphb-home" data-tip="回到主页">
-      <button class="btn btn-square">
+      <button class="btn btn-square" @click="onBackHome">
         <div v-html="app32"></div>
         <span>AIGC Playground</span>
       </button>
@@ -47,6 +47,7 @@
 <script setup>
 import { useStore } from "vuex";
 import { ref, computed, watch } from "vue";
+import { useRouter } from "vue-router";
 import { chatModelSettings_T } from "@/typings";
 import { app32, sildbar24, new24, setting24 } from "@/assets/svg";
 
@@ -59,6 +60,7 @@ import { dsAlert } from "@/utils";
 const emits = defineEmits(["on-show-chat-list"]);
 
 const store = useStore();
+const router = useRouter();
 const chatModels = computed(() => store.state.models.chat);
 const curChatModel = computed(() => store.state.curChatModel);
 const model = ref(null);
@@ -114,6 +116,13 @@ const onShowModelSettings = () => {
     dsAlert({ type: "warn", message: "请先选择模型" });
     return;
   } else global_chat_model_settings.showModal();
+};
+
+/**
+ * 回到主页
+ */
+const onBackHome = () => {
+  router.push({ path: "/home" });
 };
 </script>
 

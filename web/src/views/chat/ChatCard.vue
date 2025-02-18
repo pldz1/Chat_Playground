@@ -55,7 +55,7 @@ watch(
 /** 向服务器发送数据 */
 const onStartChat = async (message) => {
   // 新建对话
-  if (chatMessagesLength.value == 0) {
+  if (chatMessagesLength.value == 0 || !curChatId.value) {
     await addChat();
   }
   isChatting.value = true;

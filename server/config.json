@@ -2,7 +2,5 @@
   "host": "127.0.0.1",
   "port": 10088,
   "username": "admin",
-  "password": "admin",
-  "chat_models": {},
-  "image_models": {}
+  "password": "admin"
 }
