@@ -41,7 +41,7 @@ const onLogin = async () => {
   // 限制操作
   dsLoading(true);
   const flag = await login(username.value, password.value);
-  if (flag) router.push({ path: "/chat" });
+  if (flag) router.push({ path: "/home" });
   dsLoading(false);
 };
 
@@ -50,7 +50,7 @@ const onSignIn = () => {
 };
 
 const onExperience = () => {
-  router.push({ path: "/chat" });
+  router.push({ path: "/home" });
 };
 </script>
 
