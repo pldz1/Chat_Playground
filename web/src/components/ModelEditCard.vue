@@ -57,7 +57,10 @@
             <div class="model-item-label">API key:</div>
             <div class="model-item-content">
               <label class="input input-bordered flex items-center gap-2">
-                <input type="text" class="grow" placeholder="" v-model="model.apiKey" />
+                <input type="password" class="grow" placeholder="" v-model="model.apiKey" />
+                <button class="btn btn-outline btn-success border-none" @click="copyApiKey">
+                  <div v-html="copy16"></div>
+                </button>
               </label>
             </div>
           </div>
@@ -118,7 +121,8 @@
 
 <script setup>
 import { ref, reactive, watch } from "vue";
-import { edit18, save18, delete18 } from "@/assets/svg";
+import { dsAlert } from "@/utils";
+import { edit18, save18, delete18, copy16 } from "@/assets/svg";
 import { model_T, apiTypeList } from "@/typings";
 
 const emit = defineEmits(["on-update", "on-delete"]);
@@ -143,6 +147,9 @@ const model = reactive({ ...props.model });
 const isEdit = ref(false);
 const modelEditCheckbox = ref(null);
 
+/**
+ * 编辑模型的内容
+ */
 const editModel = async () => {
   isEdit.value = !isEdit.value;
 
@@ -153,8 +160,25 @@ const editModel = async () => {
   }
 };
 
+/**
+ * 删除模型
+ */
 const deleteModel = async () => {
   emit("on-delete", props.index);
+};
+
+/**
+ * 拷贝API key到剪切板
+ */
+const copyApiKey = () => {
+  navigator.clipboard
+    .writeText(model.apiKey)
+    .then(() => {
+      dsAlert({ type: "success", message: "API Key 已成功复制！" });
+    })
+    .catch((err) => {
+      dsAlert({ type: "error", message: `复制到剪切板失败: ${err}` });
+    });
 };
 
 watch(
@@ -214,6 +238,7 @@ watch(
   }
 
   .edit-disabled {
+    user-select: none;
     .model-item-row {
       pointer-events: none;
       opacity: 0.5;

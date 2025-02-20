@@ -45,19 +45,19 @@ export const setting16 = /* HTML */ `<svg
   <path x="0" y="0" width="36" height="36" fill-opacity="0" d="M0 0H0.72V0.72H0V0z" />
 </svg>`;
 
-export const copy16 = /* HTML */ `<svg width="16px" height="16px" viewBox="0 0 0.3 0.3" fill="none" xmlns="http://www.w3.org/2000/svg">
+export const copy16 = /* HTML */ `<svg width="16px" height="16px" viewBox="0 0 0.3 0.3" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path
     fill-rule="evenodd"
     clip-rule="evenodd"
     d="M0.02 0.19A0.03 0.03 0 0 0 0.05 0.22H0.08v-0.02H0.05a0.01 0.01 0 0 1 -0.01 -0.01v-0.14a0.01 0.01 0 0 1 0.01 -0.01h0.14a0.01 0.01 0 0 1 0.01 0.01V0.08H0.11A0.03 0.03 0 0 0 0.08 0.11v0.14A0.03 0.03 0 0 0 0.11 0.28h0.14a0.03 0.03 0 0 0 0.03 -0.03v-0.14A0.03 0.03 0 0 0 0.25 0.08H0.22V0.05A0.03 0.03 0 0 0 0.19 0.02h-0.14A0.03 0.03 0 0 0 0.02 0.05zm0.08 -0.08a0.01 0.01 0 0 1 0.01 -0.01h0.14a0.01 0.01 0 0 1 0.01 0.01v0.14a0.01 0.01 0 0 1 -0.01 0.01h-0.14a0.01 0.01 0 0 1 -0.01 -0.01z"
-    fill="#000000"
+    fill="currentColor"
   />
 </svg> `;
 
-export const delete16 = /* HTML */ `<svg width="16px" height="16px" viewBox="0 0 0.48 0.48" fill="none" xmlns="http://www.w3.org/2000/svg">
+export const delete16 = /* HTML */ `<svg width="16px" height="16px" viewBox="0 0 0.48 0.48" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path
     d="M0.14 0.08a0.04 0.04 0 0 1 0.04 -0.04h0.12a0.04 0.04 0 0 1 0.04 0.04v0.04h0.08a0.02 0.02 0 1 1 0 0.04h-0.021l-0.017 0.243A0.04 0.04 0 0 1 0.341 0.44H0.139a0.04 0.04 0 0 1 -0.04 -0.037L0.081 0.16H0.06a0.02 0.02 0 0 1 0 -0.04h0.08zm0.04 0.04h0.12V0.08H0.18zM0.121 0.16l0.017 0.24H0.341l0.017 -0.24zM0.2 0.2a0.02 0.02 0 0 1 0.02 0.02v0.12a0.02 0.02 0 1 1 -0.04 0v-0.12a0.02 0.02 0 0 1 0.02 -0.02m0.08 0a0.02 0.02 0 0 1 0.02 0.02v0.12a0.02 0.02 0 1 1 -0.04 0v-0.12a0.02 0.02 0 0 1 0.02 -0.02"
-    fill="#0D0D0D"
+    fill="currentColor"
   />
 </svg> `;
 

@@ -12,7 +12,13 @@
       <!-- chat history list -->
       <div v-else class="csdb-chats-container">
         <div v-for="item in chatList" :key="item">
-          <input v-if="isEditChatName" v-model="editChatName" @change="changeChatName" type="text" class="input input-bordered w-full max-w-xs" />
+          <input
+            v-if="isShowOptionCid == item.cid && isEditChatName"
+            v-model="editChatName"
+            @change="changeChatName"
+            type="text"
+            class="input input-bordered w-full max-w-xs"
+          />
           <!-- 对话的单元 -->
           <div v-else :class="['csdb-chat-item', { 'csdb-chat-item-active': cid === item.cid }]">
             <!-- 对话标签 -->
@@ -99,17 +105,20 @@ const onEditChatName = async () => {
  */
 const changeChatName = async () => {
   if (editChatName.value) await renameChat(isShowOptionCid.value, editChatName.value);
-  isEditChatName.value = false;
-  editChatName.value = "";
+  await nextTick(() => {
+    isEditChatName.value = false;
+    editChatName.value = "";
+    isShowOptionCid.value = "";
+  });
 };
 
 /**
  * 处理显示点击对话编辑按钮的下拉菜单显示
  */
-const showChatOptions = (event, cid) => {
+const showChatOptions = async (event, cid) => {
   isShowChatOptions.value = true;
   // 等待 DOM 更新后计算位置
-  nextTick(() => {
+  await nextTick(() => {
     const btnRect = event.currentTarget.getBoundingClientRect();
 
     const dropdownEl = dropdownRef.value;
@@ -118,6 +127,7 @@ const showChatOptions = (event, cid) => {
       // 将 dropdown 放置在按钮下方 由于有header的48像素导致这个减去48最合理
       dropdownEl.style.top = `${btnRect.bottom - 48}px`;
       dropdownEl.style.left = `${btnRect.left}px`;
+      dropdownEl.style.zIndex = 301;
     }
 
     isShowOptionCid.value = cid;

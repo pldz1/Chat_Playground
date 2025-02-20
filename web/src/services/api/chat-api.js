@@ -199,6 +199,7 @@ export async function renameChat(cid, cname) {
     return false;
   }
 
+  const chatList = [...store.state.chatList];
   const index = chatList.findIndex((chat) => chat.cid === cid);
   if (index >= 0) chatList[index].cname = cname;
   await store.dispatch("resetChatList", chatList);

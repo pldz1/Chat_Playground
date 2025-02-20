@@ -45,28 +45,27 @@ export class DeepSeekClient {
         ...params,
       });
 
-      let thinkingOver = false;
+      let thinkingOver = true;
 
       for await (const chunk of results) {
-        if (chunk.choices[0]?.delta?.reasoning_content === null) {
-          if (!thinkingOver) {
-            yield `\n \n ---- \n \n`;
+        if (!chunk.choices[0]?.delta?.reasoning_content) {
+          if (!thinkingOver && chunk.choices[0]?.delta?.content) {
             thinkingOver = true;
+            yield `\n --- \n`;
+          }
+        } else {
+          if (thinkingOver) {
+            thinkingOver = false;
+            yield `> ${chunk.choices[0]?.delta?.reasoning_content}`;
+          } else if (chunk.choices[0]?.delta?.reasoning_content?.includes("\n\n")) {
+            yield chunk.choices[0]?.delta?.reasoning_content?.replace(/\n\n/g, "\n> ");
+          } else {
+            yield chunk.choices[0]?.delta?.reasoning_content;
           }
         }
 
-        if (chunk.choices[0]?.delta?.reasoning_content === "") {
-          yield `> `;
-        }
-
-        if (chunk.choices[0]?.delta?.reasoning_content === "。\n\n") {
-          yield `。\n> `;
-        }
-
-        if (chunk.choices[0]?.delta?.reasoning_content) {
-          yield chunk.choices[0]?.delta?.reasoning_content;
-        } else {
-          yield chunk.choices[0]?.delta?.content || "";
+        if (chunk.choices[0]?.delta?.content !== null) {
+          yield chunk.choices[0]?.delta?.content;
         }
       }
     } catch (err) {
