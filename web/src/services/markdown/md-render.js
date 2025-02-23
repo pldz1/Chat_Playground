@@ -2,9 +2,9 @@ import markdownIt from "./md-config.js";
 import { buildCodeBlock, deepCloneAndUpdate } from "./code-block.js";
 
 /** 渲染markdown的 HTML Element. */
-export function renderBlock(el, data) {
+export function renderBlock(className, el, data) {
   const tmpDiv = document.createElement("div");
-  tmpDiv.className = "markdown-content";
+  tmpDiv.className = className;
   // 只渲染当前的块
   tmpDiv.innerHTML = markdownIt.render(data);
   buildCodeBlock(tmpDiv);

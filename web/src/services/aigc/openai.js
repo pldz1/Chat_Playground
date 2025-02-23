@@ -46,10 +46,14 @@ export class OpenAIClient {
       });
 
       for await (const chunk of results) {
-        yield chunk.choices[0]?.delta?.content || "";
+        yield {
+          flag: true,
+          content: chunk.choices[0]?.delta?.content || "",
+          reasoning_content: chunk.choices[0]?.delta?.reasoning_content || "",
+        };
       }
     } catch (err) {
-      yield String(err);
+      yield { flag: false, content: String(err), reasoning_content: "" };
       return;
     }
   }
@@ -71,9 +75,13 @@ export class OpenAIClient {
         ...params,
       });
 
-      return results.choices[0]?.message?.content || "";
+      return {
+        flag: true,
+        content: results.choices[0]?.message?.content || "",
+        reasoning_content: results.choices[0]?.message?.reasoning_content || "",
+      };
     } catch (err) {
-      return String(err);
+      return { flag: false, content: String(err), reasoning_content: "" };
     }
   }
 

@@ -41,7 +41,7 @@ export class AIGCClient {
     const model = store.state.curChatModel;
     if (!this.client || !model.name || !model.apiKey) {
       dsAlert({ type: "warn", message: "对话模型初始化失败, 请重新选择模式再尝试." });
-      callback("模型初始化失败, 检查模型选项!");
+      callback({ content: "模型初始化失败, 检查模型选项!", reasoning_content: "" });
       return false;
     }
 
@@ -52,7 +52,7 @@ export class AIGCClient {
         return true;
       } catch (err) {
         dsAlert({ type: "warn", message: `模型请求失败: ${String(err)}` });
-        callback(`模型请求失败: ${String(err)}`);
+        callback({ content: `模型请求失败: ${String(err)}`, reasoning_content: "" });
       }
     } else {
       // 对于对话类型的模型
@@ -75,7 +75,7 @@ export class AIGCClient {
         return true;
       } catch (err) {
         dsAlert({ type: "warn", message: `模型请求失败: ${String(err)}` });
-        callback(`模型请求失败: ${String(err)}`);
+        callback({ content: `模型请求失败: ${String(err)}`, reasoning_content: "" });
       }
     }
   }

@@ -28,9 +28,11 @@ export class ChatDrawer extends ChatElemCreator {
 
     this.client = new AIGCClient("chat");
 
-    this.tempAssTextDiv = null;
-    this.tempAssTextMid = "";
-    this.tempAssTextStr = "";
+    this.tmpAssIsResponsingElFlag = true;
+    this.tmpAssContentDiv = null;
+    this.tmpAssReasoningDiv = null;
+    this.tmpAssContentMid = "";
+    this.tmpAssContentData = { content: "", reasoning_content: "" };
     this.renderQueue = [];
     this.isRendering = false;
 
@@ -71,23 +73,35 @@ export class ChatDrawer extends ChatElemCreator {
 
     if (flag) {
       // 结束后立即更新对话历史
-      if (this.tempAssTextStr == "") {
+      if (this.tmpAssContentData.content == "") {
         // 如果是出现无效的返回结果, 删除 markdown 上正在思考的话
-        const assEl = this.container.querySelector(`#${this.tempAssTextMid}`);
-        if (assEl) assEl.remove();
+        this.forceRemoveResponsingEl();
         this.draw([{ role: "assistant", content: [{ type: "text", text: "请求超时,无有效内容！" }] }]);
       } else {
         const assistantData = {
           role: "assistant",
-          content: [{ type: "text", text: this.tempAssTextStr }],
+          content: [{ type: "text", text: this.tmpAssContentData.content }],
         };
 
         await store.dispatch("pushMessages", assistantData);
-        if (this.sync) await addMessage(this.tempAssTextMid, assistantData);
+        if (this.sync) await addMessage(this.tmpAssContentMid, assistantData);
       }
     }
 
     this.addListener();
+  }
+
+  /**
+   * 删除正在响应的 HTML Element
+   * 如果是思考模型在思考, 或者是遇到超时, 这两个情况需要我们删除这个正在响应的 HTML Element
+   */
+
+  forceRemoveResponsingEl() {
+    if (this.tmpAssIsResponsingElFlag) {
+      const assEl = this.container.querySelector(".markdown-p-text");
+      if (assEl) assEl.remove();
+      this.tmpAssIsResponsingElFlag = false;
+    }
   }
 
   /**
@@ -109,9 +123,24 @@ export class ChatDrawer extends ChatElemCreator {
     }
   }
 
+  /**
+   * 得到响应,就把要渲染的文本塞入渲染队列
+   */
   enqueueRender(response) {
-    this.tempAssTextStr += response;
-    this.renderQueue.push(this.tempAssTextStr);
+    if (!response.flag) {
+      if (this.tmpAssContentDiv) {
+        this.tmpAssContentDiv.innerHTML = response.content;
+      } else {
+        dsAlert({ type: "error", message: response.content });
+      }
+      return;
+    }
+
+    this.tmpAssContentData.content += response?.content || "";
+    this.tmpAssContentData.reasoning_content += response?.reasoning_content || "";
+
+    // 因为最新的文本都被记录在 this.tmpAssContentData, 所以可以 push 任意的内容
+    this.renderQueue.push("");
     // 如果当前没有渲染任务在进行，启动渲染队列
     if (!this.isRendering) {
       this.isRendering = true;
@@ -119,6 +148,10 @@ export class ChatDrawer extends ChatElemCreator {
     }
   }
 
+  /**
+   * 处理渲染的队列
+   * 注意我们只拿最后一个入队的去做渲染, 也就是拿最新的数据, 旧的数据清空
+   */
   processRenderQueue() {
     if (this.renderQueue.length === 0) {
       // 队列为空时标记渲染完成
@@ -126,24 +159,47 @@ export class ChatDrawer extends ChatElemCreator {
       return;
     }
 
-    // 取出最新的渲染数据，清空队列
-    const latestData = this.renderQueue[this.renderQueue.length - 1];
+    // 执行最新的数据做渲染, 清空队列
     this.renderQueue = [];
     // 执行渲染操作
-    this.renderAssStream(latestData);
+    this.renderAssStream();
     // 继续处理下一个渲染任务
     setTimeout(this.processRenderQueue, 0);
   }
 
+  /**
+   * 渲染具体的文本内容在整个界面上
+   */
   renderAssStream() {
-    if (!this.tempAssTextDiv) return;
-    renderBlock(this.tempAssTextDiv, this.tempAssTextStr);
+    // 没有关键的存放响应文本的div 直接返回,不做任何操作
+    if (!this.tmpAssContentDiv) return;
+
+    const { reasoning_content, content } = this.tmpAssContentData;
+
+    // 如果这次有思考的内容 那么要试着加入思考的div并渲染
+    if (reasoning_content) {
+      this.tmpAssReasoningDiv = this.tmpAssReasoningDiv || this.insertReasoningElem(this.tmpAssContentDiv);
+      if (this.tmpAssReasoningDiv) {
+        this.forceRemoveResponsingEl();
+        renderBlock("markdown-content", this.tmpAssReasoningDiv, reasoning_content);
+      }
+    }
+
+    // 渲染文本内容
+    if (content) {
+      renderBlock("markdown-content", this.tmpAssContentDiv, content);
+    }
   }
 
+  /**
+   * 开始绘制机器人助理响应的文本内容，同时也是全部这个绘图类的关键属性重置的函数入口
+   */
   drawStreamAss() {
-    this.tempAssTextMid = getUuid("msg");
-    this.tempAssTextDiv = this.createAssTempElem(this.tempAssTextMid);
-    this.tempAssTextStr = "";
+    this.tmpAssContentMid = getUuid("msg");
+    this.tmpAssContentDiv = this.createAssTempElem(this.tmpAssContentMid);
+    this.tmpAssIsResponsingElFlag = true;
+    this.tmpAssReasoningDiv = null;
+    this.tmpAssContentData = { content: "", reasoning_content: "" };
     this.scrollToBottom();
   }
 

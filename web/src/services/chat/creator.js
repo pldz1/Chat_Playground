@@ -27,7 +27,7 @@ export class ChatElemCreator {
 
     this.createUserQHTMLElem = this.createUserQHTMLElem.bind(this);
     this.createAssHTMLElem = this.createAssHTMLElem.bind(this);
-    this.createAssThinkingElem = this.createAssThinkingElem.bind(this);
+    this.createAssResponseElem = this.createAssResponseElem.bind(this);
     this.createAssTempElem = this.createAssTempElem.bind(this);
     this.findMsgIndex = this.findMsgIndex.bind(this);
     this.deleteMessage = this.deleteMessage.bind(this);
@@ -114,17 +114,17 @@ export class ChatElemCreator {
 
     this.container.appendChild(assistantDiv);
 
-    const textDiv = this.createAssThinkingElem(assistantDiv, mid, false);
+    const textDiv = this.createAssResponseElem(assistantDiv, mid, false);
     const text = content[0].text;
-    renderBlock(textDiv, text);
+    renderBlock("markdown-content", textDiv, text);
 
     return assistantDiv;
   }
 
   /**
-   * 创建一个助理机器人正在思考的 HTMLElement
+   * 创建一个助理机器人正在回答的 HTML Element
    */
-  createAssThinkingElem(assistantDiv, mid, thinking = false) {
+  createAssResponseElem(assistantDiv, mid, thinking = false) {
     const assistantIconDiv = document.createElement("div");
     assistantIconDiv.classList.add("cmba-assistant-icon");
     assistantIconDiv.innerHTML = app18;
@@ -186,6 +186,33 @@ export class ChatElemCreator {
   }
 
   /**
+   * 插入一个思考的内容在回答的 HTML Element 的前面
+   */
+
+  insertReasoningElem(el) {
+    const reasoningEl = document.createElement("div");
+    const parent = el.parentNode;
+
+    if (!parent) return null;
+    parent.insertBefore(reasoningEl, el);
+    reasoningEl.className = "cmba-reasoning-content";
+
+    const detailsEl = document.createElement("details");
+    detailsEl.open = true;
+    reasoningEl.appendChild(detailsEl);
+
+    const summaryEl = document.createElement("summary");
+    summaryEl.innerHTML = "思考内容🤔";
+    detailsEl.appendChild(summaryEl);
+
+    const reasoningTextDiv = document.createElement("div");
+    reasoningTextDiv.className = "markdown-content";
+    detailsEl.appendChild(reasoningTextDiv);
+
+    return reasoningTextDiv;
+  }
+
+  /**
    * 创建一个机器人助理的消息元素的模板
    */
   createAssTempElem(mid) {
@@ -197,7 +224,7 @@ export class ChatElemCreator {
 
     this.container.appendChild(assistantDiv);
 
-    const textDiv = this.createAssThinkingElem(assistantDiv, mid, true);
+    const textDiv = this.createAssResponseElem(assistantDiv, mid, true);
 
     return textDiv;
   }

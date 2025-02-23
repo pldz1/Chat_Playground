@@ -112,7 +112,7 @@
     border-radius: 16px;
     padding: 8px 16px;
     background-color: transparent;
-    color:oklch(var(--bc));
+    color: oklch(var(--bc));
 
     .cmba-options {
       display: flex;
@@ -122,5 +122,13 @@
       height: 24px;
       gap: 8px;
     }
+  }
+
+  .cmba-reasoning-content {
+    background-color: oklch(var(--b2));
+    border-radius: 8px;
+    padding: 8px;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 }

@@ -45,31 +45,15 @@ export class DeepSeekClient {
         ...params,
       });
 
-      let thinkingOver = true;
-
       for await (const chunk of results) {
-        if (!chunk.choices[0]?.delta?.reasoning_content) {
-          if (!thinkingOver && chunk.choices[0]?.delta?.content) {
-            thinkingOver = true;
-            yield `\n --- \n`;
-          }
-        } else {
-          if (thinkingOver) {
-            thinkingOver = false;
-            yield `> ${chunk.choices[0]?.delta?.reasoning_content}`;
-          } else if (chunk.choices[0]?.delta?.reasoning_content?.includes("\n\n")) {
-            yield chunk.choices[0]?.delta?.reasoning_content?.replace(/\n\n/g, "\n> ");
-          } else {
-            yield chunk.choices[0]?.delta?.reasoning_content;
-          }
-        }
-
-        if (chunk.choices[0]?.delta?.content !== null) {
-          yield chunk.choices[0]?.delta?.content;
-        }
+        yield {
+          flag: true,
+          content: chunk.choices[0]?.delta?.content || "",
+          reasoning_content: chunk.choices[0]?.delta?.reasoning_content || "",
+        };
       }
     } catch (err) {
-      yield String(err);
+      yield { flag: false, content: String(err), reasoning_content: "" };
       return;
     }
   }

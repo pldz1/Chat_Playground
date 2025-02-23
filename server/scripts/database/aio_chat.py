@@ -4,6 +4,7 @@ from typing import Optional, List, Dict
 
 from scripts.libs import LOGGER, CONF
 
+
 def require_connection(func):
     """
     装饰器：在执行被装饰方法之前,判断 self.conn 是否为 None。
@@ -12,8 +13,10 @@ def require_connection(func):
     @functools.wraps(func)
     async def wrapper(self, *args, **kwargs):
         if self.conn is None:
-            LOGGER.warning(f"Connection is None. Skipping execution of '{func.__name__}'.")
-            raise ConnectionError(f"Connection is None. Skipping execution of '{func.__name__}'.")
+            LOGGER.warning(
+                f"Connection is None. Skipping execution of '{func.__name__}'.")
+            raise ConnectionError(
+                f"Connection is None. Skipping execution of '{func.__name__}'.")
         return await func(self, *args, **kwargs)
     return wrapper
 
@@ -24,7 +27,6 @@ class AIO_Chat_Database:
         self.conn: Optional[aiosqlite.Connection] = None
         self.database_name = CONF.get_database_path('chat.db')
         self.cids_sheet_name = "cids"
-        
 
     async def initialize(self):
         '''
@@ -35,7 +37,7 @@ class AIO_Chat_Database:
         if self.conn is None:
             LOGGER.error("Failed to connect to the database.")
             return
-    
+
         '''
         管理 chat 内容具体的表, 说白了就是一个用户有哪些对话名字:
         - id: 数据的主键
@@ -72,22 +74,22 @@ class AIO_Chat_Database:
         cursor = await self.conn.execute(f'''
             SELECT cid, cname FROM {self.cids_sheet_name} WHERE username = ?
         ''', (username,))
-        
+
         rows = await cursor.fetchall()
-        
+
         # 如果没有数据，返回空列表
         if not rows:
             LOGGER.info(f"No cids and cnames found for username={username}")
             return []
-        
+
         # 如果有数据，返回格式化后的结果
         result = [{'cid': row[0], 'cname': row[1]} for row in rows]
-        
+
         LOGGER.info(f"Retrieved cids and cnames for username={username}.")
         return result
 
     @require_connection
-    async def get_chat_settings_by_username_cid(self, username: str, cid:str) -> str:
+    async def get_chat_settings_by_username_cid(self, username: str, cid: str) -> str:
         '''
         根据指定的 username 和 cid 查询 settings
         如果没有找到任何记录, 返回字符串
@@ -95,17 +97,19 @@ class AIO_Chat_Database:
         cursor = await self.conn.execute(f'''
             SELECT settings FROM {self.cids_sheet_name} WHERE username = ? AND cid = ?
         ''', (username, cid))
-        
+
         data = await cursor.fetchone()
-        
+
         # 如果没有数据，返回空字符串
         if not data:
-            LOGGER.info(f"No settings found for username={username} and cid={cid}")
+            LOGGER.info(
+                f"No settings found for username={username} and cid={cid}")
             return ""
 
-        LOGGER.info(f"Retrieved settings for username={username} and cid={cid}.")
+        LOGGER.info(
+            f"Retrieved settings for username={username} and cid={cid}.")
         return data
-    
+
     @require_connection
     async def set_chat_settings_by_username_cid(self, username: str, cid: str, settings: str) -> None:
         '''
@@ -128,10 +132,8 @@ class AIO_Chat_Database:
         await self.conn.commit()
         LOGGER.info(f"Updated settings for username={username} and cid={cid}.")
 
-
-
     @require_connection
-    async def create_chat_sheet(self, username: str, cid: str, cname:str):
+    async def create_chat_sheet(self, username: str, cid: str, cname: str):
         '''
         创建存具体对话的表
         '''
@@ -142,7 +144,7 @@ class AIO_Chat_Database:
         ''', (username, cid, cname))
         await self.conn.commit()
 
-        sheet_name = f"{username}_{cid}"
+        sheet_name = f"{username}-{cid}"
 
         '''
         chat 有哪些消息的表:
@@ -171,7 +173,7 @@ class AIO_Chat_Database:
         await self.conn.commit()
         LOGGER.info(f"Deleted user cid info: username={username}, cid={cid}")
 
-        sheet_name = f"{username}_{cid}"
+        sheet_name = f"{username}-{cid}"
         await self.conn.execute(f'DROP TABLE IF EXISTS "{sheet_name}"')
         await self.conn.commit()
         LOGGER.info(f"Deleted chat sheet: {sheet_name}")
@@ -189,19 +191,20 @@ class AIO_Chat_Database:
 
         # 检查是否有更新的行
         if result.rowcount == 0:
-            LOGGER.warning(f"No record found to update for username={username}, cid={cid}.")
+            LOGGER.warning(
+                f"No record found to update for username={username}, cid={cid}.")
         else:
-            LOGGER.info(f"Updated cname for username={username}, cid={cid} to {new_cname}")
-        
-        await self.conn.commit()
+            LOGGER.info(
+                f"Updated cname for username={username}, cid={cid} to {new_cname}")
 
+        await self.conn.commit()
 
     @require_connection
     async def insert_message(self, username: str, cid: str, mid: str, message: str):
         '''
         在指定的 username_cid 的表中插入一条数据
         '''
-        sheet_name = f"{username}_{cid}"
+        sheet_name = f"{username}-{cid}"
         await self.conn.execute(f'''
             INSERT INTO "{sheet_name}" (mid, message)
             VALUES (?, ?)
@@ -214,7 +217,7 @@ class AIO_Chat_Database:
         '''
         根据指定的 mid 删除指定的消息
         '''
-        sheet_name = f"{username}_{cid}"
+        sheet_name = f"{username}-{cid}"
         await self.conn.execute(f'''
             DELETE FROM "{sheet_name}"
             WHERE mid = ?
@@ -228,7 +231,7 @@ class AIO_Chat_Database:
         根据指定的 username 和 cid 获取所有的消息
         返回消息列表 [{mid: mid, message: message}, ...]
         '''
-        sheet_name = f"{username}_{cid}"
+        sheet_name = f"{username}-{cid}"
         cursor = await self.conn.execute(f'''
             SELECT mid, message FROM "{sheet_name}"
         ''')
@@ -236,9 +239,10 @@ class AIO_Chat_Database:
         rows = await cursor.fetchall()
 
         if not rows:
-            LOGGER.info(f"No messages found for username={username}, cid={cid}")
+            LOGGER.info(
+                f"No messages found for username={username}, cid={cid}")
             return []
-        
+
         result = [{'mid': row[0], 'message': row[1]} for row in rows]
         LOGGER.info(f"Retrieved all messages for username={username}.")
         return result
