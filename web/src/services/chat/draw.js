@@ -81,6 +81,7 @@ export class ChatDrawer extends ChatElemCreator {
         const assistantData = {
           role: "assistant",
           content: [{ type: "text", text: this.tmpAssContentData.content }],
+          reasoning_content: this.tmpAssContentData.reasoning_content,
         };
 
         await store.dispatch("pushMessages", assistantData);
@@ -118,7 +119,7 @@ export class ChatDrawer extends ChatElemCreator {
       }
 
       if (msg.role == "assistant") {
-        this.addAssHTMLElem(msg.content, msg.mid);
+        this.addAssHTMLElem(msg.content, msg?.reasoning_content, msg.mid);
       }
     }
   }
@@ -232,8 +233,8 @@ export class ChatDrawer extends ChatElemCreator {
    * @param {str} mid HTMLElement 的 id
    * @returns
    */
-  addAssHTMLElem(content, mid) {
-    const res = this.createAssHTMLElem(content, mid);
+  addAssHTMLElem(content, reasoning_content, mid) {
+    const res = this.createAssHTMLElem(content, reasoning_content, mid);
     if (!res) {
       dsAlert({ type: "warn", message: "绘制机器人助理回答消息失败！" });
     }

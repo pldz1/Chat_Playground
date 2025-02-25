@@ -1,23 +1,10 @@
+import "@/typings";
 import store from "@/store";
 
 import { dsAlert, textToHtml } from "@/utils";
 import { renderBlock } from "../markdown/md-render.js";
 import { delete16, app18, copy16 } from "@/assets/svg";
 import { deleteMessage } from "../api/chat-api.js";
-
-/**
- * 提示内容对象
- * @typedef {Object} PromptContent
- * @property {"text" | "image_url"} type - 内容类型，例如 "text"。
- * @property {string} text - 提示的文本内容。
- */
-
-/**
- * 提示信息对象
- * @typedef {Object} Prompt
- * @property {"system" | "user" | "assistant"} role - 角色，例如 "system" 或 "user"。
- * @property {PromptContent[]} content - 提示内容列表。
- */
 
 export class ChatElemCreator {
   constructor(sync = false) {
@@ -105,7 +92,7 @@ export class ChatElemCreator {
    * @param {PromptContent[]} content 消息的内容
    * @returns
    */
-  createAssHTMLElem(content, mid) {
+  createAssHTMLElem(content, reasoning_content, mid) {
     if (!this.container) return null;
 
     const assistantDiv = document.createElement("div");
@@ -115,6 +102,12 @@ export class ChatElemCreator {
     this.container.appendChild(assistantDiv);
 
     const textDiv = this.createAssResponseElem(assistantDiv, mid, false);
+
+    if (reasoning_content) {
+      const reasoningTextDiv = this.insertReasoningElem(textDiv);
+      renderBlock("markdown-content", reasoningTextDiv, reasoning_content);
+    }
+
     const text = content[0].text;
     renderBlock("markdown-content", textDiv, text);
 
