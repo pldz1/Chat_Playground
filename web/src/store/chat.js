@@ -1,18 +1,4 @@
-import { chatModelSettings_T } from "@/typings";
-
-/**
- * 提示内容对象
- * @typedef {Object} PromptContent
- * @property {"text"} type - 内容类型，例如 "text"。
- * @property {string} text - 提示的文本内容。
- */
-
-/**
- * 提示信息对象
- * @typedef {Object} Prompt
- * @property {"system" | "user" | "assistant"} role - 角色，例如 "system" 或 "user"。
- * @property {PromptContent[]} content - 提示内容列表。
- */
+import { defChatModelSettings } from "@/constants";
 
 /**
  * 表示聊天信息存储的对象。
@@ -26,7 +12,7 @@ export const ChatState = {
   /**
    * 配置聊天模型的设置参数。
    */
-  curChatModelSettings: structuredClone(chatModelSettings_T),
+  curChatModelSettings: structuredClone(defChatModelSettings),
 
   /**
    * 全部的对话信息

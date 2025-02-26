@@ -20,7 +20,7 @@
 import { useStore } from "vuex";
 import { computed } from "vue";
 import { add24 } from "@/assets/svg";
-import { model_T, rtaudioModelTypeList } from "@/typings";
+import { defModelType, rtaudioModelTypeList } from "@/constants";
 import { append4Random } from "@/utils";
 
 import ModelEditCard from "@/components/ModelEditCard.vue";
@@ -52,7 +52,7 @@ const onDeleteRtaudioModels = async (index) => {
 
 const addRtaudioModel = async () => {
   const tmpModels = { ...models.value };
-  const tmpRtaudioModel = structuredClone(model_T);
+  const tmpRtaudioModel = structuredClone(defModelType);
   tmpRtaudioModel.name = append4Random("语音模型");
   tmpModels.rtaudio.push(tmpRtaudioModel);
   await store.dispatch("setModels", tmpModels);

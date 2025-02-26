@@ -20,7 +20,7 @@
 import { useStore } from "vuex";
 import { computed } from "vue";
 import { add24 } from "@/assets/svg";
-import { model_T, imageModelTypeList } from "@/typings";
+import { defModelType, imageModelTypeList } from "@/constants";
 import { append4Random } from "@/utils";
 
 import ModelEditCard from "@/components/ModelEditCard.vue";
@@ -52,7 +52,7 @@ const onDeleteImageModels = async (index) => {
 
 const addImageModel = async () => {
   const tmpModels = { ...models.value };
-  const tmpImageModel = structuredClone(model_T);
+  const tmpImageModel = structuredClone(defModelType);
   tmpImageModel.name = append4Random("图像模型");
   tmpModels.image.push(tmpImageModel);
   await store.dispatch("setModels", tmpModels);

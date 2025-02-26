@@ -1,6 +1,6 @@
 import store from "@/store";
 import { dsAlert } from "@/utils";
-import { chatModelTypeList } from "@/typings";
+import { chatModelTypeList } from "@/constants";
 
 import { OpenAIClient } from "./openai.js";
 import { AzureOpenAIClient } from "./azure-openai.js";

@@ -20,7 +20,7 @@
 import { useStore } from "vuex";
 import { computed } from "vue";
 import { add24 } from "@/assets/svg";
-import { model_T, chatModelTypeList } from "@/typings";
+import { defModelType, chatModelTypeList } from "@/constants";
 import { append4Random } from "@/utils";
 
 import ModelEditCard from "@/components/ModelEditCard.vue";
@@ -52,7 +52,7 @@ const onDeleteChatModels = async (index) => {
 
 const addChatModel = async () => {
   const tmpModels = { ...models.value };
-  const tmpChatModel = structuredClone(model_T);
+  const tmpChatModel = structuredClone(defModelType);
   tmpChatModel.name = append4Random("对话模型");
   tmpModels.chat.push(tmpChatModel);
   await store.dispatch("setModels", tmpModels);

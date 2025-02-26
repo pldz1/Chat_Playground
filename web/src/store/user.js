@@ -1,4 +1,4 @@
-import { model_T } from "@/typings";
+import { defModelType } from "@/constants";
 
 export const UserState = {
   /**
@@ -42,7 +42,7 @@ export const UserState = {
   /**
    * 当前的对话模型信息
    */
-  curChatModel: structuredClone(model_T),
+  curChatModel: structuredClone(defModelType),
 
   /**
    * 当前用户有的对话指令

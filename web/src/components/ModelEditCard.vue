@@ -123,13 +123,13 @@
 import { ref, reactive, watch } from "vue";
 import { dsAlert } from "@/utils";
 import { edit18, save18, delete18, copy16 } from "@/assets/svg";
-import { model_T, apiTypeList } from "@/typings";
+import { defModelType, apiTypeList } from "@/constants";
 
 const emit = defineEmits(["on-update", "on-delete"]);
 const props = defineProps({
   model: {
     type: Object,
-    default: () => structuredClone(model_T),
+    default: () => structuredClone(defModelType),
   },
   modelTypeList: {
     type: Array,

@@ -14,7 +14,7 @@
 <script setup>
 import { useStore } from "vuex";
 import { onMounted, onUnmounted, ref, computed } from "vue";
-import { chatInsTemplateList } from "@/typings";
+import { chatInsTemplateList } from "@/constants";
 import { addChat } from "@/services";
 
 const emit = defineEmits(["on-update"]);

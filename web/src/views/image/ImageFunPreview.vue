@@ -69,14 +69,14 @@ import { useStore } from "vuex";
 import { computed, ref, watch } from "vue";
 import { arrowUp32 } from "@/assets/svg";
 import { AIGCClient } from "@/services";
-import { imageModelSize, imageModelSettings_T } from "@/typings";
+import { imageModelSize, defImageModelSeting } from "@/constants";
 import { dsAlert, copyToClipboard, saveToLocal } from "@/utils";
 
 const store = useStore();
 const imageModels = computed(() => store.state.models.image);
 const images = computed(() => store.state.images);
 
-const imageModelSettings = ref(structuredClone(imageModelSettings_T));
+const imageModelSettings = ref(structuredClone(defImageModelSeting));
 const imageDrawer = new AIGCClient("image");
 const isGenerating = ref(false);
 const dsAlertContainer = ref(null);

@@ -48,7 +48,7 @@
 import { useStore } from "vuex";
 import { ref, computed, watch } from "vue";
 import { useRouter } from "vue-router";
-import { chatModelSettings_T } from "@/typings";
+import { defChatModelSettings } from "@/constants";
 import { app32, sildbar24, new24, setting24 } from "@/assets/svg";
 
 import ThemeController from "@/components/ThemeController.vue";
@@ -96,7 +96,7 @@ const onShowSidebar = () => {
  * 新建对话
  *  */
 const onNewChat = async () => {
-  store.dispatch("setCurChatModelSettings", structuredClone(chatModelSettings_T));
+  store.dispatch("setCurChatModelSettings", structuredClone(defChatModelSettings));
   await store.dispatch("setCurChatId", "");
   await store.dispatch("resetMessages");
 };
