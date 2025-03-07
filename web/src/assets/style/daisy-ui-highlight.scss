@@ -1,0 +1,119 @@
+.hljs,
+.hljsln {
+  overflow-x: auto;
+  color: oklch(var(--bc));
+
+  // 代码块不换行
+  white-space: pre;
+  word-break: normal;
+
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+}
+
+
+.hljs-comment,
+.hljs-quote {
+  color: #727c90;
+  font-style: italic;
+}
+
+.hljs-doctag,
+.hljs-keyword,
+.hljs-formula {
+  color: #c46fde;
+}
+
+.hljs-section,
+.hljs-name,
+.hljs-selector-tag,
+.hljs-deletion,
+.hljs-subst {
+  color: #d05f68;
+}
+
+.hljs-literal {
+  color: #3cb4c4;
+}
+
+.hljs-string,
+.hljs-regexp,
+.hljs-addition,
+.hljs-attribute,
+.hljs-meta-string {
+  color: #92c270;
+}
+
+.class_ {
+  color: #d4ae66 !important;
+}
+
+.hljs-attr {
+  color: #d1945b !important;
+}
+
+.hljs-attr,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-type,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-number {
+  color: #d19a66;
+}
+
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link,
+.hljs-meta,
+.hljs-selector-id,
+.hljs-title {
+  color: #4e9ad7;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+.hljs-link {
+  text-decoration: underline;
+}
+
+.hljs-built_in {
+  color: #4cb2c0;
+}
+
+.hljs-tag {
+  color: #bababa;
+
+  .hljs-name {
+    color: #da5f69;
+  }
+}
+
+.hljs-attribute,
+.hljs-doctag,
+.hljs-keyword,
+.hljs-meta .hljs-keyword,
+.hljs-name,
+.hljs-selector-tag,
+.hljs-title {
+  font-weight: normal !important;
+}
+
+.hljs-punctuation {
+  color: #bababa;
+}
+
+.hljs,
+.hljsln {
+  &::-webkit-scrollbar {
+    height: 3px;
+  }
+}

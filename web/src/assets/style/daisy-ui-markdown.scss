@@ -331,6 +331,7 @@
   margin-top: 0;
   margin-bottom: 0;
   padding-left: 2em;
+  list-style-type: decimal;
 }
 
 .markdown-content ol ol,
@@ -445,6 +446,7 @@
 .markdown-content details {
   margin-top: 0;
   margin-bottom: 16px;
+  color: oklch(var(--bc));
 }
 
 .markdown-content blockquote > :first-child {
@@ -560,6 +562,7 @@
 .markdown-content ol ul {
   margin-top: 0;
   margin-bottom: 0;
+  list-style-type: disc;
 }
 
 .markdown-content li > p {
