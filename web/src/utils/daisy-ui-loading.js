@@ -9,7 +9,7 @@ function showdsLoading() {
   const loading = document.createElement("div");
   loading.className = loadingElId;
   // 设置 loading 元素的内部 HTML，使用 DaisyUI 的 loading 样式
-  loading.innerHTML = `<span class="loading loading-infinity loading-lg"></span>`;
+  loading.innerHTML = `<span class="loading loading-spinner loading-xl"></span>`;
 
   // 将创建好的 loading 元素添加到页面的 body 中
   document.body.appendChild(loading);

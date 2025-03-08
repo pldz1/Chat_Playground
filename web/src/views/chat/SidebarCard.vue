@@ -1,5 +1,5 @@
 <template>
-  <div class="chat-sidebar-container">
+  <div class="chat-sidebar-container" ref="chatSideContRef">
     <!-- 具体下滑内容 -->
     <div class="csdb-chats">
       <div v-if="chatList.length == 0" class="csdb-chats-container">
@@ -60,6 +60,7 @@ import { deleteChat, renameChat, getChatSettings } from "@/services";
 
 const store = useStore();
 const cid = computed(() => store.state.curChatId);
+const chatSideContRef = ref(null);
 
 const chatList = computed(() => {
   return [...store.state.chatList].reverse();
@@ -127,10 +128,13 @@ const showChatOptions = async (event, cid) => {
   const btnRect = event.currentTarget.getBoundingClientRect();
 
   const dropdownEl = dropdownRef.value;
-  if (dropdownEl) {
+  if (dropdownEl && chatSideContRef.value) {
     dropdownEl.style.position = "absolute";
     // 将 dropdown 放置在按钮下方 由于有header的48像素导致这个减去48最合理
-    dropdownEl.style.top = `${btnRect.bottom - 48}px`;
+    const containerRect = chatSideContRef.value.getBoundingClientRect();
+    let top = btnRect.bottom - 48;
+    if (top + 88 > containerRect.height) top = containerRect.height - 100;
+    dropdownEl.style.top = `${top}px`;
     dropdownEl.style.left = `${btnRect.left}px`;
     dropdownEl.style.zIndex = 301;
   }

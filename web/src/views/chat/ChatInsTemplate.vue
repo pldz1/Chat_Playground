@@ -1,6 +1,6 @@
 <template>
   <div class="chat-template-display-card">
-    <div class="ctdc-typewriter"><img src="/hello.gif" /></div>
+    <div class="ctdc-typewriter" ref="typewriterRef"></div>
     <div class="ctdc-templates">
       <div class="ctdc-templates-container">
         <button v-for="inst in insTemplateList" :key="inst.id" class="btn" @click="onSelectInst(inst.id)">
@@ -13,7 +13,7 @@
 
 <script setup>
 import { useStore } from "vuex";
-import { computed } from "vue";
+import { onMounted, onUnmounted, ref, computed } from "vue";
 import { chatInsTemplateList } from "@/constants";
 import { addChat } from "@/services";
 import { dsAlert, append4Random } from "@/utils";
@@ -45,6 +45,66 @@ const onSelectInst = async (id) => {
     { role: "assistant", content: [{ type: "text", text: instObj.value }] },
   ]);
 };
+const typewriterRef = ref(null);
+let repeatIntervalId = null;
+let typingInProgress = false; // 防止重复启动
+
+const blinkText = () => {
+  const text = "今天要聊点神魔? 🤧";
+  const typeSpeed = 100;
+  const repeatInterval = 30000;
+
+  function typeWriter() {
+    if (typingInProgress) return;
+    typingInProgress = true;
+    let i = 0;
+    if (!typewriterRef.value) return;
+    typewriterRef.value.innerHTML = "";
+    const timer = setInterval(() => {
+      i++;
+      if (!typewriterRef.value) return;
+      typewriterRef.value.innerHTML = text.slice(0, i) + '<span class="ctdc-typewriter-cursor"></span>';
+      if (i === text.length) {
+        clearInterval(timer);
+        typingInProgress = false;
+      }
+    }, typeSpeed);
+  }
+
+  // 初次执行
+  if (document.visibilityState === "visible") {
+    typeWriter();
+  }
+
+  // 启动定时器
+  repeatIntervalId = setInterval(() => {
+    if (document.visibilityState === "visible") {
+      typeWriter();
+    }
+  }, repeatInterval);
+};
+
+onMounted(() => {
+  blinkText();
+  // 监听页面可见性变化
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+      // 页面重新可见时重启动画
+      blinkText();
+    } else {
+      // 隐藏时清除定时器，避免堆积
+      if (repeatIntervalId) {
+        clearInterval(repeatIntervalId);
+      }
+    }
+  });
+});
+
+onUnmounted(() => {
+  if (repeatIntervalId) {
+    clearInterval(repeatIntervalId);
+  }
+});
 </script>
 
 <style lang="scss" scoped>
@@ -91,6 +151,22 @@ const onSelectInst = async (id) => {
         max-height: 48px;
       }
     }
+  }
+}
+</style>
+
+<style>
+.ctdc-typewriter-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background-color: oklch(var(--bc));
+  animation: ctdc-typewriter-cursor-blink 1s step-end infinite;
+}
+
+@keyframes ctdc-typewriter-cursor-blink {
+  50% {
+    opacity: 0;
   }
 }
 </style>
