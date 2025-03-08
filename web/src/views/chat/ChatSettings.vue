@@ -36,8 +36,8 @@
             </div>
           </div>
           <div class="gcms-setting-content">
-            <input type="range" min="1" max="20" class="range range-xs" v-model="modelSettings.passedMsgLen" />
-            <input type="text" class="input input-bordered" v-model="modelSettings.passedMsgLen" />
+            <input type="range" min="1" max="20" class="range range-xs" v-model.number="modelSettings.passedMsgLen" />
+            <input type="text" class="input input-bordered" v-model.number="modelSettings.passedMsgLen" />
           </div>
         </div>
 
@@ -53,8 +53,8 @@
             </div>
           </div>
           <div class="gcms-setting-content">
-            <input type="range" min="0" max="12800" step="1" v-model="modelSettings.max_tokens" class="range range-xs" />
-            <input type="text" class="input input-bordered" v-model="modelSettings.max_tokens" />
+            <input type="range" min="0" max="12800" step="1" v-model.number="modelSettings.max_tokens" class="range range-xs" />
+            <input type="text" class="input input-bordered" v-model.number="modelSettings.max_tokens" />
           </div>
         </div>
 
@@ -70,8 +70,8 @@
             </div>
           </div>
           <div class="gcms-setting-content">
-            <input type="range" min="0" max="1" step="0.01" v-model="modelSettings.temperature" class="range range-xs" />
-            <input type="text" class="input input-bordered" v-model="modelSettings.temperature" />
+            <input type="range" min="0" max="1" step="0.01" v-model.number="modelSettings.temperature" class="range range-xs" />
+            <input type="text" class="input input-bordered" v-model.number="modelSettings.temperature" />
           </div>
         </div>
 
@@ -87,8 +87,8 @@
             </div>
           </div>
           <div class="gcms-setting-content">
-            <input type="range" min="0" max="1" step="0.01" v-model="modelSettings.top_p" class="range range-xs" />
-            <input type="text" class="input input-bordered" v-model="modelSettings.top_p" />
+            <input type="range" min="0" max="1" step="0.01" v-model.number="modelSettings.top_p" class="range range-xs" />
+            <input type="text" class="input input-bordered" v-model.number="modelSettings.top_p" />
           </div>
         </div>
 
@@ -101,8 +101,8 @@
             </div>
           </div>
           <div class="gcms-setting-content">
-            <input type="range" min="0" max="2" step="0.01" v-model="modelSettings.frequency_penalty" class="range range-xs" />
-            <input type="text" class="input input-bordered" v-model="modelSettings.frequency_penalty" />
+            <input type="range" min="0" max="2" step="0.01" v-model.number="modelSettings.frequency_penalty" class="range range-xs" />
+            <input type="text" class="input input-bordered" v-model.number="modelSettings.frequency_penalty" />
           </div>
         </div>
 
@@ -115,8 +115,8 @@
             </div>
           </div>
           <div class="gcms-setting-content">
-            <input type="range" min="0" max="2" step="0.01" v-model="modelSettings.presence_penalty" class="range range-xs" />
-            <input type="text" class="input input-bordered" v-model="modelSettings.presence_penalty" />
+            <input type="range" min="0" max="2" step="0.01" v-model.number="modelSettings.presence_penalty" class="range range-xs" />
+            <input type="text" class="input input-bordered" v-model.number="modelSettings.presence_penalty" />
           </div>
         </div>
 

@@ -16,6 +16,7 @@ import { useStore } from "vuex";
 import { computed } from "vue";
 import { chatInsTemplateList } from "@/constants";
 import { addChat } from "@/services";
+import { dsAlert, append4Random } from "@/utils";
 
 const emit = defineEmits(["on-update"]);
 
@@ -26,15 +27,22 @@ const insTemplateList = computed(() => {
 });
 
 const onSelectInst = async (id) => {
-  const instText =
-    insTemplateList.value.find((inst) => inst.id === id)?.value || "As an AI assistant, please make your responses more engaging by including lively emojis.";
+  const instObj = insTemplateList?.value?.find((inst) => inst.id === id);
+  if (!instObj) {
+    dsAlert({ type: "error", message: "无效的对话模板指令!" });
+    return;
+  }
+
   const newVal = { ...curChatModelSettings.value };
-  newVal.prompts[0].content[0].text = instText;
+  newVal.prompts[0].content[0].text = instObj.value;
   await store.dispatch("setCurChatModelSettings", newVal);
-  await addChat();
+
+  const name = append4Random(instObj.name);
+  await addChat(name);
+
   emit("on-update", [
     { role: "user", content: [{ type: "text", text: "重复一遍你的指令" }] },
-    { role: "assistant", content: [{ type: "text", text: instText }] },
+    { role: "assistant", content: [{ type: "text", text: instObj.value }] },
   ]);
 };
 </script>

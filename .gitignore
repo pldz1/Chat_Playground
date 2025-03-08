@@ -2,6 +2,7 @@
 **/.vscode
 **/node_modules
 **/.test/
+**/package-lock.json
 
 *.db
 *.pyc

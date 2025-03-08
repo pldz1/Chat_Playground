@@ -137,13 +137,13 @@ export async function setChatSettings() {
  * 新增对话
  * @return {Promise<boolean}>} 操作的结果
  */
-export async function addChat() {
+export async function addChat(name = null) {
   const username = store.state.username;
   const isLoggedIn = store.state.isLoggedIn;
   if (!isLoggedIn || !username) return false;
 
   const cid = getUuid("chat");
-  const cname = generateRandomCname();
+  const cname = name ? name : generateRandomCname();
 
   const res = await addChatAPI(username, cid, cname);
   if (!res.flag) {

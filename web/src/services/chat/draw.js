@@ -9,14 +9,14 @@ import { addMessage } from "../api/chat-api.js";
 /**
  * 提示内容对象
  * @typedef {Object} PromptContent
- * @property {"text" | "image_url"} type - 内容类型，例如 "text"。
+ * @property {"text" | "image_url"} type - 内容类型, 例如 "text"。
  * @property {string} text - 提示的文本内容。
  */
 
 /**
  * 提示信息对象
  * @typedef {Object} Prompt
- * @property {"system" | "user" | "assistant"} role - 角色，例如 "system" 或 "user"。
+ * @property {"system" | "user" | "assistant"} role - 角色, 例如 "system" 或 "user"。
  * @property {PromptContent[]} content - 提示内容列表。
  */
 
@@ -32,6 +32,7 @@ export class ChatDrawer extends ChatElemCreator {
     this.tmpAssContentDiv = null;
     this.tmpAssReasoningDiv = null;
     this.tmpAssContentMid = "";
+    this.tmpAssErrorFlag = false;
     this.tmpAssContentData = { content: "", reasoning_content: "" };
     this.renderQueue = [];
     this.isRendering = false;
@@ -73,7 +74,7 @@ export class ChatDrawer extends ChatElemCreator {
 
     if (flag) {
       // 结束后立即更新对话历史
-      if (this.tmpAssContentData.content == "") {
+      if (this.tmpAssContentData.content == "" && !this.tmpAssErrorFlag) {
         // 如果是出现无效的返回结果, 删除 markdown 上正在思考的话
         this.forceRemoveResponsingEl();
         this.draw([{ role: "assistant", content: [{ type: "text", text: "请求超时,无有效内容！" }] }]);
@@ -129,8 +130,10 @@ export class ChatDrawer extends ChatElemCreator {
    */
   enqueueRender(response) {
     if (!response.flag) {
+      // 机器人助理返回的内容有错误, 直接显示错误内容, 并且置标志位true后续不会再绘制延迟的错误的DIV
       if (this.tmpAssContentDiv) {
         this.tmpAssContentDiv.innerHTML = response.content;
+        this.tmpAssErrorFlag = true;
       } else {
         dsAlert({ type: "error", message: response.content });
       }
@@ -142,7 +145,7 @@ export class ChatDrawer extends ChatElemCreator {
 
     // 因为最新的文本都被记录在 this.tmpAssContentData, 所以可以 push 任意的内容
     this.renderQueue.push("");
-    // 如果当前没有渲染任务在进行，启动渲染队列
+    // 如果当前没有渲染任务在进行, 启动渲染队列
     if (!this.isRendering) {
       this.isRendering = true;
       this.processRenderQueue();
@@ -193,13 +196,14 @@ export class ChatDrawer extends ChatElemCreator {
   }
 
   /**
-   * 开始绘制机器人助理响应的文本内容，同时也是全部这个绘图类的关键属性重置的函数入口
+   * 开始绘制机器人助理响应的文本内容, 同时也是全部这个绘图类的关键属性重置的函数入口
    */
   drawStreamAss() {
     this.tmpAssContentMid = getUuid("msg");
     this.tmpAssContentDiv = this.createAssTempElem(this.tmpAssContentMid);
     this.tmpAssIsResponsingElFlag = true;
     this.tmpAssReasoningDiv = null;
+    this.tmpAssErrorFlag = false;
     this.tmpAssContentData = { content: "", reasoning_content: "" };
     this.scrollToBottom();
   }

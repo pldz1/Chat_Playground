@@ -15,9 +15,11 @@
           <input
             v-if="isShowOptionCid == item.cid && isEditChatName"
             v-model="editChatName"
-            @change="changeChatName"
+            @blur="changeChatName"
+            @keydown.enter="changeChatName"
             type="text"
-            class="input input-bordered w-full max-w-xs"
+            class="input input-bordered"
+            ref="editChatNameInputElRef"
           />
           <!-- 对话的单元 -->
           <div v-else :class="['csdb-chat-item', { 'csdb-chat-item-active': cid === item.cid }]">
@@ -68,6 +70,7 @@ const isShowChatOptions = ref(false);
 const isShowOptionCid = ref("");
 const isEditChatName = ref(false);
 const editChatName = ref("");
+const editChatNameInputElRef = ref(null);
 
 /**
  * 选择对话
@@ -98,6 +101,8 @@ const onDeleteChat = async () => {
 const onEditChatName = async () => {
   isEditChatName.value = true;
   editChatName.value = "";
+  await nextTick();
+  if (editChatNameInputElRef?.value[0]) editChatNameInputElRef.value[0].focus();
 };
 
 /**
@@ -105,35 +110,32 @@ const onEditChatName = async () => {
  */
 const changeChatName = async () => {
   if (editChatName.value) await renameChat(isShowOptionCid.value, editChatName.value);
-  await nextTick(() => {
-    isEditChatName.value = false;
-    editChatName.value = "";
-    isShowOptionCid.value = "";
-  });
+  await nextTick();
+  isEditChatName.value = false;
+  editChatName.value = "";
+  isShowOptionCid.value = "";
 };
 
 /**
  * 处理显示点击对话编辑按钮的下拉菜单显示
  */
 const showChatOptions = async (event, cid) => {
+  event.stopPropagation();
   isShowChatOptions.value = true;
   // 等待 DOM 更新后计算位置
-  await nextTick(() => {
-    const btnRect = event.currentTarget.getBoundingClientRect();
+  await nextTick();
+  const btnRect = event.currentTarget.getBoundingClientRect();
 
-    const dropdownEl = dropdownRef.value;
-    if (dropdownEl) {
-      dropdownEl.style.position = "absolute";
-      // 将 dropdown 放置在按钮下方 由于有header的48像素导致这个减去48最合理
-      dropdownEl.style.top = `${btnRect.bottom - 48}px`;
-      dropdownEl.style.left = `${btnRect.left}px`;
-      dropdownEl.style.zIndex = 301;
-    }
+  const dropdownEl = dropdownRef.value;
+  if (dropdownEl) {
+    dropdownEl.style.position = "absolute";
+    // 将 dropdown 放置在按钮下方 由于有header的48像素导致这个减去48最合理
+    dropdownEl.style.top = `${btnRect.bottom - 48}px`;
+    dropdownEl.style.left = `${btnRect.left}px`;
+    dropdownEl.style.zIndex = 301;
+  }
 
-    isShowOptionCid.value = cid;
-  });
-
-  event.stopPropagation();
+  isShowOptionCid.value = cid;
 };
 
 /**
@@ -187,6 +189,12 @@ onUnmounted(() => {
 
     .input {
       height: 36px;
+
+      &:focus,
+      &:focus-within {
+        border-color: unset;
+        outline: none;
+      }
     }
 
     .csdb-chat-item-input {
