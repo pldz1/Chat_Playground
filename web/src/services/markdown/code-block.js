@@ -14,7 +14,6 @@ import xml from "highlight.js/lib/languages/xml";
 import sql from "highlight.js/lib/languages/sql";
 import cpp from "highlight.js/lib/languages/cpp";
 import c from "highlight.js/lib/languages/c";
-import ClipboardJS from "clipboard";
 
 hljs.registerLanguage("javascript", javascript);
 hljs.registerLanguage("vbscript", vbscript);
@@ -46,32 +45,54 @@ function highlightCode(element) {
   });
 }
 
+// 全局函数
+window.copyHandler = function (e) {
+  const btn = e.target;
+  const codeElement = btn.closest(".markdown-content-copy").nextElementSibling;
+  if (codeElement?.tagName.toLowerCase() === "code") {
+    // 代码的文本
+    const codeText = codeElement.textContent;
+    navigator.clipboard
+      .writeText(codeText)
+      .then(() => {
+        btn.textContent = "已复制!";
+
+        // 一段时间后恢复原来的文本
+        setTimeout(() => {
+          btn.textContent = "复制";
+        }, 2000); // 2秒后恢复
+      })
+      .catch((err) => {
+        console.error("复制失败:", err);
+      });
+  } else {
+    console.error("未找到 <code> 元素");
+  }
+};
+
 /**
  * 给代码块添加复制按钮
- * @param {Element} element 包含 pre code 代码块的元素
+ * @param {Element} element 包含 pre 和 code 代码块的元素
  */
 function buildCopyButton(element) {
-  let $pres = $(element).find("pre");
-  if (!$pres.length) return;
+  const pres = element.querySelectorAll("pre");
+  if (!pres.length) return;
 
-  $pres.each(function () {
-    var t = $(this).children("code").text();
+  pres.forEach((pre) => {
+    const codeElem = pre.querySelector("code");
+    if (!codeElem) return;
 
     // 创建按钮
-    var btn = $('<span class="copy">Copy</span>').attr("data-clipboard-text", t);
+    const btn = document.createElement("span");
+    btn.id = String(Math.random());
+    btn.className = "markdown-content-copy";
+    btn.textContent = "复制";
 
-    $(this).prepend(btn);
+    // 设置内联点击事件
+    btn.setAttribute("onclick", "copyHandler(event)");
 
-    var c = new ClipboardJS(btn[0]);
-    c.on("success", function () {
-      btn.addClass("copyed").text("Copied");
-      setTimeout(function () {
-        btn.text("Copy").removeClass("copyed");
-      }, 1000);
-    });
-    c.on("error", function () {
-      btn.text("Copy Failed.");
-    });
+    // 将按钮添加到 pre 元素开头
+    pre.insertBefore(btn, pre.firstChild);
   });
 }
 
@@ -152,4 +173,15 @@ export function deepCloneAndUpdate(div1, div2) {
 
   // 从 div2 根节点开始与 div1 比较
   compareAndUpdate(div1, div2);
+}
+
+/** 渲染markdown的 HTML Element. */
+export function renderBlock(className, el, data) {
+  const tmpDiv = document.createElement("div");
+  tmpDiv.className = className;
+  // 只渲染当前的块
+  tmpDiv.innerHTML = markdownIt.render(data);
+  buildCodeBlock(tmpDiv);
+  // 这里不再拼接 htmlData，而是每次渲染独立的块
+  deepCloneAndUpdate(el, tmpDiv);
 }

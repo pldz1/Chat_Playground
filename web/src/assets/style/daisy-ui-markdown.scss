@@ -794,11 +794,11 @@
   border: 0;
 }
 
-.markdown-content pre:hover .copy {
+.markdown-content pre:hover .markdown-content-copy {
   opacity: 1;
 }
 
-.markdown-content pre .copy {
+.markdown-content pre .markdown-content-copy {
   position: absolute;
   top: 0;
   right: 0;
