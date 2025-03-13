@@ -4,6 +4,30 @@
 
 ---
 
+## 👀 效果预览
+
+- 简单的对话 API
+
+![简单的对话](/docs/chat_common.gif)
+
+- 思考模型 API
+
+![思考模型](/docs/chat_reason.gif)
+
+- 设置对话参数
+
+![设置对话参数](/docs/chat_setting.gif)
+
+- 模型设置和创建对话模板
+
+![模型设置和创建对话模板](/docs/common_setting.gif)
+
+- 体验图像
+
+![体验图像](/docs/preview_dalle.gif)
+
+---
+
 ## 🚀 技术实现
 
 为了简化并灵活调用各种 AI 能力，我将项目设计成了如下结构：
