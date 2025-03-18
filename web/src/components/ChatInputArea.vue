@@ -3,22 +3,37 @@
     <div class="ccia-input-card">
       <div class="ccia-input-area">
         <div class="ccia-imgs-area" id="ccia-chat-input-imgs"></div>
-        <textarea v-model="inputText" class="textarea ccia-custom-textarea" placeholder="请输入对话内容" @keydown.enter="onEnterKeydown"></textarea>
+        <textarea
+          ref="cciaTextareaRef"
+          v-model="inputText"
+          class="textarea ccia-custom-textarea"
+          placeholder="请输入对话内容"
+          @keydown.enter="onEnterKeydown"
+        ></textarea>
       </div>
 
       <div class="ccia-input-opts">
         <!-- 丰富对话功能 -->
         <div class="ccia-chat-opts">
+          <!-- texarea输入状态 -->
+          <div class="tooltip tooltip-top" data-tip="textarea输入框">
+            <el-button class="ccia-opts-button" @click="onSetTextarea">
+              <div class="ccia-icon" v-html="text24"></div>
+            </el-button>
+          </div>
+          <!-- 上传图片 -->
           <div class="tooltip tooltip-top" data-tip="上传图片">
             <el-button class="ccia-opts-button" @click="uploadImageFile">
               <div class="ccia-icon" v-html="attach24"></div>
             </el-button>
           </div>
+          <!-- 预览绘图 -->
           <div class="tooltip tooltip-top" data-tip="绘图窗口(预览功能)">
             <el-button class="ccia-opts-button" onclick="global_image_fun_preview.showModal()">
               <div class="ccia-icon" v-html="dalle24"></div>
             </el-button>
           </div>
+          <!-- 对话 -->
           <div class="tooltip tooltip-top" data-tip="网页对话(预览功能)">
             <el-button class="ccia-opts-button">
               <div class="ccia-icon" v-html="realTimeVoice24"></div>
@@ -44,7 +59,7 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
-import { dalle24, realTimeVoice24, attach24, arrowUp32, pause32 } from "@/assets/svg";
+import { dalle24, text24, realTimeVoice24, attach24, arrowUp32, pause32 } from "@/assets/svg";
 import { addPasteEvent, removePasetEvent, uploadImageFile, isValidUserMsg, dsAlert } from "@/utils";
 import { packUserMsg } from "@/services";
 
@@ -57,6 +72,7 @@ const props = defineProps({
 
 const emit = defineEmits(["on-start", "on-stop"]);
 const inputText = ref("");
+const cciaTextareaRef = ref(null);
 
 /**
  * 发送有效的问题, 或者是暂停对话
@@ -87,6 +103,15 @@ const onEnterKeydown = async (event) => {
     // 阻止默认行为（换行）并发送内容
     event.preventDefault();
     await onSendInputData();
+  }
+};
+
+/**
+ * textarea输入的特性, 增高,并且enter输入换行行为
+ */
+const onSetTextarea = () => {
+  if (cciaTextareaRef.value) {
+    cciaTextareaRef.value.style.minHeight = cciaTextareaRef.value.style.minHeight == "208px" ? "48px" : "208px";
   }
 };
 

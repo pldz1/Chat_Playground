@@ -115,7 +115,7 @@ onMounted(() => {
     left: 10%;
     width: 80%;
     max-width: 80%;
-    z-index: 101;
+    z-index: 201;
     display: flex;
     justify-content: center;
   }
