@@ -187,6 +187,7 @@ onBeforeUnmount(() => {
           border-radius: 16px;
           display: flex;
           align-items: center;
+          color: oklch(var(--bc));
         }
       }
     }

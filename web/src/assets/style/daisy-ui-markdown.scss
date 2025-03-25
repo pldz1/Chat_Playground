@@ -50,7 +50,7 @@
 
 .markdown-content a {
   background-color: transparent;
-  color: oklch(var(--pc));
+  color: oklch(var(--p));
   text-decoration: none;
 }
 
@@ -284,6 +284,7 @@
   margin-bottom: 16px;
   font-weight: 600;
   line-height: 1.25;
+  color: oklch(var(--bc));
 }
 
 .markdown-content h2 {
