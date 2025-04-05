@@ -1,5 +1,3 @@
-// import "highlight.js/styles/atom-one-dark.css";
-import $ from "jquery";
 import hljs from "highlight.js/lib/core";
 import javascript from "highlight.js/lib/languages/javascript";
 import vbscript from "highlight.js/lib/languages/vbscript";

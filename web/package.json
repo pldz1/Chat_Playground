@@ -8,16 +8,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@DatatracCorporation/markdown-it-mermaid": "npm:@datatraccorporation/markdown-it-mermaid@^0.5.0",
-    "@element-plus/icons-vue": "^2.3.1",
-    "@microsoft/fetch-event-source": "^2.0.1",
     "axios": "^1.6.2",
     "clipboard": "^2.0.10",
     "core-js": "^3.8.3",
     "daisyui": "^4.12.23",
-    "element-plus": "^2.4.2",
     "highlight.js": "^11.9.0",
-    "jquery": "^3.6.0",
     "markdown-it": "^12.3.2",
     "markdown-it-container": "^3.0.0",
     "markdown-it-deflist": "^2.1.0",

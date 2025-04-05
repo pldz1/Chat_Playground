@@ -17,39 +17,39 @@
         <div class="ccia-chat-opts">
           <!-- texarea输入状态 -->
           <div class="tooltip tooltip-top" data-tip="textarea输入框">
-            <el-button class="ccia-opts-button" @click="onSetTextarea">
+            <button class="ccia-opts-button" @click="onSetTextarea">
               <div class="ccia-icon" v-html="text24"></div>
-            </el-button>
+            </button>
           </div>
           <!-- 上传图片 -->
           <div class="tooltip tooltip-top" data-tip="上传图片">
-            <el-button class="ccia-opts-button" @click="uploadImageFile">
+            <button class="ccia-opts-button" @click="uploadImageFile">
               <div class="ccia-icon" v-html="attach24"></div>
-            </el-button>
+            </button>
           </div>
           <!-- 预览绘图 -->
           <div class="tooltip tooltip-top" data-tip="绘图窗口(预览功能)">
-            <el-button class="ccia-opts-button" onclick="global_image_fun_preview.showModal()">
+            <button class="ccia-opts-button" onclick="global_image_fun_preview.showModal()">
               <div class="ccia-icon" v-html="dalle24"></div>
-            </el-button>
+            </button>
           </div>
           <!-- 对话 -->
           <div class="tooltip tooltip-top" data-tip="网页对话(预览功能)">
-            <el-button class="ccia-opts-button">
+            <button class="ccia-opts-button">
               <div class="ccia-icon" v-html="realTimeVoice24"></div>
-            </el-button>
+            </button>
           </div>
         </div>
 
         <!-- 对话内容的发送或者暂停按钮位置 -->
         <div class="ccia-chat-button">
           <div class="tooltip tooltip-top" data-tip="开始/暂停">
-            <el-button class="ccia-send-button" @click="onSendInputData">
+            <button class="ccia-send-button" @click="onSendInputData">
               <!-- send chat button -->
               <div v-if="!props.isChatting" class="ccia-svg-icon" v-html="arrowUp32"></div>
               <!-- pause chat button -->
               <div v-else class="ccia-svg-icon" v-html="pause32"></div>
-            </el-button>
+            </button>
           </div>
         </div>
       </div>

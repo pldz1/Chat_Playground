@@ -7,7 +7,6 @@ import mark from "markdown-it-mark";
 import taskLists from "markdown-it-task-lists";
 import container from "markdown-it-container";
 import toc from "markdown-it-toc-done-right";
-import mermaid from "@DatatracCorporation/markdown-it-mermaid";
 
 /**
  * 对渲染出来的link额外处理
@@ -56,8 +55,7 @@ markdownIt
   .use(container, "hljs-left")
   .use(container, "hljs-center")
   .use(container, "hljs-right")
-  .use(toc)
-  .use(mermaid);
+  .use(toc);
 
 addTargetBlankToLinks(markdownIt);
 
