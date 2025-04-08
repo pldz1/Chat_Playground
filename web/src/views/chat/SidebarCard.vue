@@ -1,12 +1,34 @@
 <template>
   <div class="chat-sidebar-container" ref="chatSideContRef">
+    <div class="csdb-sidebar">
+      <!-- 显示 对话(chat) 的列表的头部 -->
+      <div class="csdb-chat-list">
+        <!-- 展开或者折叠 对话(chat) 列表 -->
+        <div class="tooltip tooltip-right" data-tip="展开(关闭)侧边栏">
+          <button class="btn csdb-btn-wh1 csdb-btn-color1" @click="onShowSidebar">
+            <div v-html="sildbar24"></div>
+          </button>
+        </div>
+        <!-- 新建一个 对话(chat) -->
+        <div class="tooltip tooltip-right" data-tip="新建对话">
+          <button class="btn csdb-btn-wh1 csdb-btn-color1" @click="onNewChat">
+            <div v-html="new24"></div>
+          </button>
+        </div>
+      </div>
+      <div class="tooltip tooltip-right" data-tip="设置模型参数">
+        <button class="btn csdb-btn-wh1 csdb-btn-color1" @click="onShowModelSettings">
+          <div v-html="setting24"></div>
+        </button>
+      </div>
+    </div>
     <!-- 具体下滑内容 -->
-    <div class="csdb-chats">
+    <div v-show="isShowChatScrollbar" class="csdb-chats">
       <div v-if="chatList.length == 0" class="csdb-chats-container">
         <h2 class="font-bold">
           无对话列表
           <br />
-          <img loading="lazy" width="72" height="72" src="/yawning-face@80.webp" class="pointer-events-none inline-block h-[5em] w-[5em] align-bottom" />
+          <div v-html="wao128"></div>
         </h2>
       </div>
       <!-- chat history list -->
@@ -50,13 +72,17 @@
       </ul>
     </div>
   </div>
+  <ChatSettings></ChatSettings>
 </template>
 
 <script setup>
 import { useStore } from "vuex";
 import { nextTick, ref, computed, onMounted, onUnmounted } from "vue";
-import { edit24, delete24, options24 } from "@/assets/svg";
+import { edit24, delete24, options24, sildbar24, new24, setting24, wao128 } from "@/assets/svg";
 import { deleteChat, renameChat, getChatSettings } from "@/services";
+import { defChatModelSettings } from "@/constants";
+import ChatSettings from "./ChatSettings.vue";
+import { dsAlert } from "@/utils";
 
 const store = useStore();
 const cid = computed(() => store.state.curChatId);
@@ -72,6 +98,34 @@ const isShowOptionCid = ref("");
 const isEditChatName = ref(false);
 const editChatName = ref("");
 const editChatNameInputElRef = ref(null);
+const isShowChatScrollbar = ref(false);
+const curChatModel = computed(() => store.state.curChatModel);
+
+/**
+ * 回是否开关侧边栏的布尔量
+ *  */
+const onShowSidebar = () => {
+  isShowChatScrollbar.value = !isShowChatScrollbar.value;
+};
+
+/**
+ * 新建对话
+ *  */
+const onNewChat = async () => {
+  store.dispatch("setCurChatModelSettings", structuredClone(defChatModelSettings));
+  await store.dispatch("setCurChatId", "");
+  await store.dispatch("resetMessages");
+};
+
+/**
+ * 打开模型设置界面
+ */
+const onShowModelSettings = () => {
+  if (!curChatModel.value.name) {
+    dsAlert({ type: "warn", message: "请先选择模型" });
+    return;
+  } else global_chat_model_settings.showModal();
+};
 
 /**
  * 选择对话
@@ -162,7 +216,43 @@ onUnmounted(() => {
 .chat-sidebar-container {
   height: 100%;
   max-height: 100%;
-  background-color: oklch(var(--b1));
+  background-color: oklch(var(--b2) / 0.2);
+  display: flex;
+  flex-direction: row;
+
+  .csdb-sidebar {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 8px;
+    width: 60px;
+    max-width: 60px;
+
+    .csdb-btn-color1 {
+      background-color: transparent;
+      box-shadow: initial;
+      border-color: transparent;
+
+      &:hover {
+        background-color: oklch(var(--b1));
+      }
+    }
+
+    .csdb-btn-wh1 {
+      height: 32px;
+      width: 32px;
+      min-height: 32px;
+    }
+
+    .csdb-chat-list {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+  }
 
   .csdb-chats {
     height: 100%;
@@ -173,11 +263,10 @@ onUnmounted(() => {
     max-width: 232px;
 
     .csdb-chats-container {
-      background-color: oklch(var(--b1));
+      background-color: oklch(var(--b2) / 0.1);
       height: 100%;
-      width: 230px;
+      width: 224px;
       text-align: center;
-      border-right: 1px solid oklch(var(--nc));
       max-height: 100%;
       overflow-x: hidden;
       overflow-y: auto;
@@ -188,6 +277,7 @@ onUnmounted(() => {
         height: 100%;
         flex-direction: column;
         justify-content: center;
+        gap: 8px;
       }
     }
 

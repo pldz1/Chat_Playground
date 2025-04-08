@@ -1,14 +1,16 @@
 <template>
   <div class="chat-card-container">
-    <!-- 显示markdown的问答区域 -->
-    <ChatInsTemplate v-show="!curChatId" @on-update="onDrawTemplateIns"></ChatInsTemplate>
-    <div class="ccdc-messages-container">
-      <div id="chat-messages-container" class="cccd-scroll-window" ref="innerRef"></div>
-    </div>
-    <!-- 输入问题 -->
-    <div class="cccd-input-area">
-      <ChatInputArea :is-chatting="isChatting" @on-start="onStartChat" @on-stop="onStopChat"></ChatInputArea>
-      <ImageFunPreview></ImageFunPreview>
+    <div class="ccdc-main-content">
+      <!-- 显示markdown的问答区域 -->
+      <ChatInsTemplate v-show="isShowTemplate" @on-update="onDrawTemplateIns"></ChatInsTemplate>
+      <div class="ccdc-messages-container">
+        <div id="chat-messages-container" class="cccd-scroll-window" ref="innerRef"></div>
+      </div>
+      <!-- 输入问题 -->
+      <div class="cccd-input-area">
+        <ChatInputArea :is-chatting="isChatting" @on-start="onStartChat" @on-stop="onStopChat"></ChatInputArea>
+        <ImageFunPreview></ImageFunPreview>
+      </div>
     </div>
   </div>
 </template>
@@ -29,17 +31,25 @@ const innerRef = ref(null);
 
 const drawer = new ChatDrawer(true);
 const curChatModel = computed(() => store.state.curChatModel);
-const chatMessagesLength = computed(() => store.state.messages.length);
 const curChatId = computed(() => store.state.curChatId);
+const isShowTemplate = ref(true);
 
 watch(
   () => curChatId.value,
-  async () => {
+  async (newVal) => {
     dsLoading(true);
-    await nextTick(async () => {
-      drawer.removeAllElem();
-      await getAllMessage(drawer.draw);
-    });
+    drawer.removeAllElem();
+    await nextTick();
+
+    // 判读对话的 id, 来显示不同的内容.
+    if (!newVal) {
+      // 如果是空的对话 id, 那么就认为是新的对话.
+      isShowTemplate.value = true;
+    } else {
+      isShowTemplate.value = false;
+      getAllMessage(drawer.draw);
+    }
+
     dsLoading(false);
   },
 );
@@ -54,6 +64,8 @@ watch(
 
 /** 向服务器发送数据 */
 const onStartChat = async (message) => {
+  isShowTemplate.value = false;
+
   // 新建对话
   if (!curChatId.value) {
     await addChat();

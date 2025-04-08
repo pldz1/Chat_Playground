@@ -8,6 +8,7 @@
           v-model="inputText"
           class="textarea ccia-custom-textarea"
           placeholder="请输入对话内容"
+          @input="debounceInputText"
           @keydown.enter="onEnterKeydown"
         ></textarea>
       </div>
@@ -15,12 +16,6 @@
       <div class="ccia-input-opts">
         <!-- 丰富对话功能 -->
         <div class="ccia-chat-opts">
-          <!-- texarea输入状态 -->
-          <div class="tooltip tooltip-top" data-tip="textarea输入框">
-            <button class="ccia-opts-button" @click="onSetTextarea">
-              <div class="ccia-icon" v-html="text24"></div>
-            </button>
-          </div>
           <!-- 上传图片 -->
           <div class="tooltip tooltip-top" data-tip="上传图片">
             <button class="ccia-opts-button" @click="uploadImageFile">
@@ -42,14 +37,21 @@
         </div>
 
         <!-- 对话内容的发送或者暂停按钮位置 -->
-        <div class="ccia-chat-button">
-          <div class="tooltip tooltip-top" data-tip="开始/暂停">
-            <button class="ccia-send-button" @click="onSendInputData">
-              <!-- send chat button -->
-              <div v-if="!props.isChatting" class="ccia-svg-icon" v-html="arrowUp32"></div>
-              <!-- pause chat button -->
-              <div v-else class="ccia-svg-icon" v-html="pause32"></div>
-            </button>
+        <div class="ccia-chat-model-info">
+          <select class="select" v-model="selectedModel" @change="onSelectChatModel">
+            <option disabled :value="null">选择对话模型</option>
+            <option v-for="m in chatModels" :key="m" :value="m">{{ m.name }}</option>
+          </select>
+
+          <div class="ccia-chat-button">
+            <div class="tooltip tooltip-top" data-tip="开始/暂停">
+              <button class="ccia-send-button" @click="onSendInputData">
+                <!-- send chat button -->
+                <div v-if="!props.isChatting" class="ccia-svg-icon" v-html="arrowUp32"></div>
+                <!-- pause chat button -->
+                <div v-else class="ccia-svg-icon" v-html="pause32"></div>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -58,10 +60,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
-import { dalle24, text24, realTimeVoice24, attach24, arrowUp32, pause32 } from "@/assets/svg";
+import { useStore } from "vuex";
+import { ref, onMounted, onBeforeUnmount, computed, watch } from "vue";
+import { dalle24, realTimeVoice24, attach24, arrowUp32, pause32 } from "@/assets/svg";
 import { addPasteEvent, removePasetEvent, uploadImageFile, isValidUserMsg, dsAlert } from "@/utils";
 import { packUserMsg } from "@/services";
+import { debounce } from "@/utils";
 
 const props = defineProps({
   isChatting: {
@@ -73,6 +77,32 @@ const props = defineProps({
 const emit = defineEmits(["on-start", "on-stop"]);
 const inputText = ref("");
 const cciaTextareaRef = ref(null);
+
+/**
+ * 这些都是用于显示模型的标签的数据
+ */
+const store = useStore();
+const chatModels = computed(() => store.state.models.chat);
+const curChatModel = computed(() => store.state.curChatModel);
+const selectedModel = ref(null);
+
+/**
+ * 监听当前模型的标签
+ */
+watch(
+  () => curChatModel.value,
+  async (newVal) => {
+    selectedModel.value = { ...newVal };
+  },
+  { deep: true },
+);
+
+/**
+ * 选择当前的对话模型
+ */
+const onSelectChatModel = async () => {
+  store.dispatch("setCurChatModel", selectedModel.value);
+};
 
 /**
  * 发送有效的问题, 或者是暂停对话
@@ -95,6 +125,20 @@ const onSendInputData = async () => {
 };
 
 /**
+ * 监听输入的内容, 动态的调整输入框的大小, 是一个 workaround, 但是能满足场景
+ */
+const onInputText = async () => {
+  if (cciaTextareaRef.value) {
+    cciaTextareaRef.value.style.height = `${cciaTextareaRef.value.scrollHeight}px`;
+  }
+};
+
+/**
+ * 加入防抖的操作, 节约一点点的资源
+ */
+const debounceInputText = debounce(onInputText, 200);
+
+/**
  * 输入框的按键组合键
  *  */
 const onEnterKeydown = async (event) => {
@@ -103,15 +147,11 @@ const onEnterKeydown = async (event) => {
     // 阻止默认行为（换行）并发送内容
     event.preventDefault();
     await onSendInputData();
-  }
-};
 
-/**
- * textarea输入的特性, 增高,并且enter输入换行行为
- */
-const onSetTextarea = () => {
-  if (cciaTextareaRef.value) {
-    cciaTextareaRef.value.style.minHeight = cciaTextareaRef.value.style.minHeight == "208px" ? "48px" : "208px";
+    // 输入框回退原来大小
+    if (cciaTextareaRef.value) {
+      cciaTextareaRef.value.style.height = "0px";
+    }
   }
 };
 
@@ -138,6 +178,7 @@ onBeforeUnmount(() => {
     background-color: oklch(var(--b2));
     border-radius: 24px;
     padding: 8px 20px;
+    border: 1px solid oklch(var(--bc) / 0.5);
 
     .ccia-custom-textarea {
       padding: 8px 0px 4px 0px;
@@ -148,8 +189,33 @@ onBeforeUnmount(() => {
       box-shadow: initial;
       border-radius: initial;
       min-height: 48px;
+      max-height: 208px;
       line-height: 1.5;
       font-size: 14px;
+    }
+
+    .ccia-chat-model-info {
+      height: 36px;
+      width: 320px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-end;
+
+      .select {
+        height: 36px;
+        min-width: 0px;
+        min-height: 0px;
+        width: fit-content;
+        border-radius: 36px;
+        border: none;
+        background-color: transparent;
+        text-align: center;
+      }
+
+      .ccia-chat-button {
+        margin-left: 8px;
+      }
     }
 
     .ccia-send-button {

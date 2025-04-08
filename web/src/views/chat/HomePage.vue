@@ -2,15 +2,14 @@
   <div class="chat-homepage-container">
     <!-- 头部 -->
     <div class="chpc-header">
-      <HeaderBar @on-show-chat-list="onShowSidebar"></HeaderBar>
+      <HeaderBar></HeaderBar>
     </div>
+    <!-- 对话内容 -->
     <div class="chpc-content">
-      <!-- Settings overlay -->
-      <!-- <SettingsCard /> -->
       <!-- 对话侧边栏 -->
-      <SidebarCard v-if="isShowSidebar" />
-      <!-- Chat main worksapce -->
-      <div class="chpc-chat-card" id="global-chat-card"><ChatCard /></div>
+      <SidebarCard />
+      <!-- 对话的主卡片 -->
+      <ChatCard />
     </div>
   </div>
 </template>
@@ -42,13 +41,6 @@ const chatList = computed(() => store.state.chatList);
 const curChatModel = computed(() => store.state.curChatModel);
 const models = computed(() => store.state.models);
 const isShowSidebar = ref(true);
-
-/**
- * 根据子组件的信号来控制显示或者隐藏侧边栏
- * */
-const onShowSidebar = (val) => {
-  isShowSidebar.value = val;
-};
 
 onMounted(async () => {
   // 设置初始化的模型
@@ -96,22 +88,16 @@ onMounted(async () => {
   width: 100%;
 
   .chpc-header {
+    position: relative;
     height: 48px;
   }
 
   .chpc-content {
     position: relative;
-    left: 0px;
-    top: 0px;
-    height: calc(100% - 48px);
     width: 100%;
+    height: calc(100% - 48px);
     display: flex;
     flex-direction: row;
-
-    .chpc-chat-card {
-      width: calc(100% - 232px);
-      height: 100%;
-    }
   }
 }
 </style>

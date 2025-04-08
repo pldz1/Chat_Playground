@@ -80,12 +80,12 @@ li {
   width: 120px;
 }
 .btn-color1 {
-  background-color: oklch(var(--b1));
+  background-color: transparent;
   box-shadow: initial;
   border-color: transparent;
 
   &:hover {
-    background-color: oklch(var(--b2));
+    background-color: oklch(var(--nc) / 0.1);
   }
 }
 
