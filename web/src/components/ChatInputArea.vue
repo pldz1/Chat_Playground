@@ -129,7 +129,9 @@ const onSendInputData = async () => {
  */
 const onInputText = async () => {
   if (cciaTextareaRef.value) {
-    cciaTextareaRef.value.style.height = `${cciaTextareaRef.value.scrollHeight}px`;
+    const text = cciaTextareaRef.value.value;
+    const lines = text.split(/\r\n|\r|\n/).length;
+    cciaTextareaRef.value.rows = lines;
   }
 };
 

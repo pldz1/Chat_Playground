@@ -36,6 +36,7 @@ export class ChatDrawer extends ChatElemCreator {
     this.tmpAssContentData = { content: "", reasoning_content: "" };
     this.renderQueue = [];
     this.isRendering = false;
+    this.forceStop = false;
 
     this.enqueueRender = this.enqueueRender.bind(this);
     this.processRenderQueue = this.processRenderQueue.bind(this);
@@ -72,6 +73,8 @@ export class ChatDrawer extends ChatElemCreator {
 
     const flag = await this.client.chat(messages, this.enqueueRender);
 
+    if (this.forceStop) return;
+
     if (flag) {
       // 结束后立即更新对话历史
       if (this.tmpAssContentData.content == "" && !this.tmpAssErrorFlag) {
@@ -90,6 +93,15 @@ export class ChatDrawer extends ChatElemCreator {
       }
     }
 
+    this.addListener();
+  }
+
+  /**
+   * 停止对话, 并且不再渲染内容
+   */
+  stop() {
+    this.tmpAssContentDiv = null;
+    this.forceStop = true;
     this.addListener();
   }
 
@@ -199,6 +211,7 @@ export class ChatDrawer extends ChatElemCreator {
    * 开始绘制机器人助理响应的文本内容, 同时也是全部这个绘图类的关键属性重置的函数入口
    */
   drawStreamAss() {
+    this.forceStop = false;
     this.tmpAssContentMid = getUuid("msg");
     this.tmpAssContentDiv = this.createAssTempElem(this.tmpAssContentMid);
     this.tmpAssIsResponsingElFlag = true;

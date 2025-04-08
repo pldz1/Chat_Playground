@@ -79,8 +79,9 @@ const onStartChat = async (message) => {
  * 停止接受消息
  * */
 const onStopChat = async () => {
-  // isChatting.value = false;
-  dsAlert({ type: "info", message: "暂时不支持暂停对话." });
+  drawer.stop();
+  isChatting.value = false;
+  // dsAlert({ type: "info", message: "暂时不支持暂停对话." });
 };
 
 /**
