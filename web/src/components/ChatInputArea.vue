@@ -118,6 +118,11 @@ const onSendInputData = async () => {
   if (flag) {
     inputText.value = "";
     emit("on-start", data);
+
+    // 输入框回退原来大小
+    if (cciaTextareaRef.value) {
+      cciaTextareaRef.value.rows = 2;
+    }
   } else {
     dsAlert({ type: "error", message: "没有输入有效的问题!" });
     return;
@@ -149,11 +154,6 @@ const onEnterKeydown = async (event) => {
     // 阻止默认行为（换行）并发送内容
     event.preventDefault();
     await onSendInputData();
-
-    // 输入框回退原来大小
-    if (cciaTextareaRef.value) {
-      cciaTextareaRef.value.style.height = "0px";
-    }
   }
 };
 

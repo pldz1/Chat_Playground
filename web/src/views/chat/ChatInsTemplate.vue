@@ -109,10 +109,6 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 .chat-template-display-card {
-  position: absolute;
-  left: 10%;
-  width: 80%;
-  max-width: 80%;
   height: calc(100% - 128px);
   z-index: 200;
   background-color: transparent;

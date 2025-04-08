@@ -1,6 +1,5 @@
 <template>
   <div class="chat-card-container">
-    <div class="ccdc-main-content">
       <!-- 显示markdown的问答区域 -->
       <ChatInsTemplate v-show="isShowTemplate" @on-update="onDrawTemplateIns"></ChatInsTemplate>
       <div class="ccdc-messages-container">
@@ -11,7 +10,6 @@
         <ChatInputArea :is-chatting="isChatting" @on-start="onStartChat" @on-stop="onStopChat"></ChatInputArea>
         <ImageFunPreview></ImageFunPreview>
       </div>
-    </div>
   </div>
 </template>
 
@@ -105,11 +103,16 @@ onMounted(() => {
   height: 100%;
   padding: 8px;
 
-  .ccdc-messages-container {
+  .ccdc-messages-container,
+  .chat-template-display-card,
+  .cccd-input-area {
     position: absolute;
-    left: 10%;
-    width: 80%;
-    max-width: 80%;
+    left: 16%;
+    width: 68%;
+    max-width: 68%;
+  }
+
+  .ccdc-messages-container {
     height: calc(100% - 128px);
     z-index: 100;
   }
@@ -123,11 +126,7 @@ onMounted(() => {
   }
 
   .cccd-input-area {
-    position: absolute;
     bottom: 10px;
-    left: 10%;
-    width: 80%;
-    max-width: 80%;
     z-index: 201;
     display: flex;
     justify-content: center;
