@@ -1,9 +1,25 @@
 <template>
   <div class="article-details">
     <div class="container">
-      <button class="start-btn" @click="yieldedSSEContent">开始模仿SSE</button>
       <div class="post-body">
         <div class="article-content" id="article-content"></div>
+      </div>
+      <div class="custom-sse-content">
+        <div class="proj-description">
+          <a href="https://github.com/pldz1/AIGC_Playground/tree/master/samples/sse_markdown" target="_blank" rel="noopener noreferrer"
+            >1️⃣ Github 源码: https://github.com/pldz1/AIGC_Playground/tree/master/samples/sse_markdown</a
+          >
+          <a href="https://blog.csdn.net/qq_42727752/article/details/145092638" target="_blank" rel="noopener noreferrer">
+            2️⃣ CSDN 博客介绍: https://blog.csdn.net/qq_42727752/article/details/145092638</a
+          >
+          <a href="https://juejin.cn/post/7458656534718316595" target="_blank" rel="noopener noreferrer">
+            3️⃣ 掘金 博客介绍: https://juejin.cn/post/7458656534718316595</a
+          >
+          <a href="https://pldz1.com/codespace" target="_blank" rel="noopener noreferrer"> 4️⃣ 其他有趣内容: https://pldz1.com/codespace</a>
+        </div>
+
+        <textarea id="code-content" class="ref-content-textarea" :placeholder="placeholder"></textarea>
+        <button class="start-btn" @click="yieldedSSEContent">开始模仿SSE</button>
       </div>
     </div>
   </div>
@@ -13,6 +29,9 @@
 import markdownIt from "./module/markdown-it";
 import { deepCloneAndUpdate, buildCodeBlock } from "./module/code-block.js";
 import { yieldContent } from "./module/server.js";
+
+const placeholder =
+  '🎉当然！以下是一个使用Python实现的冒泡排序算法的示例：\n\n```python\ndef bubble_sort(arr):\n    n = len(arr)\n    # 遍历所有数组元素\n    for i in range(n):\n        # 最后i个元素已经是有序的\n        for j in range(0, n-i-1):\n            # 如果当前元素大于下一个元素，则交换它们测试最大的长度 ============================================================================================================ ==========\n            if arr[j] > arr[j+1]:\n                arr[j], arr[j+1] = arr[j+1], arr[j]\n        # 打印每一轮排序结果用于调试\n        print(f"第{i+1}轮排序结果: {arr}")\n    return arr\n\n# 示例数组\narr = [64, 34, 25, 12, 22, 11, 90]\nprint("初始数组:", arr)\n\n# 调用冒泡排序函数\nsorted_arr = bubble_sort(arr)\nprint("排序后的数组:", sorted_arr)\n```\n\n在这个代码中：\n1. `bubble_sort`函数接受一个列表作为参数，并对其进行冒泡排序。\n2. 外层循环控制遍历的轮数。\n3. 内层循环用于比较和交换相邻的元素。\n4. 每一轮结束后，最大的元素都会被“冒泡”到列表的末尾。\n5. 在排序过程中，会打印出每一轮排序的中间结果，方便调试和观察排序过程。\n\n运行此代码将会输出每一轮排序后的数组状态，最终输出完全排序的数组。';
 
 let htmlData = "";
 let el = null;
@@ -46,10 +65,11 @@ const processRenderQueue = () => {
   setTimeout(processRenderQueue, 0);
 };
 
-/** Step 2. 异步队列控制渲染 */
+/** Step 2. 异步队列控制渲染, 并且只用最新的, 防抖处理 */
 const enqueueRender = (data) => {
-  htmlData += data;
-  renderQueue.push(htmlData);
+  htmlData += data; // 用最新数据覆盖
+  renderQueue.length = 0; // 清空旧队列
+  renderQueue.push(htmlData); // 只保留当前这次
   // 如果当前没有渲染任务在进行，启动渲染队列
   if (!isRendering) {
     isRendering = true;
@@ -97,7 +117,7 @@ const yieldedSSEContent = () => {
   }
 
   // 正式的 DEMO 开始, 获取生成器
-  const generator = yieldContent();
+  const generator = yieldContent(document.getElementById("code-content").value || placeholder);
   // 开始处理生成器的每一步
   processStep(generator);
 };
@@ -105,8 +125,8 @@ const yieldedSSEContent = () => {
 
 <style lang="less" scoped>
 .article-details {
-  height: 600px;
-  width: 600px;
+  height: 100vh;
+  width: 100vw;
 }
 
 .start-btn {
@@ -119,15 +139,45 @@ const yieldedSSEContent = () => {
 }
 
 .container {
-  width: 600px;
-  max-width: 1300px;
+  height: 100%;
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  background-color: #d8f1f5;
+}
+
+.custom-sse-content {
+  width: 40%;
+  padding: 16px;
+}
+
+.proj-description {
+  height: auto;
+  margin-bottom: 8px;
+  font-size: 13px;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  white-space: nowrap;
+  width: 100%;
+
+  a {
+    text-overflow: ellipsis;
+  }
+}
+
+.ref-content-textarea {
+  height: calc(100vh - 180px);
+  width: 100%;
 }
 
 .post-body {
-  width: 600px;
+  margin-left: 20px;
+  width: 50%;
+  height: 100%;
+  max-height: 100%;
+  overflow-y: auto;
   background: white;
   border-radius: 8px;
   box-shadow: var(--card-box-shadow);
@@ -142,9 +192,7 @@ const yieldedSSEContent = () => {
       width: 100%;
       cursor: pointer;
       cursor: zoom-in;
-      box-shadow:
-        0 1px 15px rgba(27, 31, 35, 0.15),
-        0 0 1px rgba(106, 115, 125, 0.35);
+      box-shadow: 0 1px 15px rgba(27, 31, 35, 0.15), 0 0 1px rgba(106, 115, 125, 0.35);
     }
 
     h1 code,
