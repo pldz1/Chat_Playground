@@ -82,6 +82,11 @@ export class ChatDrawer extends ChatElemCreator {
         this.forceRemoveResponsingEl();
         this.draw([{ role: "assistant", content: [{ type: "text", text: "请求超时,无有效内容！" }] }]);
       } else {
+        // 如果是有错误的消息, 直接返回, 不朝数据库存.
+        if (this.tmpAssErrorFlag) {
+          this.addListener();
+          return;
+        }
         const assistantData = {
           role: "assistant",
           content: [{ type: "text", text: this.tmpAssContentData.content }],

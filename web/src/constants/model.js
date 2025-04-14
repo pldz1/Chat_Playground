@@ -41,7 +41,7 @@ export const chatModelTypeList = [
 export const defChatModelSettings = {
   passedMsgLen: 10,
   prompts: [{ role: "system", content: [{ type: "text", text: "As an AI assistant, please make your responses more engaging by including lively emojis." }] }],
-  max_tokens: 800,
+  max_tokens: 2000,
   top_p: 0.95,
   temperature: 0.7,
   frequency_penalty: 0,

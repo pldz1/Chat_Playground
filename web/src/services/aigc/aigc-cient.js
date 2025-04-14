@@ -55,6 +55,7 @@ export class AIGCClient {
       } catch (err) {
         dsAlert({ type: "warn", message: `模型请求失败: ${String(err)}` });
         callback({ content: `模型请求失败: ${String(err)}`, reasoning_content: "" });
+        return false;
       }
     } else {
       // 对于对话类型的模型, 要拿系统的指令和对话的参数去做请求
@@ -66,6 +67,7 @@ export class AIGCClient {
       } catch (err) {
         dsAlert({ type: "warn", message: `模型请求失败: ${String(err)}` });
         callback({ content: `模型请求失败: ${String(err)}`, reasoning_content: "" });
+        return false;
       }
     }
   }
