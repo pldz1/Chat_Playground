@@ -12,6 +12,8 @@
       <ChatCard />
     </div>
   </div>
+  <!-- 全局弹窗 -->
+  <ImageModal />
 </template>
 
 <script setup>
@@ -24,6 +26,7 @@ import { useRouter } from "vue-router";
 import SidebarCard from "./SidebarCard.vue";
 import ChatCard from "./ChatCard.vue";
 import HeaderBar from "./HeaderBar.vue";
+import ImageModal from "@/components/ImageModal.vue";
 
 const props = defineProps({
   id: {

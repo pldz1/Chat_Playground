@@ -1,21 +1,21 @@
 <template>
   <div class="chat-card-container">
-      <!-- 显示markdown的问答区域 -->
-      <ChatInsTemplate v-show="isShowTemplate" @on-update="onDrawTemplateIns"></ChatInsTemplate>
-      <div class="ccdc-messages-container">
-        <div id="chat-messages-container" class="cccd-scroll-window" ref="innerRef"></div>
-      </div>
-      <!-- 输入问题 -->
-      <div class="cccd-input-area">
-        <ChatInputArea :is-chatting="isChatting" @on-start="onStartChat" @on-stop="onStopChat"></ChatInputArea>
-        <ImageFunPreview></ImageFunPreview>
-      </div>
+    <!-- 显示markdown的问答区域 -->
+    <ChatInsTemplate v-show="isShowTemplate" @on-update="onDrawTemplateIns"></ChatInsTemplate>
+    <div class="ccdc-messages-container">
+      <div id="chat-messages-container" class="cccd-scroll-window" ref="innerRef"></div>
+    </div>
+    <!-- 输入问题 -->
+    <div class="cccd-input-area">
+      <ChatInputArea :is-chatting="isChatting" @on-start="onStartChat" @on-stop="onStopChat"></ChatInputArea>
+      <ImageFunPreview></ImageFunPreview>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { useStore } from "vuex";
-import { dsAlert, dsLoading } from "@/utils";
+import { dsLoading } from "@/utils";
 import { ref, watch, computed, onMounted, nextTick } from "vue";
 import { ChatDrawer, addChat, getAllMessage } from "@/services";
 

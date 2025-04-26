@@ -2,11 +2,13 @@ import { createStore } from "vuex";
 import { ChatState } from "./chat.js";
 import { UserState } from "./user.js";
 import { ImageState } from "./image.js";
+import { ModalState } from "./modal.js";
 
 const state = {
   ...UserState,
   ...ChatState,
   ...ImageState,
+  ...ModalState,
 };
 
 const mutations = {
@@ -69,6 +71,11 @@ const mutations = {
   PUSH_IMAGES(state, data) {
     state.pushImages(data);
   },
+
+  /** @param {state} state */
+  SET_MODAL_IMAGE(state, data) {
+    state.setModalImage(data);
+  },
 };
 
 const actions = {
@@ -115,6 +122,10 @@ const actions = {
 
   async pushImages({ commit }, data) {
     commit("PUSH_IMAGES", data);
+  },
+
+  async setModalImage({ commit }, data) {
+    commit("SET_MODAL_IMAGE", data);
   },
 };
 

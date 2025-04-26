@@ -25,7 +25,7 @@ export const ChatState = {
    * 设置对话的列表
    */
   resetChatList(data) {
-    this.chatList = data;
+    this.chatList = [...data];
   },
 
   /**
@@ -33,7 +33,7 @@ export const ChatState = {
    */
 
   setCurChatModelSettings(data) {
-    this.curChatModelSettings = data;
+    Object.assign(this.curChatModelSettings, data);
   },
 
   /**

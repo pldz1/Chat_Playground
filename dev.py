@@ -27,7 +27,7 @@ def run_npm_dev():
         shell=(os.name == 'nt'),
         cwd=web_dir  # 指定工作目录，避免使用 os.chdir()
     )
-    print("npm run dev 已启动。")
+    print("🎉 npm run dev 已启动")
     return npm_process
 
 def run_python_script():
@@ -44,7 +44,7 @@ def run_python_script():
         text=True,
         cwd=base_dir  # 指定工作目录
     )
-    print(f"{python_cmd} server/dev.py 已启动。")
+    print(f"🎉 {python_cmd} server/dev.py 已启动。")
     return python_process
 
 def main():
@@ -69,8 +69,8 @@ def main():
     npm_returncode = npm_process.wait()
     python_returncode = python_process.wait()
 
-    print(f"npm run dev 退出，退出码: {npm_returncode}")
-    print(f"python server/dev.py 退出，退出码: {python_returncode}")
+    print(f"🚪 npm run dev 退出，退出码: {npm_returncode}")
+    print(f"🚪 python server/dev.py 退出，退出码: {python_returncode}")
 
 if __name__ == "__main__":
     main()

@@ -52,6 +52,12 @@ export class ChatElemCreator {
         const imgItem = document.createElement("img");
         imgItem.classList.add("cmbu-item");
         imgItem.src = prompt.image_url.url;
+        // 单击图片可以放大显示
+        imgItem.onclick = async () => {
+          await store.dispatch("setModalImage", imgItem.src);
+          // global_image_preview_modal 来自 modal 的 id 名字
+          global_image_preview_modal.showModal();
+        };
         imgAreaElem.appendChild(imgItem);
       }
     });

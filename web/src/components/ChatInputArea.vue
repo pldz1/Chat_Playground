@@ -24,7 +24,7 @@
           </div>
           <!-- 预览绘图 -->
           <div class="tooltip tooltip-top" data-tip="绘图窗口(预览功能)">
-            <button class="ccia-opts-button" onclick="global_image_fun_preview.showModal()">
+            <button class="ccia-opts-button" onclick="global_image_preview_modal.showModal()">
               <div class="ccia-icon" v-html="dalle24"></div>
             </button>
           </div>
@@ -190,7 +190,7 @@ onBeforeUnmount(() => {
       resize: none;
       box-shadow: initial;
       border-radius: initial;
-      min-height: 48px;
+      min-height: 54px;
       max-height: 208px;
       line-height: 1.5;
       font-size: 14px;
