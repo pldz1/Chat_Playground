@@ -19,17 +19,34 @@ export const apiTypeList = [
  * @type {T_ChatModelInfo[]}
  */
 export const chatModelTypeList = [
-  { value: "gpt-4o", name: "gpt-4o", isReasonModel: false, msgTypeVersion: "v2" },
-  { value: "gpt-4o-mini", name: "gpt-4o-mini", isReasonModel: false, msgTypeVersion: "v2" },
+  // ********* OpenAI 系列模型 截至 2025-04-27 *********
+  // GPT-4.1 系列
+  { value: "gpt-4.1", name: "gpt-4.1", isReasonModel: false, msgTypeVersion: "v2" },
+  { value: "gpt-4.1-mini", name: "gpt-4.1-mini", isReasonModel: false, msgTypeVersion: "v2" },
+  { value: "gpt-4.1-nano", name: "gpt-4.1-nano", isReasonModel: false, msgTypeVersion: "v2" },
+
+  // GPT-4 系列
   { value: "gpt-4", name: "gpt-4", isReasonModel: false, msgTypeVersion: "v2" },
   { value: "gpt-4-turbo", name: "gpt-4-turbo", isReasonModel: false, msgTypeVersion: "v2" },
+  { value: "gpt-4o", name: "gpt-4o", isReasonModel: false, msgTypeVersion: "v2" },
+  { value: "gpt-4o-mini", name: "gpt-4o-mini", isReasonModel: false, msgTypeVersion: "v2" },
+
+  // GPT-3.5 系列
   { value: "gpt-3.5", name: "gpt-3.5", isReasonModel: false, msgTypeVersion: "v1" },
   { value: "gpt-3.5-turbo", name: "gpt-3.5-turbo", isReasonModel: false, msgTypeVersion: "v1" },
+
+  // 推理模型（Reasoning Models）
   { value: "o1", name: "o1", isReasonModel: true, msgTypeVersion: "v1" },
   { value: "o1-mini", name: "o1-mini", isReasonModel: true, msgTypeVersion: "v1" },
+  { value: "o1-preview", name: "o1-preview", isReasonModel: true, msgTypeVersion: "v1" },
   { value: "o1-pro", name: "o1-pro", isReasonModel: true, msgTypeVersion: "v1" },
+  { value: "o3", name: "o3", isReasonModel: true, msgTypeVersion: "v1" },
   { value: "o3-mini", name: "o3-mini", isReasonModel: true, msgTypeVersion: "v1" },
   { value: "o3-mini-high", name: "o3-mini-high", isReasonModel: true, msgTypeVersion: "v1" },
+  { value: "o4-mini", name: "o4-mini", isReasonModel: true, msgTypeVersion: "v1" },
+  { value: "o4-mini-high", name: "o4-mini-high", isReasonModel: true, msgTypeVersion: "v1" },
+
+  // ********* DeepSeek 系列模型 *********
   { value: "deepseek-v3", name: "deepseek-v3", isReasonModel: false, msgTypeVersion: "v1" },
   { value: "deepseek-r1", name: "deepseek-r1", isReasonModel: true, msgTypeVersion: "v1" },
 ];

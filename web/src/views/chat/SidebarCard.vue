@@ -283,6 +283,7 @@ onUnmounted(() => {
 
     .input {
       height: 36px;
+      width: 206px;
 
       &:focus,
       &:focus-within {
@@ -293,7 +294,6 @@ onUnmounted(() => {
 
     .csdb-chat-item-input {
       height: 36px;
-      width: 206px;
       max-width: 208px;
       border: none;
       border-radius: 10px;

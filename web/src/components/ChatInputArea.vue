@@ -24,7 +24,7 @@
           </div>
           <!-- 预览绘图 -->
           <div class="tooltip tooltip-top" data-tip="绘图窗口(预览功能)">
-            <button class="ccia-opts-button" onclick="global_image_preview_modal.showModal()">
+            <button class="ccia-opts-button" onclick="global_image_fun_preview.showModal()">
               <div class="ccia-icon" v-html="dalle24"></div>
             </button>
           </div>
@@ -120,9 +120,7 @@ const onSendInputData = async () => {
     emit("on-start", data);
 
     // 输入框回退原来大小
-    if (cciaTextareaRef.value) {
-      cciaTextareaRef.value.rows = 2;
-    }
+    onInputText();
   } else {
     dsAlert({ type: "error", message: "没有输入有效的问题!" });
     return;
@@ -134,16 +132,15 @@ const onSendInputData = async () => {
  */
 const onInputText = async () => {
   if (cciaTextareaRef.value) {
-    const text = cciaTextareaRef.value.value;
-    const lines = text.split(/\r\n|\r|\n/).length;
-    cciaTextareaRef.value.rows = lines;
+    cciaTextareaRef.value.style.height = "auto";
+    cciaTextareaRef.value.style.height = `${cciaTextareaRef.value.scrollHeight}px`;
   }
 };
 
 /**
  * 加入防抖的操作, 节约一点点的资源
  */
-const debounceInputText = debounce(onInputText, 200);
+const debounceInputText = debounce(onInputText, 50);
 
 /**
  * 输入框的按键组合键
@@ -210,7 +207,7 @@ onBeforeUnmount(() => {
         min-height: 0px;
         width: fit-content;
         border-radius: 36px;
-        border: none;
+        border: 1px solid oklch(var(--bc) / 0.2);
         background-color: transparent;
         text-align: center;
       }
