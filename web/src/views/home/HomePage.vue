@@ -1,5 +1,17 @@
 <template>
   <div class="aigc-playground-home">
+    <!-- API Markdown 笔记入口卡片 -->
+    <div class="hero bg-base-200 aiph-hero-size">
+      <div class="hero-content flex-col lg:flex-row">
+        <div>
+          <h1 class="text-5xl font-bold">📘 API笔记</h1>
+          <p class="py-6">用原生的代码 直接调用 OpenAI, Azure OpenAI, DeepSeek 三种API库的笔记.</p>
+          <button class="btn btn-primary w-full" @click="onGoChat">让我康康</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 对话入口卡片 -->
     <div class="hero bg-base-200 aiph-hero-size">
       <div class="hero-content flex-col lg:flex-row">
         <div>
@@ -10,6 +22,7 @@
       </div>
     </div>
 
+    <!-- 图像入口卡片 -->
     <div class="hero bg-base-200 aiph-hero-size">
       <div class="hero-content flex-col lg:flex-row">
         <div>

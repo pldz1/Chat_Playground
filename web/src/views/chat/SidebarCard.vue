@@ -81,7 +81,7 @@ import { nextTick, ref, computed, onMounted, onUnmounted } from "vue";
 import { edit24, delete24, options24, sildbar24, new24, setting24, wao128 } from "@/assets/svg";
 import { deleteChat, renameChat, getChatSettings } from "@/services";
 import { defChatModelSettings } from "@/constants";
-import ChatSettings from "./ChatSettings.vue";
+import ChatSettings from "@/views/chat/ChatSettings.vue";
 import { dsAlert } from "@/utils";
 
 const store = useStore();

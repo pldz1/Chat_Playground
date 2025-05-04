@@ -76,11 +76,11 @@
 import { ref } from "vue";
 import { instruction16, chat16, setting16, image16, audio16 } from "@/assets/svg";
 
-import ChatModels from "./ChatModels.vue";
-import ImageModels from "./ImageModels.vue";
-import RtaudioModels from "./RtaudioModels.vue";
-import ChatInsTemplateList from "./ChatInsTemplateList.vue";
-import AppSettings from "./AppSettings.vue";
+import ChatModels from "@/views/user/ChatModels.vue";
+import ImageModels from "@/views/user/ImageModels.vue";
+import RtaudioModels from "@/views/user/RtaudioModels.vue";
+import ChatInsTemplateList from "@/views/user/ChatInsTemplateList.vue";
+import AppSettings from "@/views/user/AppSettings.vue";
 
 const tab = ref(0);
 

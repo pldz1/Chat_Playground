@@ -17,10 +17,22 @@
       <span>⚠️ 服务器地址: </span>
       <input type="text" placeholder="http://127.0.0.1:10088" class="input input-bordered w-full max-w-xs" disabled />
     </div>
+
+    <!-- 登录界面 -->
+    <div class="gusm-any-settings-row">
+      <button class="btn btn-outline btn-error btn-back-login" @click="onBackLogin">返回登陆界面</button>
+    </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { useRouter } from "vue-router";
+const router = useRouter();
+
+const onBackLogin = () => {
+  router.push({ path: "/login" });
+};
+</script>
 
 <style lang="scss" scoped>
 .gusm-any-settings-container {
@@ -36,6 +48,11 @@
     gap: 16px;
     padding: 8px;
     align-items: center;
+  }
+
+  .btn-back-login {
+    height: 36px;
+    min-height: 0px;
   }
 }
 </style>

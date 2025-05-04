@@ -20,8 +20,8 @@ import { ref, watch, computed, onMounted, nextTick } from "vue";
 import { ChatDrawer, addChat, getAllMessage } from "@/services";
 
 import ChatInputArea from "@/components/ChatInputArea.vue";
-import ChatInsTemplate from "./ChatInsTemplate.vue";
-import ImageFunPreview from "../image/ImageFunPreview.vue";
+import ChatInsTemplate from "@/views/chat/ChatInsTemplate.vue";
+import ImageFunPreview from "@/views/image/ImageFunPreview.vue";
 
 const store = useStore();
 const isChatting = ref(false);

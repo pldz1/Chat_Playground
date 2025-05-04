@@ -23,9 +23,9 @@ import { dsAlert } from "@/utils";
 import { getModels, getChatList, getChatInsTemplateList } from "@/services";
 import { useRouter } from "vue-router";
 
-import SidebarCard from "./SidebarCard.vue";
-import ChatCard from "./ChatCard.vue";
-import HeaderBar from "./HeaderBar.vue";
+import SidebarCard from "@/views/chat/SidebarCard.vue";
+import ChatCard from "@/views/chat/ChatCard.vue";
+import HeaderBar from "@/components/HeaderBar.vue";
 import ImageModal from "@/components/ImageModal.vue";
 
 const props = defineProps({
