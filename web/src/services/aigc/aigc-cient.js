@@ -105,8 +105,13 @@ export class AIGCClient {
     return params;
   }
 
+  /**
+   * 发送图像请求的接口
+   *
+   * @return {Promise<Blob>} res: 图像的Blob的原始.
+   */
   async generateImage(prompt, size, n) {
-    const res = this.client.generateImage(prompt, size, n);
+    const res = await this.client.generateImage(prompt, size, n);
     return res;
   }
 }

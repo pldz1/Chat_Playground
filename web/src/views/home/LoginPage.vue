@@ -28,7 +28,7 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { login } from "@/services";
+import { login, getModels } from "@/services";
 import { dsAlert, dsLoading } from "@/utils";
 
 const router = useRouter();
@@ -41,7 +41,11 @@ const onLogin = async () => {
   // 限制操作
   dsLoading(true);
   const flag = await login(username.value, password.value);
-  if (flag) router.push({ path: "/home" });
+  if (flag) {
+    router.push({ path: "/home" });
+    // 设置初始化的模型
+    await getModels();
+  }
   dsLoading(false);
 };
 

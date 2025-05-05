@@ -5,16 +5,16 @@
       <div class="dropdown dropdown-bottom">
         <div tabindex="0" role="button" class="btn btn-square" v-html="menu32"></div>
         <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] p-2 shadow">
-          <li><a> API笔记</a></li>
-          <li><a> 对话界面 </a></li>
-          <li><a> 图像界面 </a></li>
+          <li @click=""><a> API笔记</a></li>
+          <li @click="onGoChat"><a> 对话界面 </a></li>
+          <li @click="onGoImage"><a> 图像界面 </a></li>
         </ul>
       </div>
     </div>
 
     <!-- 回到主页标题 -->
-    <div class="tooltip tooltip-bottom comphb-home" data-tip="回到主页">
-      <button class="btn btn-square" @click="onBackHome">
+    <div class="tooltip tooltip-bottom comphb-home" data-tip="回到登录界面">
+      <button class="btn btn-square" @click="onBackLogin">
         <div v-html="app32"></div>
         <span>AIGC Playground</span>
       </button>
@@ -28,19 +28,36 @@
 </template>
 
 <script setup>
+import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { app32, menu32 } from "@/assets/svg";
 import ThemeController from "@/components/ThemeController.vue";
 import AvatarCard from "@/components/AvatarCard.vue";
 import UserSettings from "@/views/user/UserSettings.vue";
 
+const store = useStore();
 const router = useRouter();
 
 /**
  * 回到主页
  */
-const onBackHome = () => {
-  router.push({ path: "/home" });
+const onBackLogin = () => {
+  router.push({ path: "/" });
+  store.dispatch("login", null);
+};
+
+/**
+ * 跳转到对话页
+ */
+const onGoChat = async () => {
+  router.push({ path: "/chat" });
+};
+
+/**
+ * 跳转到图像页
+ */
+const onGoImage = async () => {
+  router.push({ path: "/image" });
 };
 </script>
 

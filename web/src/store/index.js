@@ -67,10 +67,28 @@ const mutations = {
     state.resetMessages();
   },
 
+  /**
+   * ImageState 的接口
+   */
+
   /** @param {state} state */
-  PUSH_IMAGES(state, data) {
-    state.pushImages(data);
+  RESET_IMAGE_LIST(state, data) {
+    state.resetImageList(data);
   },
+
+  /** @param {state} state */
+  PUSH_IMAGE(state, data) {
+    state.pushImage(data);
+  },
+
+  /** @param {state} state */
+  DELETE_IMAGE(state, data) {
+    state.deleteImage(data);
+  },
+
+  /**
+   * ModalState 的接口
+   */
 
   /** @param {state} state */
   SET_MODAL_IMAGE(state, data) {
@@ -80,10 +98,18 @@ const mutations = {
 
 const actions = {
   async login({ commit }, username, password = "", uid = "") {
-    commit("SET_USER_LOGIN_INFO", { username, password, uid });
-    commit("SET_LOGIN_STATE", true);
+    if (username) {
+      commit("SET_USER_LOGIN_INFO", { username, password, uid });
+      commit("SET_LOGIN_STATE", true);
+    } else {
+      commit("SET_USER_LOGIN_INFO", { username: "", password: "", uid: "" });
+      commit("SET_LOGIN_STATE", false);
+    }
   },
 
+  /**
+   * chatState 的接口
+   */
   async setModels({ commit }, models) {
     commit("SET_MODELS", models);
   },
@@ -120,10 +146,25 @@ const actions = {
     commit("RESET_MESSAGES");
   },
 
-  async pushImages({ commit }, data) {
-    commit("PUSH_IMAGES", data);
+  /**
+   * ImageState 的接口
+   */
+
+  async resetImageList({ commit }, data) {
+    commit("RESET_IMAGE_LIST", data);
   },
 
+  async pushImage({ commit }, data) {
+    commit("PUSH_IMAGE", data);
+  },
+
+  async deleteImage({ commit }, data) {
+    commit("DELETE_IMAGE", data);
+  },
+
+  /**
+   * ModalState 的接口
+   */
   async setModalImage({ commit }, data) {
     commit("SET_MODAL_IMAGE", data);
   },

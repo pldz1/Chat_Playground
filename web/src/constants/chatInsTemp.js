@@ -1,5 +1,5 @@
 /**
- *  @type {ChatInsTemplate[]}
+ *  @type {T_ChatInsTemplate[]}
  */
 export const chatInsTemplateList = [
   {

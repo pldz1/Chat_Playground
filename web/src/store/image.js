@@ -1,7 +1,21 @@
 export const ImageState = {
-  images: [],
+  /**
+   *  @type {T_ImageDataItem[]}
+   */
+  imageList: [],
 
-  pushImages(url) {
-    this.images.push(url);
+  resetImageList(t) {
+    this.imageList = [...t];
+  },
+
+  pushImage(t) {
+    this.imageList.splice(0, 0, t);
+  },
+
+  deleteImage(id) {
+    const index = this.imageList.findIndex((t) => t.id == id);
+    if (index >= 0) {
+      this.imageList.slice(index, 1);
+    }
   },
 };

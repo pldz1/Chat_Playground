@@ -26,11 +26,15 @@
 </template>
 
 <script setup>
+import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+
+const store = useStore();
 const router = useRouter();
 
 const onBackLogin = () => {
   router.push({ path: "/login" });
+  store.dispatch("login", null);
 };
 </script>
 

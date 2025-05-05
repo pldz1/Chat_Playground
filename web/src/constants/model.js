@@ -81,7 +81,7 @@ export const imageModelTypeList = [
 export const defImageModelSeting = {
   model: null,
   prompt: "",
-  size: "256x256",
+  size: "1024x1024",
   quality: "",
   mask: null,
   image: null,

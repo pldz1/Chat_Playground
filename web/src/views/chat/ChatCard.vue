@@ -8,7 +8,6 @@
     <!-- 输入问题 -->
     <div class="cccd-input-area">
       <ChatInputArea :is-chatting="isChatting" @on-start="onStartChat" @on-stop="onStopChat"></ChatInputArea>
-      <ImageFunPreview></ImageFunPreview>
     </div>
   </div>
 </template>
@@ -21,7 +20,6 @@ import { ChatDrawer, addChat, getAllMessage } from "@/services";
 
 import ChatInputArea from "@/components/ChatInputArea.vue";
 import ChatInsTemplate from "@/views/chat/ChatInsTemplate.vue";
-import ImageFunPreview from "@/views/image/ImageFunPreview.vue";
 
 const store = useStore();
 const isChatting = ref(false);

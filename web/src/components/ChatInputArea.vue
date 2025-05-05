@@ -22,14 +22,8 @@
               <div class="ccia-icon" v-html="attach24"></div>
             </button>
           </div>
-          <!-- 预览绘图 -->
-          <div class="tooltip tooltip-top" data-tip="绘图窗口(预览功能)">
-            <button class="ccia-opts-button" onclick="global_image_fun_preview.showModal()">
-              <div class="ccia-icon" v-html="dalle24"></div>
-            </button>
-          </div>
           <!-- 对话 -->
-          <div class="tooltip tooltip-top" data-tip="网页对话(预览功能)">
+          <div v-if="false" class="tooltip tooltip-top" data-tip="网页对话(预览功能)">
             <button class="ccia-opts-button">
               <div class="ccia-icon" v-html="realTimeVoice24"></div>
             </button>

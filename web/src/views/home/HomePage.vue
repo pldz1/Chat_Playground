@@ -27,8 +27,8 @@
       <div class="hero-content flex-col lg:flex-row">
         <div>
           <h1 class="text-5xl font-bold">📷 图片生成！</h1>
-          <p class="py-6">用Dalle模型, 然后对图像生成/编辑/变化, 还在做 🥱, 对话页面有生图的体验... ...</p>
-          <button class="btn btn-primary w-full">不冲了, 不冲了, 冲不动了 😪</button>
+          <p class="py-6">用Dalle模型, 然后对图像生成, 对话页面也有生图的快速窗口🧐</p>
+          <button class="btn btn-primary w-full" @click="onGoImage">简单看看</button>
         </div>
       </div>
     </div>
@@ -41,6 +41,10 @@ const router = useRouter();
 
 const onGoChat = async () => {
   router.push({ path: "/chat" });
+};
+
+const onGoImage = async () => {
+  router.push({ path: "/image" });
 };
 </script>
 <style lang="scss" scoped>
