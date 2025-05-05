@@ -5,7 +5,6 @@
       <div class="dropdown dropdown-bottom">
         <div tabindex="0" role="button" class="btn btn-square" v-html="menu32"></div>
         <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] p-2 shadow">
-          <li @click=""><a> API笔记</a></li>
           <li @click="onGoChat"><a> 对话界面 </a></li>
           <li @click="onGoImage"><a> 图像界面 </a></li>
         </ul>

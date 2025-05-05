@@ -28,12 +28,12 @@
                 图像模型</a
               >
             </li>
-            <li @click="setTabIndex(3)">
+            <!-- <li @click="setTabIndex(3)">
               <a
                 ><div v-html="audio16"></div>
                 实时语音模型</a
               >
-            </li>
+            </li> -->
             <li @click="setTabIndex(4)">
               <a>
                 <div v-html="setting16"></div>

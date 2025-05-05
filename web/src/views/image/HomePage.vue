@@ -120,21 +120,22 @@ const onSendImg = async () => {
 
   try {
     const urls = await imageDrawer.generateImage(prompt, size, n);
+    isGenerating.value = false;
+    imageModelSettings.value.prompt = "";
 
     for (let index = 0; index < urls.length; index++) {
       const item = urls[index];
       if (item.type == "url") {
-        const flag = await pushImage(prompt, item.data);
-        // 如果生成图像成功 就把提示词清空和其他的信息重置
-        if (flag) {
-          imageModelSettings.value.prompt = "";
-        }
-      } else dsAlert({ type: "error", message: item.data, container: dsAlertContainer.value });
+        await pushImage(prompt, item.data);
+      } else {
+        imageModelSettings.value.prompt = prompt;
+        dsAlert({ type: "error", message: item.data, container: dsAlertContainer.value });
+      }
     }
   } catch (err) {
+    isGenerating.value = false;
     dsAlert({ type: "error", message: `模型初始化失败: ${String(err)}`, container: dsAlertContainer.value });
   }
-  isGenerating.value = false;
 };
 
 /**
@@ -144,7 +145,7 @@ const getImgEl = (isItem = false) => {
   const imageItem = document.querySelector(".global-skeleton-active");
   if (!imageItem) return null;
   if (isItem) return imageItem;
-  const imgEl = skeletonEl.firstElementChild.firstElementChild;
+  const imgEl = imageItem.firstElementChild.firstElementChild;
   return imgEl;
 };
 
@@ -324,6 +325,7 @@ watch(
               -webkit-box-orient: vertical;
               overflow: hidden;
               text-overflow: ellipsis;
+              user-select: all;
             }
           }
         }

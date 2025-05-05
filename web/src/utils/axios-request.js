@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const LONGTIME = 60000;
+const LONGTIME = 180000;
 
 /** 调用登录的接口
  * Axios中，第一个参数是URL
