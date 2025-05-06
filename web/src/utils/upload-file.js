@@ -1,5 +1,4 @@
 import { delete32 } from "@/assets/svg";
-import { dsAlert } from "./daisy-ui-alert.js";
 
 const GlobalInputUploadEl = "gloal-file-upload-input";
 const ImageMaxMBSize = 20;
@@ -54,45 +53,42 @@ const onLoadImageFile = (event) => {
   handleImageFile(file);
 };
 
-// /** loadChatByJsonFile 读取对话的历史记录文件 json 格式的内容 开始进行新的对话 */
-// const loadChatByJsonFile = (event) => {
-//   const file = event.target.files[0];
-//   if (file) {
-//     const reader = new FileReader();
-//     reader.onload = async (e) => {
-//       try {
-//         const jsonContent = JSON.parse(e.target.result);
-//         // 读取到文本的内容
-//         var rea = await uploadChatHistory(jsonContent);
-//         if (!rea.flag) {
-//           showMessage("error", `SERVER解析对话文本错误 【${rea.log}】`);
-//           return;
-//         }
-//         // 解析成功新建对话
-//         chatCardHandler.drawChatHistory(rea.history);
-//         StoreHelper.setChatCid(rea.chatCid);
-//         StoreHelper.setTokens(rea.tokens);
-//         StoreHelper.pushChatName(rea.chatCid, "New Chat");
-//       } catch (error) {
-//         showMessage("error", `WEB读取JSON文件失败! 【${error}】`);
-//         return;
-//       }
-//     };
-//     // 将文件读取为文本
-//     reader.readAsText(file);
-//   }
-// };
+/** onLoadJsonFile 读取 json 格式的内容 */
+const onLoadJsonFile = (event) => {
+  return new Promise((resolve) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const jsonContent = JSON.parse(e.target.result);
+          resolve(jsonContent);
+        } catch {
+          resolve(null);
+        }
+      };
+      reader.readAsText(file);
+    } else {
+      resolve(null);
+    }
+  });
+};
 
 /** handleFileUpload 是通用的处理文件上传操作的函数 */
 const handleFileUpload = (acceptType, handler) => {
-  const fileInput = document.getElementById(GlobalInputUploadEl);
-  fileInput.removeEventListener("change", handler);
-  fileInput.accept = acceptType;
-  fileInput.addEventListener("change", (event) => {
-    handler(event);
-    fileInput.value = "";
+  return new Promise((resolve) => {
+    const fileInput = document.getElementById(GlobalInputUploadEl);
+    const wrappedHandler = async (event) => {
+      const result = await handler(event);
+      fileInput.value = "";
+      fileInput.removeEventListener("change", wrappedHandler); // 清除事件监听器
+      resolve(result);
+    };
+    fileInput.removeEventListener("change", wrappedHandler); // 防止重复绑定
+    fileInput.accept = acceptType;
+    fileInput.addEventListener("change", wrappedHandler);
+    fileInput.click();
   });
-  fileInput.click();
 };
 
 /** 实际上处理粘贴行为的函数 */
@@ -116,7 +112,7 @@ export const uploadImageFile = () => {
 
 /** 触发 JSON 文件上传 */
 export const uploadJsonFile = () => {
-  handleFileUpload("application/json", loadChatByJsonFile);
+  return handleFileUpload("application/json", onLoadJsonFile);
 };
 
 /** pasteImage 监听在某个 DOM 上的粘贴事件  */

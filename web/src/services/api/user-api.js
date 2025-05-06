@@ -1,5 +1,5 @@
 import store from "@/store";
-import { apiRequest, dsAlert, isArrayTypeStr } from "@/utils";
+import { apiRequest, dsAlert, isArrayTypeStr, isValidModelSetting } from "@/utils";
 
 /**
  * 发送登录请求
@@ -53,9 +53,9 @@ export async function login(username, password) {
 
 /**
  * 获取全部的对话模型信息然后更新store
- * @returns {Promise<boolean>}
+ * @returns {Promise<object | null>}
  */
-export async function getModels() {
+export async function getModels(updateStore = true) {
   const username = store.state.username;
   const isLoggedIn = store.state.isLoggedIn;
   if (!isLoggedIn || !username) return false;
@@ -74,11 +74,17 @@ export async function getModels() {
 
   try {
     const models = JSON.parse(res.data);
-    await store.dispatch("setModels", models);
-    return true;
+    const isValid = isValidModelSetting(models);
+    if (isValid) {
+      if (updateStore) await store.dispatch("setModels", models);
+      return models;
+    } else {
+      dsAlert({ type: "error", message: `从数据库拿模型解析失败, 不是有效的数据类型: ${err}: ${res.data}` });
+      return null;
+    }
   } catch (err) {
-    dsAlert({ type: "error", message: `从数据库拿模型解析失败, 不是有效的数据类型: ${err}: ${res.data}` });
-    return false;
+    dsAlert({ type: "error", message: `从数据库拿模型解析失败: ${err}: ${res.data}` });
+    return null;
   }
 }
 

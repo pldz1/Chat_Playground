@@ -1,3 +1,5 @@
+import { defModelType } from "@/constants";
+
 /**
  * 检测 string 变量是不是能够被解析成一个数组
  * @param {*} jsonStr
@@ -79,3 +81,35 @@ export function isValidChatInfoArray(data) {
   // 遍历数组中的每个元素，检查每个元素是否符合ChatInfo类型
   return data.every((item) => item !== null && typeof item === "object" && typeof item.cid === "string" && typeof item.cname === "string");
 }
+
+
+/**
+ * 判断 json 的数据, 是不是有效的模型设置
+ */
+export const isValidModelSetting = (data) => {
+  const expectedKeys = ["chat", "image", "rtaudio"];
+  const expectedFields = Object.keys(defModelType);
+
+  if (typeof data !== "object" || data === null) return false;
+
+  // 所有指定 key 都必须存在且是数组
+  for (const key of expectedKeys) {
+    if (!Array.isArray(data[key])) return false;
+  }
+
+  // 只要数组不为空，每一项都必须包含所有 expectedFields
+  const validateArrayItems = (arr) => {
+    return arr.every((item) =>
+      expectedFields.every((field) => field in item)
+    );
+  };
+
+  for (const key of expectedKeys) {
+    if (data[key].length > 0 && !validateArrayItems(data[key])) {
+      return false;
+    }
+  }
+
+  return true;
+};
+

@@ -28,13 +28,7 @@
                 图像模型</a
               >
             </li>
-            <!-- <li @click="setTabIndex(3)">
-              <a
-                ><div v-html="audio16"></div>
-                实时语音模型</a
-              >
-            </li> -->
-            <li @click="setTabIndex(4)">
+            <li @click="setTabIndex(3)">
               <a>
                 <div v-html="setting16"></div>
                 软件设置
@@ -54,9 +48,6 @@
             <ImageModels></ImageModels>
           </div>
           <div v-if="tab == 3">
-            <RtaudioModels></RtaudioModels>
-          </div>
-          <div v-if="tab == 4">
             <AppSettings></AppSettings>
           </div>
         </div>
@@ -78,7 +69,6 @@ import { instruction16, chat16, setting16, image16, audio16 } from "@/assets/svg
 
 import ChatModels from "@/views/user/ChatModels.vue";
 import ImageModels from "@/views/user/ImageModels.vue";
-import RtaudioModels from "@/views/user/RtaudioModels.vue";
 import ChatInsTemplateList from "@/views/user/ChatInsTemplateList.vue";
 import AppSettings from "@/views/user/AppSettings.vue";
 

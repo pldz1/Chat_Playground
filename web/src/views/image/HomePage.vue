@@ -292,7 +292,7 @@ watch(
           user-select: none;
 
           .global-skeleton-active {
-            border: 4px solid oklch(var(--p));
+            box-shadow: oklch(var(--p)) 0px 0px 0px 4px;
           }
 
           .image-item {
