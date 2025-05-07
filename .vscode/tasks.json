@@ -1,0 +1,17 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "🔁 Format by autopepe8",
+      "type": "shell",
+      "command": "autopep8 --in-place --recursive --max-line-length 150 .",
+      "problemMatcher": []
+    },
+    {
+      "label": "🔁 Format by prettier",
+      "type": "shell",
+      "command": "npx prettier . --write ",
+      "problemMatcher": []
+    }
+  ]
+}

@@ -3,6 +3,7 @@ from typing import Optional
 
 from scripts.libs import LOGGER
 
+
 class AIO_User_Settings_Sheet:
     def __init__(self, conn: Optional[aiosqlite.Connection] = None) -> None:
         '''
@@ -29,7 +30,7 @@ class AIO_User_Settings_Sheet:
             )
         ''')
         await self.conn.commit()
-        
+
     async def get_models(self, username: str) -> str:
         '''
         根据指定的用户名获取 models 的值

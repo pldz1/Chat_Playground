@@ -68,7 +68,10 @@ export async function getModels(updateStore = true) {
   }
 
   if (res.data == "") {
-    dsAlert({ type: "warn", message: `用户没有模型, 请先在用户管理内添加后使用其他功能.` });
+    dsAlert({
+      type: "warn",
+      message: `用户没有模型, 请先在用户管理内添加后使用其他功能.`,
+    });
     return false;
   }
 
@@ -79,11 +82,17 @@ export async function getModels(updateStore = true) {
       if (updateStore) await store.dispatch("setModels", models);
       return models;
     } else {
-      dsAlert({ type: "error", message: `从数据库拿模型解析失败, 不是有效的数据类型: ${err}: ${res.data}` });
+      dsAlert({
+        type: "error",
+        message: `从数据库拿模型解析失败, 不是有效的数据类型: ${err}: ${res.data}`,
+      });
       return null;
     }
   } catch (err) {
-    dsAlert({ type: "error", message: `从数据库拿模型解析失败: ${err}: ${res.data}` });
+    dsAlert({
+      type: "error",
+      message: `从数据库拿模型解析失败: ${err}: ${res.data}`,
+    });
     return null;
   }
 }
@@ -118,7 +127,10 @@ export async function getChatInsTemplateList() {
   const res = await getChatInsTemplateListAPI(username);
 
   if (!res.flag) {
-    dsAlert({ type: "error", message: `从数据库拿用户对话模型的指令模板失败: ${res.log}` });
+    dsAlert({
+      type: "error",
+      message: `从数据库拿用户对话模型的指令模板失败: ${res.log}`,
+    });
     return false;
   } else {
     if (isArrayTypeStr(res.data)) {
@@ -143,7 +155,10 @@ export async function setChatInsTemplateList(data) {
   const res = await setChatInsTemplateListAPI(username, JSON.stringify(data));
 
   if (!res.flag) {
-    dsAlert({ type: "error", message: `向数据库设置用户的指令列表失败: ${res.log}` });
+    dsAlert({
+      type: "error",
+      message: `向数据库设置用户的指令列表失败: ${res.log}`,
+    });
     return false;
   }
   return true;

@@ -7,6 +7,7 @@ class CaseSensitiveConfigParser(configparser.ConfigParser):
     '''
     严格区分大小写的configparser
     '''
+
     def optionxform(self, optionstr):
         return optionstr  # 保持原样，不转换为小写
 

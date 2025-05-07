@@ -13,7 +13,14 @@ export class AzureOpenAIClient {
 
     this.client = null;
 
-    if (apiKey && apiVersion) this.client = new AzureOpenAI({ endpoint, apiKey, deployment, apiVersion, dangerouslyAllowBrowser: true });
+    if (apiKey && apiVersion)
+      this.client = new AzureOpenAI({
+        endpoint,
+        apiKey,
+        deployment,
+        apiVersion,
+        dangerouslyAllowBrowser: true,
+      });
   }
 
   update(endpoint, apiKey, deployment, apiVersion) {
@@ -122,7 +129,11 @@ export class AzureOpenAIClient {
     }
 
     try {
-      const res = await this.client.images.generate({ prompt: prompt, size: size, n: n });
+      const res = await this.client.images.generate({
+        prompt: prompt,
+        size: size,
+        n: n,
+      });
       const urls = res.data.map((item) => ({ type: "url", data: item.url }));
       return urls;
     } catch (err) {

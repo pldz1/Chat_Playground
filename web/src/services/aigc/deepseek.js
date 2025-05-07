@@ -11,7 +11,12 @@ export class DeepSeekClient {
     this.model = model;
     this.client = null;
 
-    if (apiKey) this.client = new OpenAI({ baseURL: baseURL, apiKey: apiKey, dangerouslyAllowBrowser: true });
+    if (apiKey)
+      this.client = new OpenAI({
+        baseURL: baseURL,
+        apiKey: apiKey,
+        dangerouslyAllowBrowser: true,
+      });
   }
 
   update(baseURL, apiKey, model) {
@@ -73,8 +78,14 @@ export class DeepSeekClient {
    */
   async chat(data, params = {}, callback = null) {
     // deepseek 的对话协议还是v1版本的 需要额外处理
-    const messages = data.map((item) => ({ role: item.role, content: item.content[0].text }));
-    for await (const response of this.chatStream(messages, { ...params, stream: true })) {
+    const messages = data.map((item) => ({
+      role: item.role,
+      content: item.content[0].text,
+    }));
+    for await (const response of this.chatStream(messages, {
+      ...params,
+      stream: true,
+    })) {
       if (callback) await callback(response);
     }
   }
@@ -92,7 +103,12 @@ export class DeepSeekClient {
     }
 
     try {
-      const res = await this.client.images.generate({ model: this.model, prompt: prompt, size: size, n: n });
+      const res = await this.client.images.generate({
+        model: this.model,
+        prompt: prompt,
+        size: size,
+        n: n,
+      });
       const urls = res.data.map((item) => ({ type: "url", data: item.url }));
       return urls;
     } catch (err) {

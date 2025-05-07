@@ -3,6 +3,7 @@ from typing import Optional
 
 from scripts.libs import LOGGER
 
+
 class AIO_Users_Sheet:
     def __init__(self, conn: Optional[aiosqlite.Connection] = None) -> None:
         '''
@@ -32,7 +33,7 @@ class AIO_Users_Sheet:
             )
         ''')
         await self.conn.commit()
-        
+
     async def add_user(self, username: str, password: str) -> None:
         '''
         添加新用户,其他字段例如 session_id、expired_time、max_age 等保持默认值(NULL)。

@@ -34,7 +34,9 @@
         <div class="ccia-chat-model-info">
           <select class="select" v-model="selectedModel" @change="onSelectChatModel">
             <option disabled :value="null">选择对话模型</option>
-            <option v-for="m in chatModels" :key="m" :value="m">{{ m.name }}</option>
+            <option v-for="m in chatModels" :key="m" :value="m">
+              {{ m.name }}
+            </option>
           </select>
 
           <div class="ccia-chat-button">

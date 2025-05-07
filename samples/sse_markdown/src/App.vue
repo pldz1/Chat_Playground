@@ -192,7 +192,9 @@ const yieldedSSEContent = () => {
       width: 100%;
       cursor: pointer;
       cursor: zoom-in;
-      box-shadow: 0 1px 15px rgba(27, 31, 35, 0.15), 0 0 1px rgba(106, 115, 125, 0.35);
+      box-shadow:
+        0 1px 15px rgba(27, 31, 35, 0.15),
+        0 0 1px rgba(106, 115, 125, 0.35);
     }
 
     h1 code,

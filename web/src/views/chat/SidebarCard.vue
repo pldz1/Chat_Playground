@@ -46,10 +46,14 @@
           <!-- 对话的单元 -->
           <div v-else :class="['csdb-chat-item', { 'csdb-chat-item-active': cid === item.cid }]">
             <!-- 对话标签 -->
-            <span class="csdb-chat-label" @click="onSelectChat(item)"> {{ item.cname }} </span>
+            <span class="csdb-chat-label" @click="onSelectChat(item)">
+              {{ item.cname }}
+            </span>
             <div class="tooltip tooltip-bottom" data-tip="其他操作">
               <div class="csdb-chat-dropdown">
-                <button class="btn" @click="showChatOptions($event, item.cid)"><div v-html="options24"></div></button>
+                <button class="btn" @click="showChatOptions($event, item.cid)">
+                  <div v-html="options24"></div>
+                </button>
               </div>
             </div>
           </div>

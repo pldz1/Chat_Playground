@@ -50,7 +50,10 @@ const onLogin = async () => {
 };
 
 const onSignIn = () => {
-  dsAlert({ type: "info", message: "This is a test function which is waiting for further development! 😄" });
+  dsAlert({
+    type: "info",
+    message: "This is a test function which is waiting for further development! 😄",
+  });
 };
 
 const onExperience = () => {

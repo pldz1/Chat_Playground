@@ -1,0 +1,34 @@
+{
+  // 设置代码格式化插件
+  "editor.formatOnSave": true,
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.autopep8"
+  },
+  "autopep8.args": ["--max-line-length=150", "--experimental"],
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // 针对vscode的配置，在编译器中取消哪些文件的可视化，比方说__pycache__就可以不用看见~
+  "files.exclude": {
+    "**/.git": true,
+    "**/.gitkeep": true,
+    "**/__pycache__": true
+  },
+
+  // 针对vscode的放大镜在项目下全局搜索的配置，添加的元素是不会被搜索的路径
+  "search.exclude": {
+    "build": true,
+    "resources": true,
+    "reference": true
+  },
+
+  // 消除vscode找不到第三方库的路径提示.
+  "python.analysis.extraPaths": [],
+  // 设置pylance对Python代码要求的检查，这个开启能够提升你的编程素养，但是有些时候也不怎么智能化.
+  "python.analysis.typeCheckingMode": "off"
+}

@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class T_Login_Request(BaseModel):
     '''
     登录接口请求内容的结构
@@ -16,6 +17,7 @@ class T_Login_Response(BaseModel):
     uid: str = ''
     log: str = 'Login failed.'
     role: str = 'administrator'
+
 
 class T_Get_Base_A_Request(BaseModel):
     '''
@@ -40,6 +42,7 @@ class T_Set_Base_A_Request(BaseModel):
     '''
     username: str = ''
     data: str = ''
+
 
 class T_Set_Base_A_Response(BaseModel):
     '''

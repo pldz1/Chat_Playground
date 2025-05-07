@@ -6,6 +6,7 @@ from scripts.libs import LOGGER, CONF
 from .aio_users_sheet import AIO_Users_Sheet
 from .aio_user_settings_sheet import AIO_User_Settings_Sheet
 
+
 def require_connection(func):
     """
     装饰器：在执行被装饰方法之前,判断 self.conn 是否为 None。
@@ -23,12 +24,11 @@ def require_connection(func):
 class AIO_User_Database:
     def __init__(self) -> None:
         # 简单的配置
-        
+
         self.users: Optional[AIO_Users_Sheet] = None
         self.settings: Optional[AIO_User_Settings_Sheet] = None
         self.conn: Optional[aiosqlite.Connection] = None
         self.database_name = CONF.get_database_path('user.db')
-        
 
     async def initialize(self):
         '''
@@ -38,7 +38,7 @@ class AIO_User_Database:
         self.conn = await aiosqlite.connect(self.database_name)
         if self.conn is None:
             return
-        
+
         # 创建表
         self.users = AIO_Users_Sheet(self.conn)
         await self.users.init_sheet()
@@ -47,7 +47,7 @@ class AIO_User_Database:
         self.settings = AIO_User_Settings_Sheet(self.conn)
         await self.settings.init_sheet()
         LOGGER.info("Successfully initialized the user database!")
-    
+
     @require_connection
     async def destroy(self):
         '''
@@ -55,7 +55,7 @@ class AIO_User_Database:
         '''
         await self.conn.close()
         LOGGER.info(f"Close the user database.")
-    
+
     @require_connection
     async def config_admin(self):
         '''
@@ -166,7 +166,6 @@ class AIO_User_Database:
         根据指定的用户名设置 app_network 的值
         '''
         return await self.settings.set_app_network(username, data)
-
 
 
 USER_DATABASE = AIO_User_Database()

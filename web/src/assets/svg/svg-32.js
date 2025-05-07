@@ -117,10 +117,18 @@ export const delete32 = /* HTML */ `<svg
   />
 </svg>`;
 
-export const menu32 = /* HTML */ `<svg fill="currentColor" width="32px" height="32px" viewBox="0 0 1.44 1.44" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <path class="clr-i-outline clr-i-outline-path-1" d="M1.28 1.16H0.16a0.04 0.04 0 0 1 0 -0.08h1.12a0.04 0.04 0 0 1 0 0.08"/>
-  <path class="clr-i-outline clr-i-outline-path-2" d="M1.28 0.76H0.16a0.04 0.04 0 0 1 0 -0.08h1.12a0.04 0.04 0 0 1 0 0.08"/>
-  <path class="clr-i-outline clr-i-outline-path-3" d="M1.28 0.36H0.16a0.04 0.04 0 0 1 0 -0.08h1.12a0.04 0.04 0 0 1 0 0.08"/>
-  <path x="0" y="0" width="36" height="36" fill-opacity="0" d="M0 0H1.44V1.44H0V0z"/>
-</svg>
-`;
+export const menu32 = /* HTML */ `<svg
+  fill="currentColor"
+  width="32px"
+  height="32px"
+  viewBox="0 0 1.44 1.44"
+  version="1.1"
+  preserveAspectRatio="xMidYMid meet"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+>
+  <path class="clr-i-outline clr-i-outline-path-1" d="M1.28 1.16H0.16a0.04 0.04 0 0 1 0 -0.08h1.12a0.04 0.04 0 0 1 0 0.08" />
+  <path class="clr-i-outline clr-i-outline-path-2" d="M1.28 0.76H0.16a0.04 0.04 0 0 1 0 -0.08h1.12a0.04 0.04 0 0 1 0 0.08" />
+  <path class="clr-i-outline clr-i-outline-path-3" d="M1.28 0.36H0.16a0.04 0.04 0 0 1 0 -0.08h1.12a0.04 0.04 0 0 1 0 0.08" />
+  <path x="0" y="0" width="36" height="36" fill-opacity="0" d="M0 0H1.44V1.44H0V0z" />
+</svg> `;

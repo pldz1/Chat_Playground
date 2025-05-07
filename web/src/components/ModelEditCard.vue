@@ -27,7 +27,9 @@
             <div class="model-item-label">API Type:</div>
             <div class="model-item-content">
               <select class="select select-bordered w-full" v-model="model.apiType">
-                <option v-for="ai in apiTypeList" :value="ai.value">{{ ai.name }}</option>
+                <option v-for="ai in apiTypeList" :value="ai.value">
+                  {{ ai.name }}
+                </option>
               </select>
             </div>
           </div>
@@ -89,7 +91,9 @@
             <div class="model-item-label">Model Type:</div>
             <div class="model-item-content">
               <select class="select select-bordered w-full" v-model="model.modelType">
-                <option v-for="mi in props.modelTypeList" :value="mi.value">{{ mi.name }}</option>
+                <option v-for="mi in props.modelTypeList" :value="mi.value">
+                  {{ mi.name }}
+                </option>
               </select>
             </div>
           </div>

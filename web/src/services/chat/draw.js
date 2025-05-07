@@ -80,7 +80,12 @@ export class ChatDrawer extends ChatElemCreator {
       if (this.tmpAssContentData.content == "" && !this.tmpAssErrorFlag) {
         // 如果是出现无效的返回结果, 删除 markdown 上正在思考的话
         this.forceRemoveResponsingEl();
-        this.draw([{ role: "assistant", content: [{ type: "text", text: "请求超时,无有效内容！" }] }]);
+        this.draw([
+          {
+            role: "assistant",
+            content: [{ type: "text", text: "请求超时,无有效内容！" }],
+          },
+        ]);
       } else {
         // 如果是有错误的消息, 直接返回, 不朝数据库存.
         if (this.tmpAssErrorFlag) {

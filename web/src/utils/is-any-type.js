@@ -82,7 +82,6 @@ export function isValidChatInfoArray(data) {
   return data.every((item) => item !== null && typeof item === "object" && typeof item.cid === "string" && typeof item.cname === "string");
 }
 
-
 /**
  * 判断 json 的数据, 是不是有效的模型设置
  */
@@ -99,9 +98,7 @@ export const isValidModelSetting = (data) => {
 
   // 只要数组不为空，每一项都必须包含所有 expectedFields
   const validateArrayItems = (arr) => {
-    return arr.every((item) =>
-      expectedFields.every((field) => field in item)
-    );
+    return arr.every((item) => expectedFields.every((field) => field in item));
   };
 
   for (const key of expectedKeys) {
@@ -112,4 +109,3 @@ export const isValidModelSetting = (data) => {
 
   return true;
 };
-

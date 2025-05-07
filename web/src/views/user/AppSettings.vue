@@ -87,10 +87,10 @@ const onLoadSetting = async () => {
       dsAlert({ type: "error", message: `不是有效的模型设置json文件` });
       return;
     } else {
-      // 保存到数据库
-      await setModels(jsonData);
       // 更新store
       await store.dispatch("setModels", jsonData);
+      // 保存到数据库
+      await setModels(jsonData);
     }
   }
 };

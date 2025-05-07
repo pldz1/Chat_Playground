@@ -11,7 +11,12 @@ export class OpenAIClient {
     this.model = model;
     this.client = null;
 
-    if (apiKey) this.client = new OpenAI({ baseURL: baseURL, apiKey: apiKey, dangerouslyAllowBrowser: true });
+    if (apiKey)
+      this.client = new OpenAI({
+        baseURL: baseURL,
+        apiKey: apiKey,
+        dangerouslyAllowBrowser: true,
+      });
   }
 
   update(baseURL, apiKey, model) {
@@ -122,7 +127,12 @@ export class OpenAIClient {
     }
 
     try {
-      const res = await this.client.images.generate({ model: this.model, prompt: prompt, size: size, n: n });
+      const res = await this.client.images.generate({
+        model: this.model,
+        prompt: prompt,
+        size: size,
+        n: n,
+      });
       const urls = res.data.map((item) => ({ type: "url", data: item.url }));
       return urls;
     } catch (err) {

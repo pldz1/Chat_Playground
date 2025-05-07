@@ -108,7 +108,10 @@ export function generateRandomCname() {
   // 获取当前时间
   const now = new Date();
   const day = now.getDate(); // 获取当前的"日"
-  const time = now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }); // 格式为 hh:mm
+  const time = now.toLocaleTimeString("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+  }); // 格式为 hh:mm
 
   // 返回格式化后的字符串
   return `${randomEmoji}${day}日${time}的对话${randomEmoji}`;

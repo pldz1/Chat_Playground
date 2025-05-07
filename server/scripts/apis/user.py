@@ -1,15 +1,16 @@
 import fastapi
 
 from scripts.typedefs import T_Login_Request, \
-                             T_Login_Response, \
-                             T_Set_Base_A_Response, \
-                             T_Get_Base_A_Response, \
-                             T_Get_Base_A_Request, \
-                             T_Set_Base_A_Request
+    T_Login_Response, \
+    T_Set_Base_A_Response, \
+    T_Get_Base_A_Response, \
+    T_Get_Base_A_Request, \
+    T_Set_Base_A_Request
 
 from scripts.database import USER_DATABASE
 
 USER_ROUTE = fastapi.APIRouter()
+
 
 @USER_ROUTE.post('/api/v1/login')
 async def login(data: T_Login_Request):
@@ -21,12 +22,12 @@ async def login(data: T_Login_Request):
 
     if res.flag:
         res.log = "Login successfully."
-    
+
     return res
 
 
 @USER_ROUTE.post('/api/v1/user/getModels')
-async def get_user_models(req:T_Get_Base_A_Request):
+async def get_user_models(req: T_Get_Base_A_Request):
     '''
     获取某个用户的 对话模型的数据
     '''
@@ -38,7 +39,7 @@ async def get_user_models(req:T_Get_Base_A_Request):
 
 
 @USER_ROUTE.post('/api/v1/user/setModels')
-async def set_user_models(req:T_Set_Base_A_Request):
+async def set_user_models(req: T_Set_Base_A_Request):
     '''
     获取某个用户的 对话模型的数据
     '''
@@ -51,8 +52,9 @@ async def set_user_models(req:T_Set_Base_A_Request):
         res.log = "The database setting user dialogue model operation failed."
     return res
 
+
 @USER_ROUTE.post('/api/v1/user/getChatInsTemplateList')
-async def get_user_chat_ins_template_list(req:T_Get_Base_A_Request):
+async def get_user_chat_ins_template_list(req: T_Get_Base_A_Request):
     '''
     获取某个用户的 对话模型的数据
     '''
@@ -64,7 +66,7 @@ async def get_user_chat_ins_template_list(req:T_Get_Base_A_Request):
 
 
 @USER_ROUTE.post('/api/v1/user/setChatInsTemplateList')
-async def set_user_chat_ins_template_list(req:T_Set_Base_A_Request):
+async def set_user_chat_ins_template_list(req: T_Set_Base_A_Request):
     '''
     获取某个用户的 对话模型的数据
     '''

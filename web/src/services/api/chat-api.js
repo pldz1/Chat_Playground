@@ -134,28 +134,35 @@ export async function setChatSettings() {
 }
 
 /**
- * 新增对话
- * @return {Promise<boolean}>} 操作的结果
+ * 新增一个对话，并更新本地状态和服务器数据。
+ *
+ * 1. 本地生成唯一对话 ID 和名称，更新 Vuex 中的 chatList。
+ * 2. 设置当前活跃对话 ID。
+ * 3. 若用户已登录，则向服务器发送新增对话请求。
+ * 4. 设置默认的对话模型配置。
+ *
+ * @param {string|null} name - 可选参数，指定新对话的名称。若为空，则随机生成。
+ * @returns {Promise<boolean>} 新增对话是否成功。
  */
 export async function addChat(name = null) {
+  // 更新store确保没有和server连接时候也能正常工作
+  const cid = getUuid("chat");
+  const cname = name ? name : generateRandomCname();
+  const chatList = [...store.state.chatList];
+  chatList.push({ cid, cname });
+  await store.dispatch("resetChatList", chatList);
+  await store.dispatch("setCurChatId", cid);
+
+  // 把设置存到 server
   const username = store.state.username;
   const isLoggedIn = store.state.isLoggedIn;
   if (!isLoggedIn || !username) return false;
 
-  const cid = getUuid("chat");
-  const cname = name ? name : generateRandomCname();
-
   const res = await addChatAPI(username, cid, cname);
   if (!res.flag) {
-    dsAlert({ type: "error", message: `Add chat failed: ${res.log}` });
+    dsAlert({ type: "error", message: `增加对话失败: ${res.log}` });
     return false;
   }
-
-  const chatList = [...store.state.chatList];
-  chatList.push({ cid, cname });
-  await store.dispatch("resetChatList", chatList);
-
-  await store.dispatch("setCurChatId", cid);
 
   // 同时设置对话的模型的设置
   await setChatSettings();
@@ -163,24 +170,42 @@ export async function addChat(name = null) {
 }
 
 /**
- * 删除对话
- * @return {Promise<boolean>} 操作的结果
+ * 删除指定对话，并同步更新本地状态与服务器数据。
+ *
+ * 1. 从 Vuex 的 chatList 中移除指定对话。
+ * 2. 若用户已登录，则向服务器发送删除请求。
+ *
+ * @param {string} cid - 要删除的对话 ID。
+ * @returns {Promise<boolean>} 删除操作是否成功。
  */
 export async function deleteChat(cid) {
+  // 拷贝当前的对话列表，避免直接修改 state
+  const chatList = [...store.state.chatList];
+
+  // 查找要删除的对话在列表中的索引
+  const index = chatList.findIndex((chat) => chat.cid === cid);
+  if (index >= 0) {
+    // 从本地列表中移除该对话
+    chatList.splice(index, 1);
+  }
+
+  // 更新 Vuex 中的对话列表
+  await store.dispatch("resetChatList", chatList);
+
+  // 获取当前用户信息
   const username = store.state.username;
   const isLoggedIn = store.state.isLoggedIn;
+
+  // 如果未登录或没有用户名，跳过服务器操作
   if (!isLoggedIn || !username) return false;
 
+  // 调用 API 删除服务器上的对话记录
   const res = await deleteChatAPI(username, cid);
   if (!res.flag) {
     dsAlert({ type: "error", message: `Delete chat failed: ${res.log}` });
     return false;
   }
 
-  const chatList = [...store.state.chatList];
-  const index = chatList.findIndex((chat) => chat.cid === cid);
-  if (index >= 0) chatList.splice(index, 1);
-  await store.dispatch("resetChatList", chatList);
   return true;
 }
 
@@ -189,6 +214,11 @@ export async function deleteChat(cid) {
  * @return {Promise<boolean>} 操作的结果
  */
 export async function renameChat(cid, cname) {
+  const chatList = [...store.state.chatList];
+  const index = chatList.findIndex((chat) => chat.cid === cid);
+  if (index >= 0) chatList[index].cname = cname;
+  await store.dispatch("resetChatList", chatList);
+
   const username = store.state.username;
   const isLoggedIn = store.state.isLoggedIn;
   if (!isLoggedIn || !username) return false;
@@ -199,10 +229,6 @@ export async function renameChat(cid, cname) {
     return false;
   }
 
-  const chatList = [...store.state.chatList];
-  const index = chatList.findIndex((chat) => chat.cid === cid);
-  if (index >= 0) chatList[index].cname = cname;
-  await store.dispatch("resetChatList", chatList);
   return true;
 }
 

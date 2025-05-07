@@ -13,7 +13,9 @@
           <div class="gifp-setting-item">
             <span>模型: </span>
             <select class="select select-bordered w-full max-w-xs" v-model="imageModelSettings.model">
-              <option v-for="imm in imageModels" :value="imm" :key="imm">{{ imm.name }}</option>
+              <option v-for="imm in imageModels" :value="imm" :key="imm">
+                {{ imm.name }}
+              </option>
             </select>
           </div>
           <!-- 单词生成数量 -->
@@ -30,7 +32,9 @@
             <div class="gifp-setting-item">
               <span class="gifp-setting-label">尺寸: </span>
               <select class="select select-bordered w-full max-w-xs" v-model="imageModelSettings.size">
-                <option v-for="imsz in imageModelSize" :key="imsz.value" :value="imsz.value">{{ imsz.name }}</option>
+                <option v-for="imsz in imageModelSize" :key="imsz.value" :value="imsz.value">
+                  {{ imsz.name }}
+                </option>
               </select>
             </div>
           </div>
@@ -129,12 +133,20 @@ const onSendImg = async () => {
         await pushImage(prompt, item.data);
       } else {
         imageModelSettings.value.prompt = prompt;
-        dsAlert({ type: "error", message: item.data, container: dsAlertContainer.value });
+        dsAlert({
+          type: "error",
+          message: item.data,
+          container: dsAlertContainer.value,
+        });
       }
     }
   } catch (err) {
     isGenerating.value = false;
-    dsAlert({ type: "error", message: `模型初始化失败: ${String(err)}`, container: dsAlertContainer.value });
+    dsAlert({
+      type: "error",
+      message: `模型初始化失败: ${String(err)}`,
+      container: dsAlertContainer.value,
+    });
   }
 };
 
@@ -157,8 +169,18 @@ const copyToCli = async () => {
   if (!imgEl) return;
   const flag = await copyToClipboard(imgEl);
 
-  if (flag) dsAlert({ type: "info", message: "图像已成功复制到剪切板", container: dsAlertContainer.value });
-  else dsAlert({ type: "error", message: "复制图像到剪切板失败", container: dsAlertContainer.value });
+  if (flag)
+    dsAlert({
+      type: "info",
+      message: "图像已成功复制到剪切板",
+      container: dsAlertContainer.value,
+    });
+  else
+    dsAlert({
+      type: "error",
+      message: "复制图像到剪切板失败",
+      container: dsAlertContainer.value,
+    });
 };
 
 /**
@@ -180,8 +202,18 @@ const saveTo = async () => {
   if (!imgEl) return;
   const flag = await saveToLocal(imgEl);
 
-  if (flag) dsAlert({ type: "info", message: "图像已成功保存到本地", container: dsAlertContainer.value });
-  else dsAlert({ type: "error", message: "保存失败", container: dsAlertContainer.value });
+  if (flag)
+    dsAlert({
+      type: "info",
+      message: "图像已成功保存到本地",
+      container: dsAlertContainer.value,
+    });
+  else
+    dsAlert({
+      type: "error",
+      message: "保存失败",
+      container: dsAlertContainer.value,
+    });
 };
 
 watch(

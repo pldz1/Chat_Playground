@@ -12,13 +12,22 @@ export const getImageListAPI = (username) => apiRequest("post", "/api/v1/image/g
  * @return {Promise<{ flag: boolean, log: string, data:string }>} 服务器返回的结果
  */
 export const pushImageAPI = (username, id, prompt, url) =>
-  apiRequest("post", "/api/v1/image/pushImage", { username: username, image_id: id, image_prompt: prompt, image_url: url });
+  apiRequest("post", "/api/v1/image/pushImage", {
+    username: username,
+    image_id: id,
+    image_prompt: prompt,
+    image_url: url,
+  });
 
 /**
  * 删除一张图像数据
  * @return {Promise<{ flag: boolean, log: string }>} 服务器返回的结果
  */
-export const deleteImageAPI = (username, id) => apiRequest("post", "/api/v1/image/deleteImage", { username: username, image_id: id });
+export const deleteImageAPI = (username, id) =>
+  apiRequest("post", "/api/v1/image/deleteImage", {
+    username: username,
+    image_id: id,
+  });
 
 /**
  * 获取全部的图像列表
@@ -39,7 +48,10 @@ export async function getImageList() {
       await store.dispatch("resetImageList", reversed);
     } else {
       await store.dispatch("resetImageList", []);
-      dsAlert({ type: "error", message: `Get image list failed: response data is not a array!` });
+      dsAlert({
+        type: "error",
+        message: `Get image list failed: response data is not a array!`,
+      });
     }
   }
 }
@@ -60,7 +72,10 @@ export async function pushImage(prompt, url) {
 
   const res = await pushImageAPI(username, id, prompt, url);
   if (!res.flag) {
-    dsAlert({ type: "error", message: `Push new image to server failed: ${res.log}` });
+    dsAlert({
+      type: "error",
+      message: `Push new image to server failed: ${res.log}`,
+    });
     return false;
   } else {
     return true;
@@ -81,7 +96,10 @@ export async function deleteImage(id) {
 
   const res = await deleteImageAPI(username, id);
   if (!res.flag) {
-    dsAlert({ type: "error", message: `Delete the image in the server failed: ${res.log}` });
+    dsAlert({
+      type: "error",
+      message: `Delete the image in the server failed: ${res.log}`,
+    });
     return false;
   }
 
