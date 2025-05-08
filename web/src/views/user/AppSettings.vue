@@ -69,6 +69,7 @@ const onSaveSetting = async () => {
   // 清理
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+  dsAlert({ type: "success", message: `保存完成.` });
 };
 
 /**
@@ -91,6 +92,7 @@ const onLoadSetting = async () => {
       await store.dispatch("setModels", jsonData);
       // 保存到数据库
       await setModels(jsonData);
+      dsAlert({ type: "success", message: `配置成功.` });
     }
   }
 };

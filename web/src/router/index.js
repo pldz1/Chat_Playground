@@ -1,11 +1,11 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 import LoginPage from "@/views/home/LoginPage.vue";
 import HomePage from "@/views/home/HomePage.vue";
 import ChatPage from "@/views/chat/HomePage.vue";
 import ImagePage from "@/views/image/HomePage.vue";
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes: [
     {
       // 默认打开跳转路由

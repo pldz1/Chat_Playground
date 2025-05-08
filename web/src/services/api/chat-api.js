@@ -145,28 +145,41 @@ export async function setChatSettings() {
  * @returns {Promise<boolean>} 新增对话是否成功。
  */
 export async function addChat(name = null) {
-  // 更新store确保没有和server连接时候也能正常工作
-  const cid = getUuid("chat");
-  const cname = name ? name : generateRandomCname();
-  const chatList = [...store.state.chatList];
-  chatList.push({ cid, cname });
-  await store.dispatch("resetChatList", chatList);
-  await store.dispatch("setCurChatId", cid);
+  const chatId = getUuid("chat");
+  const chatName = name || generateRandomCname();
 
-  // 把设置存到 server
-  const username = store.state.username;
-  const isLoggedIn = store.state.isLoggedIn;
-  if (!isLoggedIn || !username) return false;
+  const chatList = [...store.state.chatList, { cid: chatId, cname: chatName }];
+  const { username, isLoggedIn } = store.state;
 
-  const res = await addChatAPI(username, cid, cname);
-  if (!res.flag) {
-    dsAlert({ type: "error", message: `增加对话失败: ${res.log}` });
+  // 封装本地更新操作
+  const updateLocalChatState = async () => {
+    await store.dispatch("resetChatList", chatList);
+    await store.dispatch("setCurChatId", chatId);
+  };
+
+  // 本地用户直接更新，不请求服务器
+  if (!isLoggedIn || !username) {
+    await updateLocalChatState();
     return false;
   }
 
-  // 同时设置对话的模型的设置
-  await setChatSettings();
-  return true;
+  try {
+    const res = await addChatAPI(username, chatId, chatName);
+    if (!res.flag) {
+      dsAlert({ type: "error", message: `添加对话失败（${chatName}）: ${res.log}` });
+      await updateLocalChatState();
+      return false;
+    }
+
+    // 设置模型参数等
+    await updateLocalChatState();
+    await setChatSettings();
+    return true;
+  } catch (error) {
+    dsAlert({ type: "error", message: `添加对话异常: ${error.message || error}` });
+    await updateLocalChatState();
+    return false;
+  }
 }
 
 /**

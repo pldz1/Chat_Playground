@@ -108,7 +108,7 @@ class AIO_Chat_Database:
 
         LOGGER.info(
             f"Retrieved settings for username={username} and cid={cid}.")
-        return data
+        return data[0]
 
     @require_connection
     async def set_chat_settings_by_username_cid(self, username: str, cid: str, settings: str) -> None:
