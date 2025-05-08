@@ -55,6 +55,11 @@ export const UserState = {
   curChatId: "",
 
   /**
+   * 网页接口的server的host
+   */
+  hostUrl: "",
+
+  /**
    * 设置用户登录后的信息
    */
   setUserLoginInfo(data) {
@@ -98,5 +103,13 @@ export const UserState = {
 
   setCurChatId(data) {
     this.curChatId = data;
+  },
+
+  /**
+   * 设置网页请求的host url.
+   */
+
+  setHostUrl(data) {
+    this.hostUrl = data;
   },
 };

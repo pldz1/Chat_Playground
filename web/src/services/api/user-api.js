@@ -1,5 +1,6 @@
 import store from "@/store";
-import { apiRequest, dsAlert, isArrayTypeStr, isValidModelSetting } from "@/utils";
+import { apiRequest } from "./axios-request.js";
+import { dsAlert, isArrayTypeStr, isValidModelSetting } from "@/utils";
 
 /**
  * 发送登录请求

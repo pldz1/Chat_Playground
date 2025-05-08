@@ -23,6 +23,11 @@ const mutations = {
   },
 
   /** @param {state} state */
+  SET_HOST_URL(state, data) {
+    state.setHostUrl(data);
+  },
+
+  /** @param {state} state */
   SET_MODELS(state, data) {
     state.setModels(data);
   },
@@ -105,6 +110,10 @@ const actions = {
       commit("SET_USER_LOGIN_INFO", { username: "", password: "", uid: "" });
       commit("SET_LOGIN_STATE", false);
     }
+  },
+
+  async setHostUrl({ commit }, data) {
+    commit("SET_HOST_URL", data);
   },
 
   /**

@@ -1,5 +1,6 @@
 import store from "@/store";
-import { apiRequest, dsAlert, getUuid } from "@/utils";
+import { apiRequest } from "./axios-request.js";
+import { dsAlert, getUuid } from "@/utils";
 
 /**
  * 获取全部的图像列表

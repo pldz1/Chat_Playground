@@ -1,4 +1,5 @@
 import axios from "axios";
+import store from "@/store";
 
 const LONGTIME = 180000;
 
@@ -10,9 +11,10 @@ const LONGTIME = 180000;
  * */
 export async function apiRequest(method, endpoint, body = {}, headers = { "Content-Type": "application/json" }, timeout = LONGTIME) {
   try {
+    const hostUrl = store.state.hostUrl;
     const response = await axios({
       method: method,
-      url: `${endpoint}`,
+      url: `${hostUrl + endpoint}`,
       data: body,
       headers: headers,
       timeout: timeout,

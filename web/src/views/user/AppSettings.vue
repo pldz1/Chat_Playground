@@ -15,7 +15,7 @@
     <!-- 服务器的地址 -->
     <div class="gusm-any-settings-row">
       <span>⚠️ 服务器地址: </span>
-      <input type="text" placeholder="http://127.0.0.1:10088" class="input input-bordered w-full max-w-xs" disabled />
+      <input type="text" placeholder="http://127.0.0.1:10088" class="input input-bordered w-full max-w-xs" @change="onSetHostUrl" v-model="hostUrl" />
     </div>
 
     <!-- 导出配置 -->
@@ -38,6 +38,7 @@
 </template>
 
 <script setup>
+import { ref } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { getModels, setModels } from "@/services";
@@ -45,6 +46,7 @@ import { uploadJsonFile, isValidModelSetting, dsAlert } from "@/utils";
 
 const store = useStore();
 const router = useRouter();
+const hostUrl = ref("");
 
 /**
  * 触发下载当前模型设置为 JSON 文件
@@ -95,6 +97,14 @@ const onLoadSetting = async () => {
       dsAlert({ type: "success", message: `配置成功.` });
     }
   }
+};
+
+/**
+ * 设置网页请求的host url
+ */
+const onSetHostUrl = async () => {
+  await store.dispatch("setHostUrl", hostUrl.value);
+  dsAlert({ type: "success", message: `配置成功, 建议重新登录检测连接效果.` });
 };
 
 /**

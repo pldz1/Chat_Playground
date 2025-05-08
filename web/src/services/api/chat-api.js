@@ -1,5 +1,6 @@
 import store from "@/store";
-import { apiRequest, dsAlert, isValidChatInfoArray, getUuid, generateRandomCname } from "@/utils";
+import { apiRequest } from "./axios-request.js";
+import { dsAlert, isValidChatInfoArray, getUuid, generateRandomCname } from "@/utils";
 
 /**
  * 对话列表元素类型
