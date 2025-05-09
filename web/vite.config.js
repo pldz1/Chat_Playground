@@ -22,5 +22,6 @@ export default defineConfig({
   },
   build: {
     outDir: "../server/statics",
+    emptyOutDir: true,
   },
 });
