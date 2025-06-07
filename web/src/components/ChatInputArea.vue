@@ -116,7 +116,7 @@ const onSendInputData = async () => {
     emit("on-start", data);
 
     // 输入框回退原来大小
-    onInputText();
+    if (cciaTextareaRef.value) cciaTextareaRef.value.style.height = "";
   } else {
     dsAlert({ type: "error", message: "没有输入有效的问题!" });
     return;
