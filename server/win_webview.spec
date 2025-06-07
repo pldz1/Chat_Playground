@@ -53,5 +53,5 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='AIGC_Playground',
+    name='Chat_Playground_v1',
 )
