@@ -31,7 +31,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name='AIGC_Playground',
+    name='Chat_Playground_v1',
     icon=join(current_path, 'statics','favicon.ico'),  # 指定图标文件
     debug=False,
     bootloader_ignore_signals=False,
