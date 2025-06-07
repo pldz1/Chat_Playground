@@ -1,6 +1,6 @@
-# 🎨 AIGC Playground v1
+# 🎨 Chat Playground v1
 
-**AIGC Playground v1**，希望用这个项目工具，体验各种好玩的 AI 功能，像与 AI 对话、AI 图像等等！
+**Chat Playground v1**，希望用这个项目工具，体验各种好玩的 AI 功能，像与 AI 对话、AI 图像等等！
 
 **v1 版本支持了对话和图像, 对于语音这些都没有做实现, 但是决定不再继续更新 v1 版本, v1 版本想尽可能的把代码简单, 容易理解, 方便有兴趣的小伙伴, 能够随意的 fork 这个分支去做自己的功能开发**
 
@@ -16,13 +16,9 @@ v1 版本对于 Python 只是提供一个存储 Sqlite 和 web server 的功能
 
 直接点击 【Experience it first! 🚀】 开始预览在线网页, 然后导入配置进行玩耍也行
 
-👉 在线体验地址 1: [aigc.pldz1.com](https://aigc.pldz1.com)
+👉 在线体验地址: [pldz1.com](https://pldz1.com/_codespace/aigc_playground_v1/index.html#/login)
 
-👉 在线体验地址 2: [github.io](https://pldz1.github.io/_codespace/aigc_playground_v1/index.html#/login)
-
-👉 在线体验地址 3: [pldz1.com](https://pldz1.com/_codespace/aigc_playground_v1/index.html#/login)
-
-![v1效果预览](https://pldz1.github.io/_pics/CodeSpace_Blog/aigc_playground_v1_preview.gif)
+![v1效果预览](https://pldz1.com/_pics/CodeSpace_Blog/aigc_playground_v1_preview.gif)
 
 ---
 
