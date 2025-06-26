@@ -16,9 +16,9 @@ v1 版本对于 Python 只是提供一个存储 Sqlite 和 web server 的功能
 
 直接点击 【Experience it first! 🚀】 开始预览在线网页, 然后导入配置进行玩耍也行
 
-👉 在线体验地址: [pldz1.com](https://pldz1.com/_codespace/aigc_playground_v1/index.html#/login)
+👉 在线体验地址: [pldz1.com](https://pldz1.com/io/chat-playground-v1)
 
-![v1效果预览](https://pldz1.com/_pics/CodeSpace_Blog/aigc_playground_v1_preview.gif)
+![v1效果预览](https://pldz1.com/api/v1/website/image/code-space/chat-playground_v1_preview.gif)
 
 ---
 

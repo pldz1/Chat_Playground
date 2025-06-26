@@ -3,7 +3,7 @@
     <!-- 新版本下载地址 -->
     <div class="gusm-any-settings-row">
       <span>🆕 查看新版本: </span>
-      <a class="link link-success" href="https://github.com/pldz1/AIGC_Playground/releases" target="_blank" rel="noopener noreferrer"> GitHub Release </a>
+      <a class="link link-success" href="https://github.com/pldz1/chat-playground/releases" target="_blank" rel="noopener noreferrer"> GitHub Release </a>
     </div>
 
     <!-- 有的没有的设置 -->

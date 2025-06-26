@@ -41,20 +41,20 @@ class Log():
         self.logger.setLevel(logging.DEBUG)
         self.formatter = logging.Formatter(
             '[ %(levelname)s ] - CHAT_GUI: %(message)s')
-        self.settingLog(consoleLevel, fileLevel, filePath)
+        self.setting_log(consoleLevel, fileLevel, filePath)
 
-    def settingLog(self, consoleLevel, fileLevel, filePath) -> None:
+    def setting_log(self, consoleLevel, fileLevel, filePath) -> None:
         '''The main function to set the logger handler.
          - (str) consoleLevel: The log level at which the information can be outputed on screen.
          - (str) fileLevel: The log level at which the file can be written.
          - (str) filePath: The log file path, If the path does not exist, one is created.
         '''
-        self.setConsoleHandling(consoleLevel)
+        self.set_console_handling(consoleLevel)
         if filePath != "":
             print(filePath)
-            self.setFileHanding(fileLevel, filePath)
+            self.set_file_handling(fileLevel, filePath)
 
-    def setConsoleHandling(self, level) -> None:
+    def set_console_handling(self, level) -> None:
         '''Set the log level at which the information can be outputed on screen.
          - (str) level: The log level at which the information can be outputed on screen.
         '''
@@ -67,7 +67,7 @@ class Log():
 
         self.logger.addHandler(consoleHandling)
 
-    def setFileHanding(self, level, filePath) -> None:
+    def set_file_handling(self, level, filePath) -> None:
         '''Set the log file path and Set the log level at which the file can be written.
          - (str) level: The log level at which the file can be written.
          - (str) filePath: The log file path, If the path does not exist, one is created.
